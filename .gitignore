@@ -1,0 +1,9 @@
+.vscode/
+CMakeFiles
+*.cmake
+CMakeCache.txt
+*.a
+*.elf
+Makefile
+bin
+test*
