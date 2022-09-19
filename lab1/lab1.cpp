@@ -6,7 +6,7 @@ namespace lab1
     //  start message about this app
     void start_msg()
     {
-        std::cout << "Here is Lab1 " << LAB_VERSION << "in variant " << VARIANT << std::endl;
+        std::cout << "Here is Lab1 " << LAB_VERSION << " in variant " << VARIANT << std::endl;
         std::cout << "This program works with highly sparse matrix of real numbers" << std::endl;
         std::cout << "After all input, it counts special vector using average and maximum of each line" << std::endl;
         std::cout << "------------------------------------------------" << std::endl
@@ -48,17 +48,29 @@ namespace lab1
 
         msg = "You are wrong. Repeat, please!";
 
-        while (coor_x != -1 || coor_y != -1)
+        while (true)
         {
             std::cout << "Enter X and Y coordinates of cell (enter '-1 -1' to stop input):  ";
-            if (getNum(coor_x) < 0 || getNum(coor_y) < 0 || (coor_x < 0 && coor_x != -1) || (coor_y < 0 && coor_y != -1) || coor_x >= n || coor_y >= m)
+            if (getNum(coor_x) < 0)
             {
                 std::cout << msg << std::endl;
                 continue;
             }
 
-            if (coor_x == -1 || coor_y == -1)
+            if (getNum(coor_y) < 0)
+            {
+                std::cout << msg << std::endl;
+                continue;
+            }
+
+            if (coor_x == -1 && coor_y == -1)
                 break;
+
+            if (coor_x < 0 || coor_y < 0 || coor_x >= n || coor_y >= m)
+            {
+                std::cout << msg << std::endl;
+                continue;
+            }
 
             std::cout << "Enter the value (real number):    ";
             if (getNum(value) < 0)
@@ -75,35 +87,51 @@ namespace lab1
             }
         }
 
+        std::cout << std::endl;
         rm = m;
         rn = n;
         return mass;
     }
 
     //  func for printing all results and matrix
-    void output(const char *msg, const column &mass, const line &vec_B, const int m)
+    void output(const char *msg, const column &mass, const line &vec_B)
     {
+        column ptr_col = mass;
+        line ptr_line;
+
         std::cout << msg << std::endl;
         std::cout << "------------------------------------------------" << std::endl;
-        for (column ptr_col = mass; ptr_col.next; ptr_col = *ptr_col.next)
+        for (; ptr_col.next; ptr_col = *ptr_col.next)
         {
-            for (line ptr_line = *ptr_col.elements; ptr_line.next; ptr_line = *ptr_line.next)
+            for (ptr_line = *ptr_col.elements; ptr_line.next; ptr_line = *ptr_line.next)
                 std::cout << ptr_line.value << " (" << ptr_line.coordinate << ", " << ptr_col.coordinate << ")   ";
+            std::cout << ptr_line.value << " (" << ptr_line.coordinate << ", " << ptr_col.coordinate << ")   ";
             std::cout << std::endl;
         }
+
+        for (ptr_line = *ptr_col.elements; ptr_line.next; ptr_line = *ptr_line.next)
+            std::cout << ptr_line.value << " (" << ptr_line.coordinate << ", " << ptr_col.coordinate << ")   ";
+        std::cout << ptr_line.value << " (" << ptr_line.coordinate << ", " << ptr_col.coordinate << ")   ";
+        std::cout << std::endl;
+
         std::cout << std::endl;
 
         std::cout << "Here is result vector: " << std::endl;
         std::cout << "------------------------------------------------" << std::endl;
 
         int count = 0;
-        for (line ptr_line = vec_B; ptr_line.next; ptr_line = *ptr_line.next)
+        for (ptr_line = vec_B; ptr_line.next; ptr_line = *ptr_line.next)
         {
             std::cout << ptr_line.value << " (" << ptr_line.coordinate << ")   ";
             count++;
-            if (count % 20 == 0)
+            if (count % 10 == 0)
                 std::cout << std::endl;
         }
+        std::cout << ptr_line.value << " (" << ptr_line.coordinate << ")   ";
+        count++;
+        if (count % 10 == 0)
+            std::cout << std::endl;
+
         std::cout << std::endl
                   << std::endl;
     }
@@ -111,16 +139,18 @@ namespace lab1
     //  func for calculation each vec_B[i] for each line
     double calc_vec(line *elements, double (*func)(const line &))
     {
+        if (!elements)
+            return 0.0;
+
         double res = 0.0, average = 0.0;
         int amount = 0;
         line *ptr;
-        for (ptr = elements; ptr->next; ptr = ptr->next)
+        for (ptr = elements; ptr != nullptr; ptr = ptr->next)
         {
             average += ptr->value;
             amount++;
         }
         res = average / amount / func(*elements);
-
         return res;
     }
 
@@ -129,6 +159,8 @@ namespace lab1
     {
         column *ptr;
         ptr = lst;
+        if (ptr->coordinate == coordinate)
+            return ptr;
 
         for (; ptr->next; ptr = ptr->next)
             if (ptr->coordinate == coordinate)
@@ -141,6 +173,8 @@ namespace lab1
     {
         line *ptr;
         ptr = lst;
+        if (ptr->coordinate == coordinate)
+            return ptr;
 
         for (; ptr->next; ptr = ptr->next)
             if (ptr->coordinate == coordinate)
@@ -149,7 +183,7 @@ namespace lab1
     }
 
     //  func for insertion in matrix one element by coordinates
-    int insert(column *&mass, const int coordinate_x, const int coordinate_y, const int value)
+    int insert(column *&mass, const int coordinate_x, const int coordinate_y, const double value)
     {
 
         column *new_cel;
@@ -238,6 +272,8 @@ namespace lab1
         }
 
         ptr_line->value = value;
+        delete new_cel->elements;
+        delete new_cel;
         return 0;
     }
 
@@ -275,6 +311,10 @@ namespace lab1
         vec_B = ptr_vec_B;
         par_vec_B = ptr_vec_B;
         ptr_vec_B = nullptr;
+
+        if (!ptr.next)
+            return 0;
+
         ptr = *ptr.next;
 
         for (; ptr.next; ptr = *ptr.next)
@@ -290,6 +330,7 @@ namespace lab1
             }
 
             ptr_vec_B->coordinate = ptr.coordinate;
+            ptr_vec_B->next = nullptr;
 
             if ((ptr.elements)->coordinate != 0)
                 ptr_vec_B->value = calc_vec(ptr.elements, search_first);
@@ -300,6 +341,26 @@ namespace lab1
             par_vec_B = ptr_vec_B;
             ptr_vec_B = nullptr;
         }
+
+        try
+        {
+            ptr_vec_B = new line;
+        }
+        catch (std::bad_alloc &ba)
+        {
+            std::cout << ba.what() << std::endl;
+            return 1;
+        }
+
+        ptr_vec_B->coordinate = ptr.coordinate;
+        ptr_vec_B->next = nullptr;
+
+        if ((ptr.elements)->coordinate != 0)
+            ptr_vec_B->value = calc_vec(ptr.elements, search_first);
+        else
+            ptr_vec_B->value = calc_vec(ptr.elements, max_line);
+
+        par_vec_B->next = ptr_vec_B;
 
         par_vec_B = nullptr;
         ptr_vec_B = nullptr;
@@ -318,7 +379,7 @@ namespace lab1
             ptr = mass;
             mass = mass->next;
             ptr->coordinate = 0;
-            ptr->elements = nullptr;
+            erase(ptr->elements);
             ptr->next = nullptr;
             delete ptr;
         }

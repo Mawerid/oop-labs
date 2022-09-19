@@ -39,10 +39,10 @@ int main()
     }
 
     //  print matrix and vector in console
-    output("Soursed matrix", *mass, *vec_B, m);
+    output("Soursed matrix", *mass, *vec_B);
     //  clear matrix and vector
     erase(mass);
-    delete[] vec_B;
+    erase(vec_B);
 
     return 0;
 }
