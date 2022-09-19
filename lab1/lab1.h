@@ -10,14 +10,14 @@ namespace lab1
     {
         double value = 0;
         int coordinate;
-        line *next = nullptr;
+        line *next;
     };
 
     struct column
     {
-        line *elements = nullptr;
+        line *elements;
         int coordinate;
-        column *next = nullptr;
+        column *next;
     };
 
     template <class T>
@@ -30,28 +30,28 @@ namespace lab1
         return 1;
     }
 
-    inline double max_line(line *elements)
+    inline double max_line(line &elements)
     {
         line *ptr, *max_el;
-        ptr = elements;
-        max_el = elements;
+        ptr = &elements;
+        max_el = &elements;
         for (; ptr->next != nullptr; ptr = ptr->next)
             if (max_el->value < ptr->value)
                 max_el = ptr;
         return max_el->value;
     }
 
-    inline double search_first(line *elements) { return elements->value; }
+    inline double search_first(const line &elements) { return elements.value; }
 
     column *input(int &, int &);
-    void output(const char *msg, column *mass, line *vec_B, const int m);
-    double calc_vec(line *elements, double (*func)(line *));
+    void output(const char *msg, const column &mass, const line &vec_B, const int m);
+    double calc_vec(const line &elements, double (*func)(line &));
 
-    template <class list>
-    list *search(list *lst, const int coordinate);
+    column *search(column *lst, const int coordinate);
+    line *search(line *lst, const int coordinate);
 
     int insert(column *mass, const int coordinate_x, const int coordinate_y, const int value);
-    int calc_vec(column *mass, line *vec_B, const int m);
+    int calc_vec(const column &mass, line *vec_B, const int m);
     void erase(column *mass);
     void erase(line *lst);
     void start_msg();

@@ -81,16 +81,14 @@ namespace lab1
     }
 
     //  func for printing all results and matrix
-    void output(const char *msg, column *mass, line *vec_B, const int m)
+    void output(const char &msg, const column &mass, const line &vec_B, const int m)
     {
-        column *ptr_col;
-        line *ptr_line;
         std::cout << msg << std::endl;
         std::cout << "------------------------------------------------" << std::endl;
-        for (ptr_col = mass; ptr_col != nullptr; ptr_col = ptr_col->next)
+        for (column ptr_col = mass; ptr_col.next; ptr_col = *ptr_col.next)
         {
-            for (ptr_line = ptr_col->elements; ptr_line != nullptr; ptr_line = ptr_line->next)
-                std::cout << ptr_line->value << " (" << ptr_line->coordinate << ", " << ptr_col->coordinate << ")   ";
+            for (line ptr_line = *ptr_col.elements; ptr_line.next; ptr_line = *ptr_line.next)
+                std::cout << ptr_line.value << " (" << ptr_line.coordinate << ", " << ptr_col.coordinate << ")   ";
             std::cout << std::endl;
         }
         std::cout << std::endl;
@@ -99,9 +97,9 @@ namespace lab1
         std::cout << "------------------------------------------------" << std::endl;
 
         int count = 0;
-        for (ptr_line = vec_B; ptr_line != nullptr; ptr_line = ptr_line->next)
+        for (line ptr_line = vec_B; ptr_line.next; ptr_line = *ptr_line.next)
         {
-            std::cout << ptr_line->value << " (" << ptr_line->coordinate << ")   ";
+            std::cout << ptr_line.value << " (" << ptr_line.coordinate << ")   ";
             count++;
             if (count % 20 == 0)
                 std::cout << std::endl;
@@ -111,15 +109,13 @@ namespace lab1
     }
 
     //  func for calculation each vec_B[i] for each line
-    double calc_vec(line *elements, double (*func)(line *))
+    double calc_vec(const line &elements, double (*func)(const line &))
     {
-        double res = 0, average;
-        average = 0;
+        double res = 0.0, average = 0.0;
         int amount = 0;
-        line *ptr;
-        for (ptr = elements; ptr != nullptr; ptr = ptr->next)
+        for (line ptr = elements; ptr.next; ptr = *ptr.next)
         {
-            average += ptr->value;
+            average += ptr.value;
             amount++;
         }
         res = average / amount / func(elements);
@@ -128,18 +124,31 @@ namespace lab1
     }
 
     //  func for search in list data structure
-    template <class list>
-    list *search(list *lst, const int coordinate)
+    column *search(column *lst, const int coordinate)
     {
-        list *ptr;
-        for (ptr = lst; ptr != nullptr; ptr = ptr->next)
+        column *ptr;
+        ptr = lst;
+
+        for (; ptr->next; ptr = ptr->next)
+            if (ptr->coordinate == coordinate)
+                return ptr;
+        return nullptr;
+    }
+
+    //  func for search in list data structure
+    line *search(line *lst, const int coordinate)
+    {
+        line *ptr;
+        ptr = lst;
+
+        for (; ptr->next; ptr = ptr->next)
             if (ptr->coordinate == coordinate)
                 return ptr;
         return nullptr;
     }
 
     //  func for insertion in matrix one element by coordinates
-    int insert(column *mass, const int coordinate_X, const int coordinate_Y, const int value)
+    int insert(column *mass, const int coordinate_x, const int coordinate_y, const int value)
     {
 
         column *new_cel;
@@ -154,7 +163,7 @@ namespace lab1
             return 1;
         }
 
-        new_cel->coordinate = coordinate_Y;
+        new_cel->coordinate = coordinate_y;
         new_cel->next = nullptr;
 
         try
@@ -167,7 +176,7 @@ namespace lab1
             return 1;
         }
 
-        new_cel->elements->coordinate = coordinate_X;
+        new_cel->elements->coordinate = coordinate_x;
         new_cel->elements->value = value;
         new_cel->elements->next = nullptr;
 
@@ -180,12 +189,12 @@ namespace lab1
             return 0;
         }
 
-        ptr_col = search(mass, coordinate_Y);
+        ptr_col = search(mass, coordinate_y);
         if (!ptr_col)
         {
             column *par_col;
             par_col = nullptr;
-            for (ptr_col = mass; ptr_col != nullptr && ptr_col->coordinate < coordinate_Y; ptr_col = ptr_col->next)
+            for (ptr_col = mass; ptr_col != nullptr && ptr_col->coordinate < coordinate_y; ptr_col = ptr_col->next)
                 par_col = ptr_col;
 
             if (par_col)
@@ -201,12 +210,12 @@ namespace lab1
             return 0;
         }
 
-        ptr_line = search(ptr_col->elements, coordinate_X);
+        ptr_line = search(ptr_col->elements, coordinate_x);
         if (!ptr_line)
         {
             line *par_line;
             par_line = nullptr;
-            for (ptr_line = ptr_col->elements; ptr_line != nullptr && ptr_line->coordinate < coordinate_X; ptr_line = ptr_line->next)
+            for (ptr_line = ptr_col->elements; ptr_line != nullptr && ptr_line->coordinate < coordinate_x; ptr_line = ptr_line->next)
                 par_line = ptr_line;
 
             if (par_line)
@@ -232,20 +241,42 @@ namespace lab1
     }
 
     //  func for calculation all vec_B by matrix
-    int calc_vec(column *mass, line *vec_B, const int m)
+    int calc_vec(const column &mass, line *vec_B, const int m)
     {
         if (vec_B)
             erase(vec_B);
 
-        column *ptr;
+        column ptr = mass;
         line *ptr_vec_B;
         line *par_vec_B;
 
-        ptr_vec_B = vec_B;
-        ptr = mass;
+        ptr_vec_B = nullptr;
         par_vec_B = nullptr;
 
-        for (; ptr != nullptr; ptr = ptr->next)
+        try
+        {
+            ptr_vec_B = new line;
+        }
+        catch (std::bad_alloc &ba)
+        {
+            std::cout << ba.what() << std::endl;
+            return 1;
+        }
+
+        ptr_vec_B->coordinate = ptr.coordinate;
+        ptr_vec_B->next = nullptr;
+
+        if ((ptr.elements)->coordinate != 0)
+            ptr_vec_B->value = calc_vec(*(ptr.elements), search_first);
+        else
+            ptr_vec_B->value = calc_vec(*(ptr.elements), max_line);
+
+        vec_B = ptr_vec_B;
+        par_vec_B = ptr_vec_B;
+        ptr_vec_B = ptr_vec_B->next;
+        ptr = *ptr.next;
+
+        for (; ptr.next; ptr = *ptr.next)
         {
             try
             {
@@ -257,19 +288,14 @@ namespace lab1
                 return 1;
             }
 
-            ptr_vec_B->coordinate = ptr->coordinate;
+            ptr_vec_B->coordinate = ptr.coordinate;
 
-            if (ptr->elements->coordinate != 0)
-                ptr_vec_B->value = calc_vec(ptr->elements, search_first);
+            if ((ptr.elements)->coordinate != 0)
+                ptr_vec_B->value = calc_vec(*(ptr.elements), search_first);
             else
-                ptr_vec_B->value = calc_vec(ptr->elements, max_line);
+                ptr_vec_B->value = calc_vec(*(ptr.elements), max_line);
 
-            if (ptr == mass)
-                vec_B = ptr_vec_B;
-
-            if (par_vec_B)
-                par_vec_B->next = ptr_vec_B;
-
+            par_vec_B->next = ptr_vec_B;
             par_vec_B = ptr_vec_B;
             ptr_vec_B = ptr_vec_B->next;
         }

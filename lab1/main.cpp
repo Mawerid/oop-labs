@@ -25,15 +25,21 @@ int main()
     }
 
     //  calculate result vector and check for errors
-    if (calc_vec(mass, vec_B, m))
+    if (calc_vec(*mass, vec_B, m))
     {
         std::cout << "Error in allocate memory" << std::endl;
         erase(mass);
         return 1;
     }
 
+    if (!vec_B)
+    {
+        std::cout << "Calculation error" << std::endl;
+        return 1;
+    }
+
     //  print matrix and vector in console
-    output("Soursed matrix", mass, vec_B, m);
+    output("Soursed matrix", *mass, *vec_B, m);
     //  clear matrix and vector
     erase(mass);
     delete[] vec_B;
