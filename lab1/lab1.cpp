@@ -6,6 +6,7 @@ namespace lab1
     //  start message about this app
     void start_msg()
     {
+        std::cout << std::endl;
         std::cout << "Here is Lab1 " << LAB_VERSION << " in variant " << VARIANT << std::endl;
         std::cout << "This program works with highly sparse matrix of real numbers" << std::endl;
         std::cout << "After all input, it counts special vector using average and maximum of each line" << std::endl;
@@ -56,7 +57,6 @@ namespace lab1
                 std::cout << msg << std::endl;
                 continue;
             }
-
             if (getNum(coor_y) < 0)
             {
                 std::cout << msg << std::endl;
@@ -367,7 +367,7 @@ namespace lab1
         return 0;
     }
 
-    //  func for clear data from matrix
+    //  func for clear data from matrix (optim)
     void erase(column *mass)
     {
         if (!mass)
@@ -385,7 +385,7 @@ namespace lab1
         }
     }
 
-    //  func for clear data from list
+    //  func for clear data from list (optim)
     void erase(line *lst)
     {
         if (!lst)
