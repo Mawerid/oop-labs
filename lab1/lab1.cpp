@@ -3,7 +3,7 @@
 
 namespace lab1
 {
-    //  start message about this app
+    //  start message about this app (optim)
     void start_msg()
     {
         std::cout << std::endl;
@@ -136,7 +136,7 @@ namespace lab1
                   << std::endl;
     }
 
-    //  func for calculation each vec_B[i] for each line
+    //  func for calculation each vec_B[i] for each line (optim)
     double calc_vec(line *elements, double (*func)(const line &))
     {
         if (!elements)
@@ -154,29 +154,21 @@ namespace lab1
         return res;
     }
 
-    //  func for search in list data structure
-    column *search(column *lst, const int coordinate)
+    //  func for search in list data structure (optim)
+    column *search(column *lst, const int coordinate) 
     {
         column *ptr;
-        ptr = lst;
-        if (ptr->coordinate == coordinate)
-            return ptr;
-
-        for (; ptr->next; ptr = ptr->next)
+        for (ptr = lst; ptr != nullptr; ptr = ptr->next)
             if (ptr->coordinate == coordinate)
                 return ptr;
         return nullptr;
     }
 
-    //  func for search in list data structure
+    //  func for search in list data structure (optim)
     line *search(line *lst, const int coordinate)
     {
         line *ptr;
-        ptr = lst;
-        if (ptr->coordinate == coordinate)
-            return ptr;
-
-        for (; ptr->next; ptr = ptr->next)
+        for (ptr = lst; ptr != nullptr; ptr = ptr->next)
             if (ptr->coordinate == coordinate)
                 return ptr;
         return nullptr;

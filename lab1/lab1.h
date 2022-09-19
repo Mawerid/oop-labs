@@ -50,7 +50,7 @@ namespace lab1
         return max_el;
     }
 
-    //  func for calculation first no-zero element in line
+    //  func for calculation first no-zero element in line (optim)
     inline double search_first(const line &elements) { return elements.value; }
 
     //  start message about this app
