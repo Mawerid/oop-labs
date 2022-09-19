@@ -81,7 +81,7 @@ namespace lab1
     }
 
     //  func for printing all results and matrix
-    void output(const char &msg, const column &mass, const line &vec_B, const int m)
+    void output(const char *msg, const column &mass, const line &vec_B, const int m)
     {
         std::cout << msg << std::endl;
         std::cout << "------------------------------------------------" << std::endl;
@@ -109,16 +109,17 @@ namespace lab1
     }
 
     //  func for calculation each vec_B[i] for each line
-    double calc_vec(const line &elements, double (*func)(const line &))
+    double calc_vec(line *elements, double (*func)(const line &))
     {
         double res = 0.0, average = 0.0;
         int amount = 0;
-        for (line ptr = elements; ptr.next; ptr = *ptr.next)
+        line *ptr;
+        for (ptr = elements; ptr->next; ptr = ptr->next)
         {
-            average += ptr.value;
+            average += ptr->value;
             amount++;
         }
-        res = average / amount / func(elements);
+        res = average / amount / func(*elements);
 
         return res;
     }
@@ -267,9 +268,9 @@ namespace lab1
         ptr_vec_B->next = nullptr;
 
         if ((ptr.elements)->coordinate != 0)
-            ptr_vec_B->value = calc_vec(*(ptr.elements), search_first);
+            ptr_vec_B->value = calc_vec(ptr.elements, search_first);
         else
-            ptr_vec_B->value = calc_vec(*(ptr.elements), max_line);
+            ptr_vec_B->value = calc_vec(ptr.elements, max_line);
 
         vec_B = ptr_vec_B;
         par_vec_B = ptr_vec_B;
@@ -291,9 +292,9 @@ namespace lab1
             ptr_vec_B->coordinate = ptr.coordinate;
 
             if ((ptr.elements)->coordinate != 0)
-                ptr_vec_B->value = calc_vec(*(ptr.elements), search_first);
+                ptr_vec_B->value = calc_vec(ptr.elements, search_first);
             else
-                ptr_vec_B->value = calc_vec(*(ptr.elements), max_line);
+                ptr_vec_B->value = calc_vec(ptr.elements, max_line);
 
             par_vec_B->next = ptr_vec_B;
             par_vec_B = ptr_vec_B;
