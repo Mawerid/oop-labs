@@ -148,7 +148,7 @@ namespace lab1
     }
 
     //  func for insertion in matrix one element by coordinates
-    int insert(column *mass, const int coordinate_x, const int coordinate_y, const int value)
+    int insert(column *&mass, const int coordinate_x, const int coordinate_y, const int value)
     {
 
         column *new_cel;
@@ -241,7 +241,7 @@ namespace lab1
     }
 
     //  func for calculation all vec_B by matrix
-    int calc_vec(const column &mass, line *vec_B, const int m)
+    int calc_vec(const column &mass, line *&vec_B, const int m)
     {
         if (vec_B)
             erase(vec_B);
@@ -273,7 +273,7 @@ namespace lab1
 
         vec_B = ptr_vec_B;
         par_vec_B = ptr_vec_B;
-        ptr_vec_B = ptr_vec_B->next;
+        ptr_vec_B = nullptr;
         ptr = *ptr.next;
 
         for (; ptr.next; ptr = *ptr.next)
@@ -297,9 +297,11 @@ namespace lab1
 
             par_vec_B->next = ptr_vec_B;
             par_vec_B = ptr_vec_B;
-            ptr_vec_B = ptr_vec_B->next;
+            ptr_vec_B = nullptr;
         }
 
+        par_vec_B = nullptr;
+        ptr_vec_B = nullptr;
         return 0;
     }
 

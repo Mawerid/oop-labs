@@ -50,7 +50,7 @@ namespace lab1
     column *search(column *lst, const int coordinate);
     line *search(line *lst, const int coordinate);
 
-    int insert(column *mass, const int coordinate_x, const int coordinate_y, const int value);
+    int insert(column *&mass, const int coordinate_x, const int coordinate_y, const int value);
     int calc_vec(const column &mass, line *vec_B, const int m);
     void erase(column *mass);
     void erase(line *lst);
