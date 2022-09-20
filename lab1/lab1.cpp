@@ -79,6 +79,12 @@ namespace lab1
                 continue;
             }
 
+            if (value == 0.0)
+            {
+                std::cout << msg << std::endl;
+                continue;
+            }
+
             if (insert(mass, coor_x, coor_y, value))
             {
                 std::cout << "Sorry, something went wrong (Most possible error is unable to allocate the memory)." << std::endl;
@@ -155,7 +161,7 @@ namespace lab1
     }
 
     //  func for search in list data structure (optim)
-    column *search(column *lst, const int coordinate) 
+    column *search(column *lst, const int coordinate)
     {
         column *ptr;
         for (ptr = lst; ptr != nullptr; ptr = ptr->next)

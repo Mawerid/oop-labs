@@ -5,7 +5,7 @@
 #define VARIANT 3
 
 namespace lab1
-{   
+{
     //  structure for line in matrix (common list)
     struct line
     {
@@ -62,7 +62,7 @@ namespace lab1
 
     //  func for calculation each vec_B[i] for each line
     double calc_vec(const line *elements, double (*func)(line &));
-     //  func for calculation all vec_B by matrix
+    //  func for calculation all vec_B by matrix
     int calc_vec(const column &mass, line *&vec_B, const int m);
 
     //  func for search in list data structure
@@ -76,7 +76,6 @@ namespace lab1
     void erase(column *mass);
     //  func for clear data from list
     void erase(line *lst);
-    
 
 }
 

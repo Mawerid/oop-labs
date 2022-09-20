@@ -5,7 +5,6 @@ using namespace lab1;
 
 int main()
 {
-
     //  print important thing about app
     start_msg();
 
@@ -29,12 +28,14 @@ int main()
     {
         std::cout << "Error in allocate memory" << std::endl;
         erase(mass);
+        erase(vec_B);
         return 1;
     }
 
     if (!vec_B)
     {
         std::cout << "Calculation error" << std::endl;
+        erase(mass);
         return 1;
     }
 
