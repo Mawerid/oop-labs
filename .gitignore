@@ -6,4 +6,4 @@ CMakeCache.txt
 *.elf
 Makefile
 bin
-test*
+test_prog
