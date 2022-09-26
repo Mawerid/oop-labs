@@ -1,10 +1,11 @@
 #include <iostream>
-#include <conchoid/conchoid.hpp>
-#include "../src/dialog.hpp"
+#include "../include/conchoid.hpp"
+#include "../include/dialog.hpp"
 
 using namespace conchoid;
 
 int main()
 {
     
+    return 0;
 }

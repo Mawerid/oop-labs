@@ -10,7 +10,7 @@ namespace conchoid
     {
         double x;
         double y;
-        point(double x0 = 0, double y0 = 0) : x(x0), y(y0) {}
+        explicit point(double x0 = 0, double y0 = 0) : x(x0), y(y0) {}
     };
 
     class conchoid
@@ -21,7 +21,8 @@ namespace conchoid
 
     public:
         //  constructors
-        conchoid(double a = 0, double l = 1); //    default - circle
+        explicit conchoid(); //    default - circle
+        explicit conchoid(double a, double l = 1.0);
 
         //  setters
         conchoid &set_a(double a0);
@@ -34,19 +35,19 @@ namespace conchoid
         //  other methods
 
         //  get y from x
-        double calc_y(double x);
+        double calc_y(double x) const;
         //  get r from theta (angle in radians)
-        double calc_r(double theta);
+        double calc_r(double theta) const;
         //  calculate radius of curvature at characteristic points
-        double rad_in_pont_A();
-        double rad_in_pont_C();
-        double rad_in_pont_O();
+        double rad_in_pont_A() const;
+        double rad_in_pont_C() const;
+        double rad_in_pont_O() const;
         //  calculate area of conchoid's loop
-        double area();
+        double area() const;
         //  calculate coordinates of inflection points
-        point *inf_points();
+        point *inf_points() const;
         //  return formula of conchoid
-        char *formula();
+        char *formula() const;
     };
 
 }
