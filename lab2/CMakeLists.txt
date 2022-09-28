@@ -1,13 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
-project(
-    lab2
-    VERSION 0.1
-    PROJECT_DESCRIPTION "Lab 2 with variant 5"
-    LANGUAGE CXX)
-
-
 set(CMAKE_CPP_STANDARD 20)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin)
+project(lab2)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG release-1.12.1
+)
+
+FetchContent_MakeAvailable(googletest)
 
 include(CTest)
 add_subdirectory(src)

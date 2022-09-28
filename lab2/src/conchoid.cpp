@@ -12,7 +12,7 @@ namespace conchoid
     {
         if (l == 0.0)
             throw std::invalid_argument("invalid l parameter");
-        l = l;
+        this->l = l;
     }
 
     //  setters
@@ -65,9 +65,9 @@ namespace conchoid
 
     double conchoid::rad_in_pont_O() const
     {
-        if (a == 0 || abs(a) > abs(l))
+        if (a == 0 || (abs(a) > abs(l)))
             throw std::invalid_argument("no point O");
-        return (l * sqrt(pow(l, 2) - pow(l, 2)) / (2 * a));
+        return (l * sqrt(pow(l, 2) - pow(a, 2)) / (2 * a));
     }
 
     //  calculate area of conchoid's loop
@@ -83,63 +83,61 @@ namespace conchoid
     }
 
     //  calculate coordinates of inflection points
-    point *conchoid::inf_points() const
+    double *conchoid::inf_points() const
     {
-        point *inf_p;
         if (a < l)
         {
-            inf_p = new point;
-            inf_p->x = 2.35 * a;
-            inf_p->y = calc_y(inf_p->x);
+            double *inf_p;
+            inf_p = new double;
+            *inf_p = 2.35 * a;
+
+            return inf_p;
         }
         else if (a == l)
         {
-            inf_p = new point[3];
-            inf_p[0].x = 0;
-            inf_p[1].x = sqrt(3) * a;
-            inf_p[2].x = (-1) * sqrt(3) * a;
-            inf_p[0].y = calc_y(inf_p[0].x);
-            inf_p[1].y = calc_y(inf_p[1].x);
-            inf_p[2].y = calc_y(inf_p[2].x);
+            double *inf_p;
+            inf_p = new double[3];
+            inf_p[0] = 0;
+            inf_p[1] = sqrt(3) * a;
+            inf_p[2] = (-1) * sqrt(3) * a;
+
+            return inf_p;
         }
         else
         {
-            inf_p = new point[3];
-            inf_p[0].x = 1.38 * a;
-            inf_p[1].x = 0.57 * a;
-            inf_p[2].x = (-1) * 1.9 * a;
-            inf_p[0].y = calc_y(inf_p[0].x);
-            inf_p[1].y = calc_y(inf_p[1].x);
-            inf_p[2].y = calc_y(inf_p[2].x);
-        }
+            double *inf_p = new double[3];
+            inf_p[0] = 1.38 * a;
+            inf_p[1] = 0.57 * a;
+            inf_p[2] = (-1) * 1.9 * a;
 
-        return inf_p;
+            return inf_p;
+        }
     }
 
     //  return formula of conchoid
     char *conchoid::formula() const
     {
-        size_t len = 38;
+        size_t len = 41;
         size_t size = 20;
         char num[size];
-        sprintf(num, "%.2f", a);
+        snprintf(num, size, "%.2f", a);
         len += strlen(num);
-        sprintf(num, "%.2f", l * l);
+        snprintf(num, size, "%.2f", l * l);
         len += strlen(num);
 
         char *form;
         form = new char[len];
 
         if (a == 0.0)
-            sprintf(form, "x ^ 2 * (x ^ 2 + y ^ 2) = ");
+            snprintf(form, len, "x ^ 2 * (x ^ 2 + y ^ 2) = ");
         else
-            sprintf(form, "(x - %.2f) ^ 2 * (x ^ 2 + y ^ 2) = ", a);
-
+            snprintf(form, len, "(x - %.2f) ^ 2 * (x ^ 2 + y ^ 2) = ", a);
         size = strlen(form);
+
         if (l == 1.0)
-            sprintf(form + size, "x ^ 2\n");
+            snprintf(form + size, len - size, "x ^ 2\n");
         else
-            sprintf(form + size, "%.2f * x ^ 2\n", l * l);
+            snprintf(form + size, len - size, "%.2f * x ^ 2\n", l * l);
 
         return form;
     }

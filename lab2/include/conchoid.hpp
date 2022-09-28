@@ -6,13 +6,6 @@
 
 namespace conchoid
 {
-    struct point
-    {
-        double x;
-        double y;
-        explicit point(double x0 = 0, double y0 = 0) : x(x0), y(y0) {}
-    };
-
     class conchoid
     {
     private:
@@ -45,7 +38,7 @@ namespace conchoid
         //  calculate area of conchoid's loop
         double area() const;
         //  calculate coordinates of inflection points
-        point *inf_points() const;
+        double *inf_points() const;
         //  return formula of conchoid
         char *formula() const;
     };

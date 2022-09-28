@@ -1,5 +1,3 @@
-add_executable(app main.cpp)
-target_compile_features(app PRIVATE cxx_std_20)
+add_executable(lab2 main.cpp)
 
-target_link_libraries(app PRIVATE conchoid)
-target_link_libraries(app PRIVATE dialog)
+target_link_libraries(lab2 dialog conchoid)

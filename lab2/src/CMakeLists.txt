@@ -1,4 +1,5 @@
-set(HEADER_LIST "${lab2_SOURCE_DIR}/include/conchoid.hpp")
-add_library(conchoid conchoid.cpp ${HEADER_LIST})
-add_library(dialog dialog.cpp dialog.hpp)
+set(HEADER_CON "${lab2_SOURCE_DIR}/include/conchoid.hpp")
+set(HEADER_DIA "${lab2_SOURCE_DIR}/include/dialog.hpp")
+add_library(conchoid conchoid.cpp ${HEADER_CON})
+add_library(dialog dialog.cpp ${HEADER_DIA})
 target_include_directories(conchoid PUBLIC ../include)
