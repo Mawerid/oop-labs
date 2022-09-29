@@ -1,0 +1,5 @@
+set(HEADER_WRD "${lab3_SOURCE_DIR}/include/word.hpp")
+set(HEADER_DIA "${lab3_SOURCE_DIR}/include/dialog.hpp")
+add_library(word word.cpp ${HEADER_WRD})
+add_library(dialog dialog.cpp ${HEADER_DIA})
+target_include_directories(word PUBLIC ../include)
