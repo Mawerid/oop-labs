@@ -2,7 +2,7 @@
 #define CONCHOID_HPP
 
 #define LAB_VERSION "1.0.0"
-#define VARIANT 3
+#define VARIANT 5
 
 namespace conchoid
 {
