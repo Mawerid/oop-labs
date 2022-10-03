@@ -16,6 +16,7 @@ namespace dialog
         }
         return 0;
     }
+
     void menu();
 }
 

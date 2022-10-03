@@ -11,7 +11,7 @@ namespace word
             strcpy(mass[i], "");
     }
 
-    words::words(char *word)
+    words::words(const char *word)
     {
         if (strlen(word) > MAX_WORD_LEN)
             throw std::invalid_argument("too big word");
@@ -22,7 +22,7 @@ namespace word
             strcpy(mass[i], "");
     }
 
-    words::words(unsigned count_s, const char **mass_s)
+    words::words(const unsigned &count_s, const char *mass_s[])
     {
         for (unsigned i = 0; i < count_s; i++)
         {
@@ -47,7 +47,7 @@ namespace word
         return count;
     }
 
-    int words::add(char *word)
+    int words::add(const char *word)
     {
         if (count == MAX_WORD_COUNT)
             throw std::overflow_error("not enough storage in massive of words");
@@ -59,7 +59,30 @@ namespace word
         return 0;
     }
 
-    unsigned words::search(char *word)
+    void words::clear()
+    {
+        for (unsigned i = 0; i < count; i++)
+            strcpy(mass[i], "");
+        count = 0;
+    }
+
+    int words::del(const unsigned &num)
+    {
+        if (num >= count)
+            throw std::invalid_argument("no word woth this number");
+
+        for (unsigned i = num; i < (count - 1); i++)
+        {
+            strcpy(mass[i], mass[i + 1]);
+        }
+
+        if (num == count - 1)
+            strcpy(mass[num], "");
+        count--;
+        return 0;
+    }
+
+    unsigned words::search(const char *word)
     {
         for (unsigned i = 0; i < count; i++)
             if (!strcmp(mass[i], word))
@@ -68,7 +91,7 @@ namespace word
         return count;
     }
 
-    char *words::ret_word(unsigned num)
+    char *words::ret_word(const unsigned &num)
     {
         if (num < count)
             throw std::invalid_argument("invalid position of searching word");
@@ -77,7 +100,7 @@ namespace word
         return str;
     }
 
-    words *words::first_symbol(char symbol)
+    words *words::first_symbol(const char &symbol)
     {
         words *newmass;
         newmass = new words;
@@ -108,44 +131,27 @@ namespace word
         if (count < 2)
             return;
 
-        char tmp;
-        int stack[count];
-        int top = -1;
-        int l, h, p;
-        stack[++top] = 0;
-        stack[++top] = count;
+        char tmp_1[MAX_WORD_LEN];
+        char tmp_2[MAX_WORD_LEN];
 
-        while (top >= 0)
-        {
-            h = stack[top--];
-            l = stack[top--];
-
-            tmp = mass[h][0];
-            p = (l - 1);
-
-            for (int j = l; j <= h - 1; j++)
+        for (int i = 0; i < (count - 1); i++)
+            for (int j = 0; j < (count - i - 1); j++)
             {
-                if (mass[j][0] <= tmp)
+                if (strlen(mass[j]) > strlen(mass[j + 1]))
                 {
-                    p++;
-                    swap(mass[p], mass[j]);
+                    strncpy(tmp_1, mass[j], strlen(mass[j + 1]));
+                    strncpy(tmp_2, mass[j + 1], strlen(mass[j + 1]));
                 }
-            }
-            p++;
-            swap(mass[p], mass[h]);
+                else
+                {
+                    strncpy(tmp_1, mass[j], strlen(mass[j]));
+                    strncpy(tmp_2, mass[j + 1], strlen(mass[j]));
+                }
 
-            if (p - 1 > l)
-            {
-                stack[++top] = l;
-                stack[++top] = p - 1;
+                if (strcmp(tmp_1, tmp_2) < 0)
+                    ;
+                swap(mass[j], mass[j + 1]);
             }
-
-            if (p + 1 < h)
-            {
-                stack[++top] = p + 1;
-                stack[++top] = h;
-            }
-        }
     }
 
     std::ostream &words::print(std::ostream &cout)
@@ -161,10 +167,10 @@ namespace word
 
         for (int i = 0; i < count; i++)
         {
-            cout << "'" << mass[i];
+            cout << "'" << mass[i] << "'";
             if ((i + 1) < count)
-                cout << "', ";
-            if (i % 10 == 0)
+                cout << ", ";
+            if (i % 10 == 0 && i != 0)
                 cout << std::endl;
         }
         cout << " ]" << std::endl;
@@ -174,23 +180,20 @@ namespace word
 
     std::istream &words::input(std::istream &cin)
     {
-        char *str;
+        if (count == MAX_WORD_COUNT)
+            throw std::overflow_error("not enough storage in massive of words");
+
+        char str[80];
 
         cin >> str;
 
         if (!cin.good())
-        {
             throw std::ios_base::failure("invalid input");
-        }
 
-        try
-        {
-            add(str);
-        }
-        catch (std::exception &ex)
-        {
-            throw ex;
-        }
+        if (strlen(str) > MAX_WORD_LEN)
+            throw std::invalid_argument("too big word found");
+
+        add(str);
 
         return cin;
     }

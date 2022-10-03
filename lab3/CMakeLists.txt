@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CPP_STANDARD 20)
-project(lab2)
+project(lab3)
 
 include(FetchContent)
 FetchContent_Declare(

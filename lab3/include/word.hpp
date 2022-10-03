@@ -1,3 +1,4 @@
+#include <iostream>
 #ifndef WORD_HPP
 #define WORD_HPP
 
@@ -16,14 +17,16 @@ namespace word
 
     public:
         explicit words();
-        explicit words(char *word);
-        explicit words(unsigned count_s, const char **mass_s);
+        explicit words(const char *word);
+        explicit words(const unsigned &count_s, const char *mass_s[]);
 
         unsigned get_count();
-        int add(char *word);
-        unsigned search(char *word);
-        char *ret_word(unsigned num);
-        words *first_symbol(char symbol);
+        int add(const char *word);
+        void clear();
+        int del(const unsigned &num);
+        unsigned search(const char *word);
+        char *ret_word(const unsigned &num);
+        words *first_symbol(const char &symbol);
         void sort();
         void swap(char *word1, char *word2);
         std::ostream &print(std::ostream &cout);
