@@ -8,7 +8,7 @@ namespace word
     words::words()
     {
         for (unsigned i = 0; i < MAX_WORD_COUNT; i++)
-            strcpy(mass[i], "");
+            strncpy(mass[i], "", MAX_WORD_LEN);
     }
 
     words::words(const char *word)
@@ -19,10 +19,10 @@ namespace word
         count++;
 
         for (unsigned i = 1; i < MAX_WORD_COUNT; i++)
-            strcpy(mass[i], "");
+            strncpy(mass[i], "", MAX_WORD_LEN);
     }
 
-    words::words(const unsigned &count_s, const char *mass_s[])
+    words::words(const unsigned &count_s, const char **mass_s)
     {
         for (unsigned i = 0; i < count_s; i++)
         {
@@ -39,7 +39,7 @@ namespace word
         count = count_s;
 
         for (unsigned i = count; i < MAX_WORD_COUNT; i++)
-            strcpy(mass[i], "");
+            strncpy(mass[i], "", MAX_WORD_LEN);
     }
 
     unsigned words::get_count()
@@ -54,6 +54,10 @@ namespace word
         if (strlen(word) > MAX_WORD_LEN)
             throw std::invalid_argument("too big word found");
 
+        for (unsigned i = 0; i < count; i++)
+            if (!strcmp(mass[i], word))
+                    throw std::invalid_argument("no same word can be in massive of words");
+
         strncpy(mass[count], word, MAX_WORD_LEN);
         count++;
         return 0;
@@ -62,22 +66,24 @@ namespace word
     void words::clear()
     {
         for (unsigned i = 0; i < count; i++)
-            strcpy(mass[i], "");
+            strncpy(mass[i], "", MAX_WORD_LEN);
         count = 0;
     }
 
     int words::del(const unsigned &num)
     {
+        if (count == 0)
+            throw std::invalid_argument("massive is empty");
         if (num >= count)
-            throw std::invalid_argument("no word woth this number");
+            throw std::invalid_argument("no word with this number");
 
         for (unsigned i = num; i < (count - 1); i++)
         {
-            strcpy(mass[i], mass[i + 1]);
+            strncpy(mass[i], mass[i + 1], MAX_WORD_LEN);
         }
 
         if (num == count - 1)
-            strcpy(mass[num], "");
+            strncpy(mass[num], "", MAX_WORD_LEN);
         count--;
         return 0;
     }
@@ -91,12 +97,14 @@ namespace word
         return count;
     }
 
-    char *words::ret_word(const unsigned &num)
+    char *words::get_word(const unsigned &num)
     {
-        if (num < count)
+        if (num >= count)
             throw std::invalid_argument("invalid position of searching word");
 
-        char *str = mass[num];
+        char *str;
+        str = new char[MAX_WORD_LEN];
+        strncpy(str, mass[num], MAX_WORD_LEN);
         return str;
     }
 
@@ -141,16 +149,26 @@ namespace word
                 {
                     strncpy(tmp_1, mass[j], strlen(mass[j + 1]));
                     strncpy(tmp_2, mass[j + 1], strlen(mass[j + 1]));
+                    for (int i = 0; i < strlen(mass[j + 1]); i++)
+                    {
+                        tmp_1[i] = tolower(tmp_1[i]);
+                        tmp_2[i] = tolower(tmp_2[i]);
+                    }
+
                 }
                 else
                 {
                     strncpy(tmp_1, mass[j], strlen(mass[j]));
                     strncpy(tmp_2, mass[j + 1], strlen(mass[j]));
+                    for (int i = 0; i < strlen(mass[j]); i++)
+                    {
+                        tmp_1[i] = tolower(tmp_1[i]);
+                        tmp_2[i] = tolower(tmp_2[i]);
+                    }
                 }
 
-                if (strcmp(tmp_1, tmp_2) < 0)
-                    ;
-                swap(mass[j], mass[j + 1]);
+                if (strcmp((tmp_1), (tmp_2)) > 0)
+                    swap(mass[j], mass[j + 1]);
             }
     }
 
