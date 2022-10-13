@@ -44,10 +44,10 @@ TEST(ConchoidMethods, Setters)
 
 TEST(ConchoidMethods, Area)
 {
-    conchoid::conchoid tst;
-    conchoid::conchoid tst_1(1.0, 2.0);
-    conchoid::conchoid tst_2(4.0, 2.0);
-    conchoid::conchoid tst_3(2.0, 2.0);
+    conchoid::conchoid const tst;
+    conchoid::conchoid const tst_1(1.0, 2.0);
+    conchoid::conchoid const tst_2(4.0, 2.0);
+    conchoid::conchoid const tst_3(2.0, 2.0);
 
     const double err = 0.00001;
 

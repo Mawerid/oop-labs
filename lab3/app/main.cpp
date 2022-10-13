@@ -33,7 +33,8 @@ int main(int argc, char *argv[])
             std::cout << "Enter the word, that you want to add: ";
             try
             {
-                mass.input(std::cin);
+                std::cin >> mass;
+                // mass.input(std::cin);
             }
             catch (const std::exception &e)
             {
@@ -82,25 +83,28 @@ int main(int argc, char *argv[])
             {
                 tmp = mass.first_symbol(symb);
                 std::cout << "Here is massive: " << std::endl;
-                tmp->print(std::cout);
+                std::cout << tmp;
+                //  tmp->print(std::cout);
                 delete tmp;
             }
-            catch(const std::exception& e)
+            catch (const std::exception &e)
             {
                 std::cout << e.what() << std::endl;
             }
-            
+
             break;
         case 5:
             mass.sort();
-            mass.print(std::cout);
+            std::cout << mass;
+            //  mass.print(std::cout);
             break;
         case 6:
             mass.clear();
             std::cout << "Massive has just cleared from all words" << std::endl;
             break;
         case 7:
-            mass.print(std::cout);
+            std::cout << mass;
+            //  mass.print(std::cout);
             break;
         default:
             std::cout << "Unknown command, please, repeat your answer and check instruction." << std::endl;

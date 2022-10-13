@@ -12,6 +12,9 @@ namespace dialog
         std::cin >> a;
         if (!std::cin.good())
         {
+            std::cin.clear();
+            while (std::cin.get() != '\n')
+                continue;
             return 1;
         }
         return 0;

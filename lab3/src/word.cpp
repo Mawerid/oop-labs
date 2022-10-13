@@ -16,7 +16,7 @@ namespace word
         if (strlen(word) > MAX_WORD_LEN)
             throw std::invalid_argument("too big word");
         strncpy(mass[0], word, MAX_WORD_LEN);
-        count++;
+        count = 1;
 
         for (unsigned i = 1; i < MAX_WORD_COUNT; i++)
             strncpy(mass[i], "", MAX_WORD_LEN);
@@ -42,7 +42,19 @@ namespace word
             strncpy(mass[i], "", MAX_WORD_LEN);
     }
 
-    unsigned words::get_count()
+    words::words(const words &mass_cp)
+    {
+        count = mass_cp.get_count();
+        char *str;
+        for (unsigned int i = 0; i < count; i++)
+        {
+            str = mass_cp.get_word(i);
+            strncpy(mass[i], str, MAX_WORD_LEN);
+            delete[] str;
+        }
+    }
+
+    unsigned words::get_count() const
     {
         return count;
     }
@@ -56,7 +68,7 @@ namespace word
 
         for (unsigned i = 0; i < count; i++)
             if (!strcmp(mass[i], word))
-                    throw std::invalid_argument("no same word can be in massive of words");
+                throw std::invalid_argument("no same word can be in massive of words");
 
         strncpy(mass[count], word, MAX_WORD_LEN);
         count++;
@@ -88,7 +100,7 @@ namespace word
         return 0;
     }
 
-    unsigned words::search(const char *word)
+    unsigned words::search(const char *word) const
     {
         for (unsigned i = 0; i < count; i++)
             if (!strcmp(mass[i], word))
@@ -97,7 +109,7 @@ namespace word
         return count;
     }
 
-    char *words::get_word(const unsigned &num)
+    char *words::get_word(const unsigned &num) const
     {
         if (num >= count)
             throw std::invalid_argument("invalid position of searching word");
@@ -108,7 +120,7 @@ namespace word
         return str;
     }
 
-    words *words::first_symbol(const char &symbol)
+    words *words::first_symbol(const char &symbol) const
     {
         words *newmass;
         newmass = new words;
@@ -154,7 +166,6 @@ namespace word
                         tmp_1[i] = tolower(tmp_1[i]);
                         tmp_2[i] = tolower(tmp_2[i]);
                     }
-
                 }
                 else
                 {
@@ -172,7 +183,7 @@ namespace word
             }
     }
 
-    std::ostream &words::print(std::ostream &cout)
+    std::ostream &words::print(std::ostream &cout) const
     {
         if (count == 0)
         {
@@ -201,18 +212,94 @@ namespace word
         if (count == MAX_WORD_COUNT)
             throw std::overflow_error("not enough storage in massive of words");
 
-        char str[80];
-
+        char str[MAX_WORD_LEN];
+        cin.width(MAX_WORD_LEN);
         cin >> str;
 
         if (!cin.good())
             throw std::ios_base::failure("invalid input");
 
-        if (strlen(str) > MAX_WORD_LEN)
-            throw std::invalid_argument("too big word found");
+        cin.clear();
 
         add(str);
 
         return cin;
+    }
+
+    words &words::operator--()
+    {
+        this->del(count - 1);
+        return *this;
+    }
+
+    const words words::operator--(int)
+    {
+        words tmp(*this);
+        this->del(count - 1);
+        return tmp;
+    }
+
+    char *words::operator[](size_t index)
+    {
+        if (index >= count)
+            throw std::invalid_argument("invalid index");
+        return mass[index];
+    }
+
+    const char *words::operator[](size_t index) const
+    {
+        if (index >= count)
+            throw std::invalid_argument("invalid index");
+        return mass[index];
+    }
+
+    std::ostream &operator<<(std::ostream &cout, const words &mass)
+    {
+        mass.print(cout);
+        return cout;
+    }
+
+    std::istream &operator>>(std::istream &cin, words &mass)
+    {
+        mass.input(cin);
+        return cin;
+    }
+
+    bool words::operator!() const
+    {
+        if (count)
+            return false;
+        return true;
+    }
+
+    words &words::operator+=(const words &mass_cp)
+    {
+        unsigned int count_tmp = mass_cp.get_count();
+        for (unsigned int i = 0; i < count_tmp; i++)
+            this->add(mass_cp.get_word(i));
+        return *this;
+    }
+
+    const words words::operator+(const words &mass_add) const
+    {
+        words sum(*this);
+        unsigned int count_mass = mass_add.get_count();
+        unsigned int count_max = words::MAX_WORD_COUNT;
+        char *str;
+        for (unsigned int i = 0; i < count_mass; i++)
+        {
+            if (sum.get_count() >= count_max)
+                break;
+
+            str = mass_add.get_word(i);
+            sum.add(str);
+            delete[] str;
+        }
+        return sum;
+    }
+
+    std::strong_ordering words::operator<=>(const words &mass_check) const
+    {
+        return (count <=> mass_check.get_count());
     }
 }

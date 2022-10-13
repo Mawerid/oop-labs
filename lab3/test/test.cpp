@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <string>
 #include "../include/word.hpp"
 
 TEST(WordConstructor, DefaultConstructor)
@@ -77,7 +78,7 @@ TEST(WordMethod, Delete)
     tmp.add("PROST");
     tmp.del(2);
     ASSERT_EQ(4, tmp.get_count());
-    ASSERT_STREQ("PROST", tmp.get_word(tmp.get_count()-1));
+    ASSERT_STREQ("PROST", tmp.get_word(tmp.get_count() - 1));
     ASSERT_ANY_THROW(tmp.get_word(4));
     ASSERT_ANY_THROW(tmp.del(4));
     tmp.clear();
@@ -151,6 +152,131 @@ TEST(WordMethod, Sort)
     ASSERT_STREQ(tmp_2.get_word(2), tmp_1.get_word(2));
     ASSERT_STREQ(tmp_2.get_word(3), tmp_1.get_word(3));
     ASSERT_STREQ(tmp_2.get_word(4), tmp_1.get_word(4));
+}
+
+TEST(IO, Print)
+{
+    std::ostringstream ostr_1, ostr_2;
+    word::words tmp;
+    tmp.print(ostr_1);
+    ASSERT_STREQ("Word Massive sizeof 10 is empty\n", ostr_1.str().c_str());
+    tmp.add("Hi");
+    tmp.add("Hello");
+    tmp.print(ostr_2);
+    ASSERT_STREQ("Word Massive sizeof 10 filled with 2 elements\n[ 'Hi', 'Hello' ]\n", ostr_2.str().c_str());
+}
+
+TEST(IO, Input)
+{
+    std::istringstream istr_1("KUKUKU\n");
+    std::istringstream istr_2("Hi\n");
+    word::words tmp;
+    tmp.add("Hi");
+    tmp.add("Hello");
+    tmp.add("Hallo");
+    tmp.add("PROST");
+    tmp.input(istr_1);
+    ASSERT_STREQ("KUKUKU", tmp.get_word(4));
+    ASSERT_ANY_THROW(tmp.input(istr_2));
+}
+
+TEST(IO, Cout)
+{
+    std::ostringstream ostr_1, ostr_2;
+    word::words tmp;
+    ostr_1 << tmp;
+    ASSERT_STREQ("Word Massive sizeof 10 is empty\n", ostr_1.str().c_str());
+    tmp.add("Hi");
+    tmp.add("Hello");
+    ostr_2 << tmp;
+    ASSERT_STREQ("Word Massive sizeof 10 filled with 2 elements\n[ 'Hi', 'Hello' ]\n", ostr_2.str().c_str());
+
+}
+
+TEST(IO, Cin)
+{
+    std::istringstream istr_1("KUKUKU\n");
+    std::istringstream istr_2("Hi\n");
+    word::words tmp;
+    tmp.add("Hi");
+    tmp.add("Hello");
+    tmp.add("Hallo");
+    tmp.add("PROST");
+    istr_1 >> tmp;
+    ASSERT_STREQ("KUKUKU", tmp.get_word(4));
+    ASSERT_ANY_THROW(istr_2 >> tmp);
+}
+
+TEST(Operator, Decrement)
+{
+    word::words tmp;
+    tmp.add("Kukuku");
+    tmp.add("Kakaka");
+    tmp.add("Kikiki");
+    ASSERT_EQ(3, (tmp--).get_count());
+    ASSERT_EQ(1, (--tmp).get_count());
+    tmp--;
+    ASSERT_ANY_THROW(tmp--);
+}
+
+TEST(Operator, Add)
+{
+    word::words tmp_1;
+    tmp_1.add("Kukuku");
+    tmp_1.add("Kakaka");
+    tmp_1.add("Kikiki");
+    word::words tmp_2;
+    tmp_2.add("Kikooki");
+    tmp_1 += tmp_2;
+    ASSERT_EQ(4, tmp_1.get_count());
+    ASSERT_EQ(1, tmp_2.get_count());
+    tmp_2.add("Kikiki");
+    ASSERT_ANY_THROW(tmp_1 += tmp_2);
+}
+
+TEST(Operator, IsEmpty)
+{
+    word::words tmp;
+    ASSERT_EQ(true, !tmp);
+    tmp.add("Kukuku");
+    ASSERT_EQ(false, !tmp);
+}
+
+TEST(Operator, Sum)
+{
+    word::words tmp_1;
+    tmp_1.add("Kukuku");
+    tmp_1.add("Kakaka");
+    tmp_1.add("Kikiki");
+    word::words tmp_2(tmp_1);
+    word::words sum;
+    ASSERT_ANY_THROW(sum = tmp_1 + tmp_2);
+    word::words tmp_3;
+    tmp_3.add("HAHAHA");
+    sum = tmp_1 + tmp_3;
+    ASSERT_EQ(4, sum.get_count());
+}
+
+TEST(Operator, Compare)
+{
+    word::words tmp_1;
+    tmp_1.add("Kukuku");
+    tmp_1.add("Kakaka");
+    tmp_1.add("Kikiki");
+    word::words tmp_2(tmp_1);
+    ASSERT_EQ(std::strong_ordering::equal, tmp_1<=>tmp_2);
+    tmp_2.add("Hahaha");
+    ASSERT_EQ(std::strong_ordering::less, tmp_1<=>tmp_2);
+}
+
+TEST(Operator, Indexes)
+{
+    word::words tmp;
+    tmp.add("Kukuku");
+    tmp.add("Kakaka");
+    tmp.add("Kikiki");
+    ASSERT_STREQ("Kukuku", tmp[0]);
+    ASSERT_ANY_THROW(tmp[3]);
 }
 
 int main(int argc, char *argv[])
