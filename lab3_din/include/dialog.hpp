@@ -21,6 +21,18 @@ namespace dialog
         return 0;
     }
 
+    template <class T>
+    void input_num(const char *msg_print, T &num)
+    {
+        char msg[30] = "";
+        do
+        {
+            std::cout << msg << std::endl;
+            std::cout << msg_print;
+            strcpy(msg, "You are wrong; repeat please!");
+        } while (dialog::getNum(num));
+    }
+
     void menu();
 
     void cmd_loop(word::words *mass);

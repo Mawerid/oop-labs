@@ -11,16 +11,11 @@ namespace word
 {
     class words
     {
-    public:
-        //  our constants, that we need
-        static const unsigned MAX_WORD_LEN = 25;
-        static const unsigned MAX_WORD_COUNT = 10;
-
     private:
         //  current lengh of massive
         unsigned int count = 0;
         //  our massive
-        char mass[MAX_WORD_COUNT][MAX_WORD_LEN];
+        char **mass;
 
     public:
         //  constructors
