@@ -252,7 +252,7 @@ namespace word
 
             strncpy(mass_cp[i], mass[i + 1], len);
         }
-
+        delete[] mass[curr_size];
         delete[] mass;
         mass = mass_cp;
     }
