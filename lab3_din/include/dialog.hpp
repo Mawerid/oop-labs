@@ -7,10 +7,18 @@
 
 namespace dialog
 {
+    /*
+    func for right input (unsigned or char, for example)
+    params:
+    1 - input variable
+    return:
+    0 - OK
+    1 - Bad input
+    */
     template <class T>
-    int getNum(T &a)
+    int getNum(T &var)
     {
-        std::cin >> a;
+        std::cin >> var;
         if (!std::cin.good())
         {
             std::cin.clear();
@@ -21,6 +29,14 @@ namespace dialog
         return 0;
     }
 
+    /*
+    func to avoid wrong input
+    params:
+    1 - message with inviting to write something
+    2 - input variable
+    return:
+    None
+    */
     template <class T>
     void input_num(const char *msg_print, T &num)
     {
@@ -33,8 +49,22 @@ namespace dialog
         } while (dialog::getNum(num));
     }
 
+    /*
+    function, that show menu message
+    params:
+    None
+    return:
+    None
+    */
     void menu();
 
+    /*
+    main loop for menu
+    params:
+    1 - word massive as pointer
+    return:
+    None
+    */
     void cmd_loop(word::words *mass);
 }
 

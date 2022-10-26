@@ -2,6 +2,13 @@
 
 namespace dialog
 {
+    /*
+    function, that show menu message
+    params:
+    None
+    return:
+    None
+    */
     void menu()
     {
         std::cout << std::endl;
@@ -22,10 +29,17 @@ namespace dialog
                   << std::endl;
     }
 
+    /*
+    main loop for menu
+    params:
+    1 - word massive as pointer
+    return:
+    None
+    */
     void cmd_loop(word::words *mass)
     {
         word::words *tmp;
-        char str[80];
+        char str[81];
         char symb;
         unsigned cmd = 1;
         unsigned num = 0;
@@ -33,6 +47,8 @@ namespace dialog
         while (cmd != 0)
         {
             input_num("Enter the command:    ", cmd);
+
+            std::cin.clear();
             try
             {
                 switch (cmd)
@@ -44,20 +60,22 @@ namespace dialog
                     std::cin >> *mass;
                     // mass.input(std::cin);
                     std::cout << std::endl;
+                    std::cin.clear();
                     break;
                 case 2:
                     input_num("Enter the number of word in massive, that you want to delete: ", num);
                     mass->del(num);
+                    std::cin.clear();
                     break;
                 case 3:
                     std::cout << "Enter the word, that you want to search: ";
                     std::cin >> str;
                     num = mass->search(str);
-                    if (num == mass->get_count())
+                    if (num == mass->get_size())
                         std::cout << "No such word in massive." << std::endl;
                     else
-                        std::cout << "The word " << str << "in massive can be found by number " << num << std::endl;
-
+                        std::cout << "The word " << str << " in massive can be found by number " << num << std::endl;
+                    std::cin.clear();
                     break;
                 case 4:
                     input_num("Enter the symbol:    ", symb);
@@ -66,19 +84,23 @@ namespace dialog
                     std::cout << *tmp;
                     //  tmp->print(std::cout);
                     delete tmp;
+                    std::cin.clear();
                     break;
                 case 5:
                     mass->sort();
                     std::cout << *mass;
                     //  mass.print(std::cout);
+                    std::cin.clear();
                     break;
                 case 6:
                     mass->clear();
                     std::cout << "Massive has just cleared from all words" << std::endl;
+                    std::cin.clear();
                     break;
                 case 7:
                     std::cout << *mass;
                     //  mass.print(std::cout);
+                    std::cin.clear();
                     break;
                 default:
                     std::cout << "Unknown command, please, repeat your answer and check instruction." << std::endl;
