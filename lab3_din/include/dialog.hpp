@@ -7,14 +7,10 @@
 
 namespace dialog
 {
-    /*
-    func for right input (unsigned or char, for example)
-    params:
-    1 - input variable
-    return:
-    0 - OK
-    1 - Bad input
-    */
+    /// @brief func for right input (unsigned or char, for example)
+    /// @tparam T
+    /// @param var
+    /// @return 0 - OK or 1 - Bad input
     template <class T>
     int getNum(T &var)
     {
@@ -29,14 +25,10 @@ namespace dialog
         return 0;
     }
 
-    /*
-    func to avoid wrong input
-    params:
-    1 - message with inviting to write something
-    2 - input variable
-    return:
-    None
-    */
+    /// @brief func to avoid wrong input
+    /// @tparam T
+    /// @param msg_print
+    /// @param num
     template <class T>
     void input_num(const char *msg_print, T &num)
     {
@@ -49,22 +41,11 @@ namespace dialog
         } while (dialog::getNum(num));
     }
 
-    /*
-    function, that show menu message
-    params:
-    None
-    return:
-    None
-    */
+    /// @brief function, that show menu message
     void menu();
 
-    /*
-    main loop for menu
-    params:
-    1 - word massive as pointer
-    return:
-    None
-    */
+    /// @brief main loop for menu
+    /// @param mass
     void cmd_loop(word::words *mass);
 }
 

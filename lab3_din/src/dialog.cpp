@@ -2,13 +2,7 @@
 
 namespace dialog
 {
-    /*
-    function, that show menu message
-    params:
-    None
-    return:
-    None
-    */
+    /// @brief function, that show menu message
     void menu()
     {
         std::cout << std::endl;
@@ -29,13 +23,8 @@ namespace dialog
                   << std::endl;
     }
 
-    /*
-    main loop for menu
-    params:
-    1 - word massive as pointer
-    return:
-    None
-    */
+    /// @brief main loop for menu
+    /// @param mass
     void cmd_loop(word::words *mass)
     {
         word::words *tmp;
@@ -58,7 +47,6 @@ namespace dialog
                 case 1:
                     std::cout << "Enter the word, that you want to add: ";
                     std::cin >> *mass;
-                    // mass.input(std::cin);
                     std::cout << std::endl;
                     std::cin.clear();
                     break;
@@ -82,14 +70,12 @@ namespace dialog
                     tmp = mass->first_symbol(symb);
                     std::cout << "Here is massive: " << std::endl;
                     std::cout << *tmp;
-                    //  tmp->print(std::cout);
                     delete tmp;
                     std::cin.clear();
                     break;
                 case 5:
                     mass->sort();
                     std::cout << *mass;
-                    //  mass.print(std::cout);
                     std::cin.clear();
                     break;
                 case 6:
@@ -99,7 +85,6 @@ namespace dialog
                     break;
                 case 7:
                     std::cout << *mass;
-                    //  mass.print(std::cout);
                     std::cin.clear();
                     break;
                 default:
