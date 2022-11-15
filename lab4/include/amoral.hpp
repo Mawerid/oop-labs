@@ -1,11 +1,11 @@
 #ifndef AMORAL_HPP
 #define AMORAL_HPP
 
-#include "squad.hpp"
+#include "unit.hpp"
 
 namespace squad
 {
-    enum amoral_type
+    enum class amoral_type
     {
         CENTRY,
         INFESTOR,
@@ -14,12 +14,10 @@ namespace squad
         TYPHON
     };
 
-    class amoral : public squad
+    class amoral : public unit
     {
     protected:
         amoral_type type;
-        unsigned damage;
-        unsigned defense;
 
     public:
         amoral();

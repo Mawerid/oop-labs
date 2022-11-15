@@ -6,7 +6,7 @@
 
 namespace field
 {
-    enum cell_type
+    enum class cell_type
     {
         FREE,
         BUSY,

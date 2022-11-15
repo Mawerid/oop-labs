@@ -6,7 +6,7 @@
 
 namespace constant
 {
-    enum school_type
+    enum class school_type
     {
         ROBOTICS,
         ENERGISER,
@@ -15,7 +15,7 @@ namespace constant
         NANOSLIME
     };
 
-    enum unit
+    enum class unit
     {
         ROBOMECH,
         CENTRY,

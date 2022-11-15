@@ -42,6 +42,7 @@ namespace squad
         size_t get_quantity();
         constant::unit get_name();
 
+        void get_type();
         void get_hit(unsigned);
         void die();
     };

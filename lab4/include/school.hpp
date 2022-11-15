@@ -7,7 +7,6 @@
 
 namespace school
 {
-
     class school
     {
     private:

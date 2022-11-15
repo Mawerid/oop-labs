@@ -5,7 +5,7 @@
 
 namespace field
 {
-    enum dimension
+    enum class dimension
     {
         X,
         Y
@@ -37,6 +37,8 @@ namespace field
 
         node *delete_node(node *, const cell &);
         node *delete_node(node *, const cell &, const unsigned &);
+
+        void swap(node *, node *);
     };
 }
 
