@@ -6,6 +6,7 @@
 
 namespace constant
 {
+    /// @brief school types
     enum class school_type
     {
         ROBOTICS,
@@ -15,6 +16,7 @@ namespace constant
         NANOSLIME
     };
 
+    /// @brief units types
     enum class unit
     {
         ROBOMECH,
@@ -31,7 +33,8 @@ namespace constant
         REAPER,
         POLTERGEIST,
         TYPHON,
-        MIMIC
+        MIMIC,
+        LORD
     };
 };
 

@@ -11,34 +11,93 @@ namespace field
         Y
     };
 
-    class node
+    /// @brief
+    class Node
     {
     private:
-        cell info;
-        node *left;
-        node *right;
+        Cell info;
+        Node *left;
+        Node *right;
 
     public:
-        node(const cell &);
-        node(const node &);
-        node(node&&);
+        /// @brief
+        /// @param root_info
+        Node(const Cell &root_info);
 
-        cell get_info();
-        void set_info(const cell &);
+        /// @brief
+        /// @param tree
+        Node(const Node &tree);
 
-        node *insert(node *, const cell &);
-        node *insert(node *, const cell &, const unsigned &);
+        /// @brief 
+        /// @param tree 
+        Node(Node &&tree);
 
-        node *search(node *, const cell &);
-        node *search(node *, const cell &, const unsigned &);
+        ~Node();
 
-        node *find_min(node *, const dimension &);
-        node *find_min(node *, const dimension &, const unsigned &);
+        /// @brief 
+        /// @return 
+        Cell get_info();
 
-        node *delete_node(node *, const cell &);
-        node *delete_node(node *, const cell &, const unsigned &);
+        /// @brief 
+        /// @param cell_info 
+        void set_info(const Cell &cell_info);
 
-        void swap(node *, node *);
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @return 
+        Node *insert(Node *root, const Cell &cell_info);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @param n 
+        /// @return 
+        Node *insert(Node *root, const Cell &cell_info, const unsigned &n);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @return 
+        Node *search(Node *root, const Cell &cell_info);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @param n 
+        /// @return 
+        Node *search(Node *root, const Cell &cell_info, const unsigned &n);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @return 
+        Node *find_min(Node *root, const dimension &cell_info);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @param n 
+        /// @return 
+        Node *find_min(Node *root, const dimension &cell_info, const unsigned &n);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @return 
+        Node *delete_node(Node *root, const Cell &cell_info);
+
+        /// @brief 
+        /// @param root 
+        /// @param cell_info 
+        /// @param n 
+        /// @return 
+        Node *delete_node(Node *root, const Cell &cell_info, const unsigned &n);
+
+        /// @brief 
+        /// @param node_1 
+        /// @param node_2 
+        void swap(Node *node_1, Node *node_2);
     };
 }
 

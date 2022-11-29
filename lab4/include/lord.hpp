@@ -8,7 +8,8 @@
 
 namespace squad
 {
-    class lord : public squad
+    /// @brief class describes lord-player
+    class Lord : public Squad
     {
     private:
         std::string lord_name;
@@ -16,26 +17,71 @@ namespace squad
         unsigned max_energy;
         double accum_coef;
         std::map<constant::school_type, unsigned> knowledge;
-    public:
-        lord();
-        lord(std::string &);
-        lord(std::string &, const unsigned &);
-        lord(std::string &, const unsigned &, const unsigned &);
 
+    public:
+        /// @brief  constructor
+        /// @param name player name
+        Lord(std::string &name);
+
+        /// @brief  constructor
+        /// @param name player name
+        /// @param max_nrgy max energy
+        Lord(std::string &name, const unsigned &max_nrgy);
+
+        /// @brief  constructor
+        /// @param name player name
+        /// @param nrgy energy
+        /// @param max_nrgy max energy
+        Lord(std::string &name, const unsigned &nrgy, const unsigned &max_nrgy);
+
+        /// @brief  getter of player's name
+        /// @return name
         std::string get_name();
+
+        /// @brief  getter of current energy
+        /// @return current energy
         unsigned get_energy();
+
+        /// @brief  getter of max energy
+        /// @return max energy
         unsigned get_max_energy();
+
+        /// @brief  getter of accumulation coefficient
+        /// @return accumulation coefficient
         double get_accum_coef();
+
+        /// @brief  getter of knowledge table
+        /// @return knowledge table
         std::map<constant::school_type, unsigned> get_knowledge();
 
-        void set_name(const std::string &);
-        void set_energy(const unsigned &);
-        void set_max_energy(const unsigned &);
-        void set_accum_coef(const double &);
-        void set_knowledge(const std::map<constant::school_type, unsigned> &);
+        /// @brief  setter of player's name
+        /// @param name name
+        void set_name(const std::string &name);
 
-        void upgrade_school(const constant::school_type &);
-        squad* call_squad(const constant::unit &);
+        /// @brief  setter of current energy
+        /// @param nrgy energy
+        void set_energy(const unsigned &nrgy);
+
+        /// @brief  setter of maximum energy
+        /// @param max_nrgy max energy
+        void set_max_energy(const unsigned &max_nrgy);
+
+        /// @brief  setter of accumulation coefficient
+        /// @param coef accumulation coefficient
+        void set_accum_coef(const double &coef);
+
+        /// @brief  setter of knowledge table
+        /// @param new_knowledge    knowledge table
+        void set_knowledge(const std::map<constant::school_type, unsigned> &new_knowledge);
+
+        /// @brief  upgrade some school level
+        /// @param school   school to upgrade
+        void upgrade_school(const constant::school_type &school);
+
+        /// @brief  call new squad to field
+        /// @param squad_name   squad name to call
+        /// @return new squad pointer
+        Squad *call_squad(const constant::unit &squad_name);
     };
 }
 

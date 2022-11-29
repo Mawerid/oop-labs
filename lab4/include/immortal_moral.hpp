@@ -12,18 +12,27 @@ namespace squad
         MIMIC
     };
 
-    class immortal_moral : public moral, public immortal
+    /// @brief 
+    class Immortal_moral : public Moral, public Immortal
     {
     private:
         immortal_moral_type type;
 
     public:
-        immortal_moral();
-        immortal_moral(const immortal_moral_type &);
+        /// @brief 
+        Immortal_moral();
 
+        /// @brief 
+        /// @param new_type 
+        Immortal_moral(const immortal_moral_type &new_type);
+
+        /// @brief 
+        /// @return 
         immortal_moral_type get_type();
 
-        void set_type(const immortal_moral_type &);
+        /// @brief 
+        /// @param new_type 
+        void set_type(const immortal_moral_type &new_type);
     };
 }
 
