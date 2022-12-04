@@ -23,53 +23,29 @@ namespace school
     {
     }
 
-    void Skill::set_name(const constant::unit &new_name)
-    {
-    }
+    void Skill::set_name(const constant::unit &new_name) { name = new_name; }
 
-    void Skill::set_desc(const squad::Squad &new_decs)
-    {
-    }
+    void Skill::set_desc(const squad::Squad &new_decs) { desc = new_decs; }
 
-    void Skill::set_min_study(const unsigned &new_study)
-    {
-    }
+    void Skill::set_min_study(const unsigned &new_study) { min_study = new_study; }
 
-    void Skill::set_energy(const unsigned &nrgy)
-    {
-    }
+    void Skill::set_energy(const unsigned &nrgy) { energy = nrgy; }
 
-    void Skill::set_count_coef(const unsigned &new_coef)
-    {
-    }
+    void Skill::set_count_coef(const double &new_coef) { count_coef = new_coef; }
 
-    void Skill::set_easy_kill(const std::vector<constant::unit> &new_list)
-    {
-    }
+    void Skill::set_easy_kill(const std::vector<constant::unit> &new_list) { easy_kill = new_list; }
 
-    constant::unit Skill::get_name() const
-    {
-    }
+    constant::unit Skill::get_name() const { return name; }
 
-    squad::Squad Skill::get_desc() const
-    {
-    }
+    squad::Squad Skill::get_desc() const { return desc; }
 
-    unsigned Skill::get_min_study() const
-    {
-    }
+    unsigned Skill::get_min_study() const { return min_study; }
 
-    unsigned Skill::get_energy() const
-    {
-    }
+    unsigned Skill::get_energy() const { return energy; }
 
-    unsigned Skill::get_count_coef() const
-    {
-    }
+    unsigned Skill::get_count_coef() const { return count_coef; }
 
-    std::vector<constant::unit> Skill::get_easy_kill() const
-    {
-    }
+    std::vector<constant::unit> Skill::get_easy_kill() const { return easy_kill; }
 
     void Skill::add_easy_kill(const constant::unit &new_name)
     {

@@ -13,3 +13,6 @@ build
 _deps
 code_review
 external_code
+*.bak
+latex
+html

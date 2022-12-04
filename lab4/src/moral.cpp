@@ -22,25 +22,17 @@ namespace squad
 
     int Moral::get_moral_val() const { return moral; }
 
-    void Moral::set_type(const moral_type &new_type)
-    {
-    }
+    void Moral::set_type(const moral_type &new_type) { type = new_type; }
 
-    void Moral::set_moral_val(const int &new_moral)
-    {
-    }
+    void Moral::set_moral_val(const int &new_moral) { moral = new_moral; }
 
     unsigned Moral::get_damage_val() const { return damage; }
 
     unsigned Moral::get_defense_val() const { return defense; }
 
-    void Moral::set_damage_val(const unsigned &dam)
-    {
-    }
+    void Moral::set_damage_val(const unsigned &dam) { damage = dam; }
 
-    void Moral::set_defense_val(const unsigned &def)
-    {
-    }
+    void Moral::set_defense_val(const unsigned &def) { defense = def; }
 
     void Moral::hit(Squad *squad)
     {
@@ -54,7 +46,5 @@ namespace squad
     {
     }
 
-    void Moral::mod_moral(const int &modif)
-    {
-    }
+    void Moral::mod_moral(const int &modif) { moral += modif; }
 }

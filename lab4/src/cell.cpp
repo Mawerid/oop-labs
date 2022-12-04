@@ -66,7 +66,7 @@ namespace field
         coor->set_y(coor_new->get_y());
     }
 
-    Cell::Cell(point *coor_new = nullptr, const cell_type &type_new, squad::squad *fill = nullptr): type(type_new), filling(fill), coor(coor_new) {}
+    Cell::Cell(point *coor_new = nullptr, const cell_type &type_new, squad::Squad *fill = nullptr): type(type_new), filling(fill), coor(coor_new) {}
 
     Cell::Cell(const Cell &old_cell)
     {
@@ -74,7 +74,7 @@ namespace field
         coor = new point;
         coor->set_x(old_cell.coor->get_x());
         coor->set_y(old_cell.coor->get_y());
-        filling = new squad::squad(*old_cell.filling);
+        filling = new squad::Squad(*old_cell.filling);
     }
 
     Cell::Cell(Cell &&old_cell)
@@ -96,13 +96,13 @@ namespace field
 
     cell_type Cell::get_type() const { return type; }
 
-    squad::squad *Cell::get_filling() const { return filling; }
+    squad::Squad *Cell::get_filling() const { return filling; }
 
     point *Cell::get_coor() const { return coor; }
 
     void Cell::set_type(const cell_type &type_new) { type = type_new; }
 
-    void Cell::set_filling(squad::squad *fill) { filling = fill; }
+    void Cell::set_filling(squad::Squad *fill) { filling = fill; }
 
     void Cell::set_coor(point *coor_new) { coor = coor_new; }
 

@@ -18,13 +18,9 @@ namespace school
     {
     }
 
-    void School::set_type(const constant::school_type &new_type)
-    {
-    }
+    void School::set_type(const constant::school_type &new_type) { type = new_type; }
 
-    void School::set_skill_list(const std::list<Skill> &new_skill_list)
-    {
-    }
+    void School::set_skill_list(const std::list<Skill> &new_skill_list) { skill_list = new_skill_list; }
 
     void School::add_skill(const Skill &new_skill)
     {

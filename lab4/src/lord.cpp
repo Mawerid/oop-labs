@@ -39,30 +39,15 @@ namespace squad
 
     std::map<constant::school_type, unsigned> Lord::get_knowledge() { return knowledge; }
 
-    void Lord::set_name(const std::string &name)
-    {
-        lord_name = name;
-    }
+    void Lord::set_name(const std::string &name) { lord_name = name; }
 
-    void Lord::set_energy(const unsigned &nrgy)
-    {
-        energy = nrgy;
-    }
+    void Lord::set_energy(const unsigned &nrgy) { energy = nrgy; }
 
-    void Lord::set_max_energy(const unsigned &max_nrgy)
-    {
-        max_energy = max_nrgy;
-    }
+    void Lord::set_max_energy(const unsigned &max_nrgy) { max_energy = max_nrgy; }
 
-    void Lord::set_accum_coef(const double &coef)
-    {
-        accum_coef = coef;
-    }
+    void Lord::set_accum_coef(const double &coef) { accum_coef = coef; }
 
-    void Lord::set_knowledge(const std::map<constant::school_type, unsigned> &new_knowledge)
-    {
-        knowledge = new_knowledge;
-    }
+    void Lord::set_knowledge(const std::map<constant::school_type, unsigned> &new_knowledge) { knowledge = new_knowledge; }
 
     void Lord::upgrade_school(const constant::school_type &school)
     {

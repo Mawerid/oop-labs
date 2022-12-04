@@ -11,6 +11,7 @@
 
 namespace game
 {
+    /// @brief class of all map
     class Landscape
     {
     private:
@@ -19,47 +20,47 @@ namespace game
         std::list<squad::Squad> units_list;
 
     public:
-        /// @brief 
+        /// @brief  empty constructor
         Landscape();
 
-        /// @brief 
-        /// @param root 
+        /// @brief  cosntructor
+        /// @param root filed
         Landscape(field::Node *root);
 
-        /// @brief 
-        /// @param new_table 
+        /// @brief  setter of schools table
+        /// @param new_table    new table of schools of player
         void set_school_table(const std::map<constant::school_type, school::School> &new_table);
 
-        /// @brief 
-        /// @param root 
+        /// @brief  setter of field(map)
+        /// @param root root of 2D tree
         void set_map(field::Node *root);
 
-        /// @brief 
-        /// @param new_list 
+        /// @brief  setter of units list
+        /// @param new_list new units list
         void set_units_list(const std::list<squad::Squad> &new_list);
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of school table
+        /// @return school table
         std::map<constant::school_type, school::School> get_school_table() const;
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of field(map)
+        /// @return root to field(map)
         field::Node *get_map() const;
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of units list
+        /// @return units list
         std::list<squad::Squad> get_units_list() const;
 
-        /// @brief 
-        /// @param cell_1 
-        /// @param cell_2 
+        /// @brief  move squad from one cell to another
+        /// @param cell_1   cell from
+        /// @param cell_2   cell to
         void move_squad(field::Cell *cell_1, field::Cell *cell_2);
 
-        /// @brief 
-        /// @param cell 
+        /// @brief  set squad to cell
+        /// @param cell cell to set
         void set_squad(field::Cell *cell);
 
-        /// @brief 
+        /// @brief  function of playing each squad
         void play_next();
     };
 }

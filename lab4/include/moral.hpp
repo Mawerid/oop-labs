@@ -14,6 +14,7 @@ namespace squad
         POLTERGEIST
     };
 
+    /// @brief class of moral unit type
     class Moral : public Unit
     {
     protected:
@@ -21,39 +22,39 @@ namespace squad
         int moral;
 
     public:
-        /// @brief
+        /// @brief  empty constructor
         Moral();
 
-        /// @brief
-        /// @param new_type
+        /// @brief  constructor
+        /// @param new_type type of moral unit
         Moral(const moral_type &new_type);
 
-        /// @brief
+        /// @brief  constructor
         /// @param new_type
         /// @param new_moral
         Moral(const moral_type &new_type, const int &new_moral);
 
-        /// @brief
-        /// @param new_type
-        /// @param new_moral
-        /// @param damage
-        /// @param defense
+        /// @brief  constructor
+        /// @param new_type type of moral unit
+        /// @param new_moral    moral value
+        /// @param damage   amount of damage
+        /// @param defense  amoubt of defense
         Moral(const moral_type &new_type, const int &new_moral, const unsigned &damage, const unsigned &defense);
 
-        /// @brief
-        /// @return
+        /// @brief  getter of type
+        /// @return type of moral unit
         moral_type get_type() const;
 
-        /// @brief
-        /// @return
+        /// @brief  getter of moral
+        /// @return moral value
         int get_moral_val() const;
 
-        /// @brief
-        /// @param new_type
+        /// @brief  setter of type
+        /// @param new_type new type of amoral unit
         void set_type(const moral_type &new_type);
 
-        /// @brief
-        /// @param new_moral
+        /// @brief  setter of moral
+        /// @param new_moral    new moral value
         void set_moral_val(const int &new_moral);
 
         /// @brief  getter of damage
@@ -80,11 +81,11 @@ namespace squad
         /// @param squad    squad get hit from
         void defence(Squad *squad);
 
-        /// @brief
+        /// @brief  func to balance moral near 0
         void balance();
 
-        /// @brief
-        /// @param modif
+        /// @brief  modificate moral
+        /// @param modif    moral value to add
         void mod_moral(const int &modif);
     };
 }

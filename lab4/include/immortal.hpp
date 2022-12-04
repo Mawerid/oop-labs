@@ -3,7 +3,7 @@
 
 namespace squad
 {
-    /// @brief
+    /// @brief  class of immortal unit type
     class Immortal
     {
     private:
@@ -11,39 +11,39 @@ namespace squad
         double probability;
 
     public:
-        /// @brief
+        /// @brief empty constructor
         Immortal();
 
-        /// @brief
-        /// @param restore_val
+        /// @brief  constructor
+        /// @param restore_val  value of creatures, that can be restored
         Immortal(const unsigned &restore_val);
 
-        /// @brief
-        /// @param prob_val
+        /// @brief  constructor
+        /// @param prob_val probability of restoring creatures
         Immortal(const double &prob_val);
 
-        /// @brief
-        /// @param restore_val
-        /// @param prob_val
+        /// @brief  constructor
+        /// @param restore_val  value of creatures, that can be restored
+        /// @param prob_val probability of restoring creatures
         Immortal(const unsigned &restore_val, const double &prob_val);
 
-        /// @brief
-        /// @return
+        /// @brief  getter of restoration value
+        /// @return restoration value
         unsigned get_restore();
 
-        /// @brief
-        /// @return
+        /// @brief  getter of probability value
+        /// @return probability value
         double get_probability();
 
-        /// @brief
-        /// @param restore_val
+        /// @brief  setter of restoration value
+        /// @param restore_val  new amount of creatures, that can be restored
         void set_restore(const unsigned &restore_val);
 
-        /// @brief
-        /// @param prob_val
+        /// @brief  setter of probability value
+        /// @param prob_val new probability value
         void set_probability(const double &prob_val);
 
-        /// @brief
+        /// @brief  func, that can restore some creatures in squad
         void heal();
     };
 }

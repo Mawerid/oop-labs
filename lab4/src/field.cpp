@@ -21,9 +21,7 @@ namespace field
 
     Cell Node::get_info() { return info; }
 
-    void Node::set_info(const Cell &cell_info)
-    {
-    }
+    void Node::set_info(const Cell &cell_info)    {  info = cell_info;  }
 
     Node *Node::insert(Node *root, const Cell &cell_info)
     {

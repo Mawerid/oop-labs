@@ -74,47 +74,23 @@ namespace squad
         name = squad.name;
     }
 
-    Squad::~Squad() { }
+    Squad::~Squad() {}
 
-    void Squad::set_motivation(const unsigned &motiv)
-    {
-        motivation = motiv;
-    }
+    void Squad::set_motivation(const unsigned &motiv) { motivation = motiv; }
 
-    void Squad::set_health(const unsigned &heal)
-    {
-        health = heal;
-    }
+    void Squad::set_health(const unsigned &heal) { health = heal; }
 
-    void Squad::set_max_health(const unsigned &max_heal)
-    {
-        max_health = max_heal;
-    }
+    void Squad::set_max_health(const unsigned &max_heal) { max_health = max_heal; }
 
-    void Squad::set_speed(const unsigned &spd)
-    {
-        speed = spd;
-    }
+    void Squad::set_speed(const unsigned &spd) { speed = spd; }
 
-    void Squad::set_experience(const unsigned &exp)
-    {
-        experience = exp;
-    }
+    void Squad::set_experience(const unsigned &exp) { experience = exp; }
 
-    void Squad::set_team(const unsigned &new_team)
-    {
-        team = new_team;
-    }
+    void Squad::set_team(const unsigned &new_team) { team = new_team; }
 
-    void Squad::set_quantity(const size_t &quant)
-    {
-        quantity = quant;
-    }
+    void Squad::set_quantity(const size_t &quant) { quantity = quant; }
 
-    void Squad::set_name(const constant::unit &new_name)
-    {
-        name = new_name;
-    }
+    void Squad::set_name(const constant::unit &new_name) { name = new_name; }
 
     unsigned Squad::get_motivation() const { return motivation; }
     unsigned Squad::get_health() const { return health; }
@@ -129,7 +105,7 @@ namespace squad
 
     void Squad::get_hit(unsigned &damage)
     {
-        if (health < damage) 
+        if (health < damage)
         {
             health = 0;
             die();

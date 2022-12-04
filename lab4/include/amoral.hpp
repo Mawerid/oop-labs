@@ -14,32 +14,32 @@ namespace squad
         TYPHON
     };
 
-    /// @brief 
+    /// @brief class of amoral unit type
     class Amoral : public Unit
     {
     protected:
         amoral_type type;
 
     public:
-        /// @brief 
+        /// @brief  empty constructor
         Amoral();
 
-        /// @brief 
-        /// @param new_type 
+        /// @brief  constructor
+        /// @param new_type type of amoral unit
         Amoral(const amoral_type &new_type);
 
-        /// @brief 
-        /// @param new_type 
-        /// @param damage 
-        /// @param defense 
+        /// @brief   constructor
+        /// @param new_type type of amoral unit
+        /// @param damage   amount of damage
+        /// @param defense  amoubt of defense
         Amoral(const amoral_type &new_type, const unsigned &damage, const unsigned &defense);
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of type
+        /// @return type of amoral unit
         amoral_type get_type() const;
 
-        /// @brief 
-        /// @param new_type 
+        /// @brief  setter of type
+        /// @param new_type new type of amoral unit
         void set_type(const amoral_type &new_type);
 
         /// @brief  getter of damage
@@ -59,7 +59,7 @@ namespace squad
         void set_defense_val(const unsigned &def);
 
         /// @brief  hit other squad
-        /// @param squad    squad to hit   
+        /// @param squad    squad to hit
         void hit(Squad *squad);
 
         /// @brief  get damage from other squad

@@ -11,7 +11,7 @@ namespace field
         Y
     };
 
-    /// @brief
+    /// @brief  class of field (in 2D tree)
     class Node
     {
     private:
@@ -20,83 +20,83 @@ namespace field
         Node *right;
 
     public:
-        /// @brief
-        /// @param root_info
+        /// @brief  constructor
+        /// @param root_info    root's cell
         Node(const Cell &root_info);
 
-        /// @brief
-        /// @param tree
+        /// @brief  copy constructor
+        /// @param tree tree to copy
         Node(const Node &tree);
 
-        /// @brief 
-        /// @param tree 
+        /// @brief  move constructor
+        /// @param tree tree to move
         Node(Node &&tree);
 
         ~Node();
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of info(cell) of node
+        /// @return info(cell)
         Cell get_info();
 
-        /// @brief 
-        /// @param cell_info 
+        /// @brief  setter of info(cell) of node
+        /// @param cell_info    info(cell)
         void set_info(const Cell &cell_info);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @return 
+        /// @brief  insertion in tree
+        /// @param root root of tree
+        /// @param cell_info    cell to insert
+        /// @return new root
         Node *insert(Node *root, const Cell &cell_info);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @param n 
-        /// @return 
+        /// @brief  recursive insertion in tree (help function)
+        /// @param root root of tree
+        /// @param cell_info    cell to insert
+        /// @param n    depth in tree
+        /// @return new root node
         Node *insert(Node *root, const Cell &cell_info, const unsigned &n);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @return 
+        /// @brief  search in tree
+        /// @param root root of tree
+        /// @param cell_info    cell to search
+        /// @return new root
         Node *search(Node *root, const Cell &cell_info);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @param n 
-        /// @return 
+        /// @brief  recursive search in tree (help function)
+        /// @param root root of tree
+        /// @param cell_info    cell to search
+        /// @param n    depth in tree
+        /// @return new root node
         Node *search(Node *root, const Cell &cell_info, const unsigned &n);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @return 
+        /// @brief  find minimal in tree
+        /// @param root root of tree
+        /// @param cell_info    cell to find min
+        /// @return new root
         Node *find_min(Node *root, const dimension &cell_info);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @param n 
-        /// @return 
+        /// @brief  recursive find minimal in tree (help function)
+        /// @param root root of tree
+        /// @param cell_info    cell to find
+        /// @param n    depth in tree
+        /// @return new root node
         Node *find_min(Node *root, const dimension &cell_info, const unsigned &n);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @return 
+        /// @brief  delete in tree
+        /// @param root root of tree
+        /// @param cell_info    cell to delete
+        /// @return new root
         Node *delete_node(Node *root, const Cell &cell_info);
 
-        /// @brief 
-        /// @param root 
-        /// @param cell_info 
-        /// @param n 
-        /// @return 
+        /// @brief  recursive delete in tree (help function)
+        /// @param root root of tree
+        /// @param cell_info    cell to delete
+        /// @param n    depth in tree
+        /// @return new root node
         Node *delete_node(Node *root, const Cell &cell_info, const unsigned &n);
 
-        /// @brief 
-        /// @param node_1 
-        /// @param node_2 
+        /// @brief  swapping function of two nodes
+        /// @param node_1   node from
+        /// @param node_2   mode to
         void swap(Node *node_1, Node *node_2);
     };
 }

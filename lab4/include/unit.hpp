@@ -5,7 +5,7 @@
 
 namespace squad
 {
-    /// @brief
+    /// @brief  class of all units (abstact class)
     class Unit : public Squad
     {
     protected:
@@ -38,7 +38,7 @@ namespace squad
         virtual void set_defense_val(const unsigned &def);
 
         /// @brief  hit other squad
-        /// @param squad    squad to hit   
+        /// @param squad    squad to hit
         virtual void hit(Squad *squad);
 
         /// @brief  get damage from other squad

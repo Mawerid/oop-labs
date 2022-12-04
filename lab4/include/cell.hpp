@@ -72,7 +72,7 @@ namespace field
     private:
         cell_type type;
         point *coor = nullptr;
-        squad::squad *filling = nullptr;
+        squad::Squad *filling = nullptr;
 
     public:
         /// @brief  empty constructor
@@ -90,7 +90,7 @@ namespace field
         /// @param coor_new    coordinates of Cell in field
         /// @param type type of Cell
         /// @param fill filling of the Cell
-        Cell(point *coor_new, const cell_type &c_type, squad::squad *fill = nullptr);
+        Cell(point *coor_new, const cell_type &c_type, squad::Squad *fill = nullptr);
 
         /// @brief  copy constructor
         /// @param old_cell Cell to copy
@@ -108,7 +108,7 @@ namespace field
 
         /// @brief  getter of the filling
         /// @return pointer to filling squad of Cell
-        squad::squad *get_filling() const;
+        squad::Squad *get_filling() const;
 
         /// @brief  getter of the coordinates of Cell
         /// @return point contains coordinates of Cell
@@ -120,7 +120,7 @@ namespace field
 
         /// @brief  setter of the filling of Cell
         /// @param fill pointer to squad
-        void set_filling(squad::squad *fill);
+        void set_filling(squad::Squad *fill);
 
         /// @brief  setter of the coordinates of Cell
         /// @param coor_new    point contains coordinates of Cell

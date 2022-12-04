@@ -7,7 +7,7 @@
 
 namespace school
 {
-    /// @brief
+    /// @brief  class of schools in game
     class School
     {
     private:
@@ -15,42 +15,42 @@ namespace school
         std::list<Skill> skill_list;
 
     public:
-        /// @brief 
-        /// @param new_type 
+        /// @brief  constructor
+        /// @param new_type type of school(name)
         School(const constant::school_type &new_type);
 
-        /// @brief 
-        /// @param new_type 
-        /// @param new_skill 
+        /// @brief  constructor
+        /// @param new_type type of school(name)
+        /// @param new_skill    skiil of this school
         School(const constant::school_type &new_type, const Skill &new_skill);
 
-        /// @brief 
-        /// @param new_type 
-        /// @param new_skill_list 
+        /// @brief  constructor
+        /// @param new_type type of school(name)
+        /// @param new_skill_list   list of skills of this school
         School(const constant::school_type &new_type, const std::list<Skill> &new_skill_list);
 
-        /// @brief 
-        /// @param school 
+        /// @brief  copy constructor
+        /// @param school   school to copy
         School(const School &school);
 
-        /// @brief 
-        /// @param new_type 
+        /// @brief  setter of new type
+        /// @param new_type new type of school
         void set_type(const constant::school_type &new_type);
 
-        /// @brief 
-        /// @param new_skill_list 
+        /// @brief  setter of skill list
+        /// @param new_skill_list   new skill list
         void set_skill_list(const std::list<Skill> &new_skill_list);
 
-        /// @brief 
-        /// @param new_skill 
+        /// @brief  add func to current skill list
+        /// @param new_skill    skill to add
         void add_skill(const Skill &new_skill);
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of school's type
+        /// @return school's type
         constant::school_type get_type() const;
 
-        /// @brief 
-        /// @return 
+        /// @brief  getter of list of skills
+        /// @return skills list
         std::list<Skill> get_skill_list() const;
     };
 }
