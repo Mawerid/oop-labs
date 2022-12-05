@@ -90,7 +90,7 @@ namespace field
         /// @param coor_new    coordinates of Cell in field
         /// @param type type of Cell
         /// @param fill filling of the Cell
-        Cell(point *coor_new, const cell_type &c_type, squad::Squad *fill = nullptr);
+        Cell(point *coor_new, const cell_type &c_type, squad::Squad *fill);
 
         /// @brief  copy constructor
         /// @param old_cell Cell to copy
@@ -130,6 +130,11 @@ namespace field
         /// @param other_cell   Cell to compare
         /// @return if two points are equal or not
         bool operator==(const Cell &other_cell) const;
+
+        /// @brief  operator of assignment
+        /// @param cell cell to assign
+        /// @return new state if class object (this)
+        Cell operator=(Cell cell);
     };
 }
 

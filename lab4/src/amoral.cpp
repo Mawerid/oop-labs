@@ -4,15 +4,23 @@ namespace squad
 {
     Amoral::Amoral()
     {
+        type = squad::amoral_type::CENTRY;
     }
 
     Amoral::Amoral(const amoral_type &new_type)
     {
+        type = new_type;
     }
 
-    Amoral::Amoral(const amoral_type &new_type, const unsigned &damage, const unsigned &defense)
+    Amoral::Amoral(const amoral_type &new_type, const unsigned &dmg, const unsigned &def)
     {
+        type = new_type;
+        damage = dmg;
+        defense = def;
     }
+
+    Amoral::~Amoral()
+    {}
 
     amoral_type Amoral::get_type() const { return type; }
 

@@ -78,7 +78,13 @@ namespace squad
 
     void Squad::set_motivation(const unsigned &motiv) { motivation = motiv; }
 
-    void Squad::set_health(const unsigned &heal) { health = heal; }
+    void Squad::set_health(const unsigned &heal)
+    {
+        if (heal <= max_health)
+            health = heal;
+        else
+            health = max_health;
+    }
 
     void Squad::set_max_health(const unsigned &max_heal) { max_health = max_heal; }
 
@@ -115,6 +121,10 @@ namespace squad
     }
 
     void Squad::die()
+    {
+    }
+
+    Squad Squad::operator=(const Squad &squad)
     {
     }
 }

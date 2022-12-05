@@ -126,6 +126,11 @@ namespace squad
 
         /// @brief  die func of squad
         void die();
+
+        /// @brief  operator of assignment
+        /// @param squad    squad to assign
+        /// @return new state of class object (this)
+        Squad operator=(const Squad &squad);
     };
 }
 

@@ -66,7 +66,7 @@ namespace field
         coor->set_y(coor_new->get_y());
     }
 
-    Cell::Cell(point *coor_new = nullptr, const cell_type &type_new, squad::Squad *fill = nullptr): type(type_new), filling(fill), coor(coor_new) {}
+    Cell::Cell(point *coor_new, const cell_type &type_new, squad::Squad *fill): type(type_new), filling(fill), coor(coor_new) {}
 
     Cell::Cell(const Cell &old_cell)
     {
@@ -112,5 +112,14 @@ namespace field
             return true;
         else
             return false;
+    }
+
+    Cell Cell::operator=(Cell cell)
+    {
+        type = cell.type;
+        filling = cell.filling;
+        coor = cell.coor;
+        
+        return *this;
     }
 }

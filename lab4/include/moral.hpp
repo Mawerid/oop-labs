@@ -37,9 +37,11 @@ namespace squad
         /// @brief  constructor
         /// @param new_type type of moral unit
         /// @param new_moral    moral value
-        /// @param damage   amount of damage
-        /// @param defense  amoubt of defense
-        Moral(const moral_type &new_type, const int &new_moral, const unsigned &damage, const unsigned &defense);
+        /// @param dmg  amount of damage
+        /// @param def  amoubt of defense
+        Moral(const moral_type &new_type, const int &new_moral, const unsigned &dmg, const unsigned &def);
+
+        ~Moral();
 
         /// @brief  getter of type
         /// @return type of moral unit

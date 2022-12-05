@@ -1,3 +1,4 @@
-add_executable(lab3 main.cpp)
+add_executable(game main.cpp)
 
-target_link_libraries(lab3 dialog word)
+target_link_libraries(game cell amoral field immortal_amoral immortal_moral immortal interface lord landscape moral school skill squad)
+

@@ -30,9 +30,11 @@ namespace squad
 
         /// @brief   constructor
         /// @param new_type type of amoral unit
-        /// @param damage   amount of damage
-        /// @param defense  amoubt of defense
-        Amoral(const amoral_type &new_type, const unsigned &damage, const unsigned &defense);
+        /// @param dmg  amount of damage
+        /// @param def  amoubt of defense
+        Amoral(const amoral_type &new_type, const unsigned &dmg, const unsigned &def);
+
+        ~Amoral();
 
         /// @brief  getter of type
         /// @return type of amoral unit
