@@ -2,15 +2,9 @@
 
 namespace squad
 {
-    Amoral::Amoral()
-    {
-        type = squad::amoral_type::CENTRY;
-    }
+    Amoral::Amoral() { type = squad::amoral_type::CENTRY; }
 
-    Amoral::Amoral(const amoral_type &new_type)
-    {
-        type = new_type;
-    }
+    Amoral::Amoral(const amoral_type &new_type) { type = new_type; }
 
     Amoral::Amoral(const amoral_type &new_type, const unsigned &dmg, const unsigned &def)
     {
@@ -20,7 +14,8 @@ namespace squad
     }
 
     Amoral::~Amoral()
-    {}
+    {
+    }
 
     amoral_type Amoral::get_type() const { return type; }
 
@@ -34,11 +29,11 @@ namespace squad
 
     void Amoral::set_defense_val(const unsigned &def) { defense = def; }
 
-    void Amoral::hit(Squad *squad)
-    {
-    }
+    void Amoral::hit(Squad *squad) { squad->get_hit(damage); }
 
     void Amoral::defence(Squad *squad)
     {
+        
+        // this->get_hit(squad.get_damage())
     }
 }

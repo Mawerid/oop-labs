@@ -120,11 +120,19 @@ namespace squad
             health -= damage;
     }
 
-    void Squad::die()
-    {
-    }
+    void Squad::die() {}
 
     Squad Squad::operator=(const Squad &squad)
     {
+        motivation = squad.motivation;
+        health = squad.health;
+        max_health = squad.max_health;
+        quantity = squad.quantity;
+        speed = squad.speed;
+        experience = squad.experience;
+        team = squad.team;
+        name = squad.name;
+
+        return *this;
     }
 }

@@ -29,7 +29,8 @@ namespace squad
     }
 
     Moral::~Moral()
-    {}
+    {
+    }
 
     moral_type Moral::get_type() const { return type; }
 
@@ -47,20 +48,17 @@ namespace squad
 
     void Moral::set_defense_val(const unsigned &def) { defense = def; }
 
-    void Moral::hit(Squad *squad)
-    {
-        squad->get_hit(damage);
-    }
+    void Moral::hit(Squad *squad) { squad->get_hit(damage); }
 
     void Moral::defence(Squad *squad)
     {
 
-        //this->get_hit(squad)
+        // this->get_hit(squad.get_damage())
     }
 
     void Moral::balance()
     {
-        if(moral > 0)
+        if (moral > 0)
             moral--;
         else if (moral < 0)
             moral++;

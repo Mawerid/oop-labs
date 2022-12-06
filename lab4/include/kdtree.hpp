@@ -1,215 +1,156 @@
-#ifndef KDTREE_HPP
-#define KDTREE_HPP
+#ifndef KDTREE_H
+#define KDTREE_H
 
-#include <algorithm>
-#include <array>
-#include <cmath>
-#include <iostream>
-#include <random>
 #include <vector>
+#include <memory>
+#include <numeric>
+#include <iostream>
 
-/// @brief  class for representing a point. coordinate_type must be a numeric type
-template <typename coordinate_type, size_t dimensions>
-class Point
+namespace std
 {
-private:
-    std::array<coordinate_type, dimensions> coords_;
-
-public:
-    /// @brief
-    /// @param c
-    Point(std::array<coordinate_type, dimensions> c) : coords_(c) {}
-
-    /// @brief
-    /// @param list
-    Point(std::initializer_list<coordinate_type> list)
+    /// @brief  class of node in KD-tree
+    /// @tparam PointType
+    /// @tparam SplitDimension
+    template <typename PointType, int SplitDimension>
+    class Node
     {
-        size_t n = std::min(dimensions, list.size());
-        std::copy_n(list.begin(), n, coords_.begin());
-    }
+    public:
+        typedef Node<PointType, (SplitDimension + 1) % PointType::dimension> ChildType;
 
-    /// @brief returns the coordinate in the given dimension
-    /// @param index dimension index
-    /// @return coordinate in the given dimension
-    coordinate_type get(size_t index) const
+        Node(size_t ind) : treeIndex(ind) {}
+        size_t treeIndex;
+        std::unique_ptr<ChildType> leftChild, rightChild;
+    };
+
+    /// @brief  class of KD-tree template
+    /// @tparam PointType
+    /// @tparam PointArray
+    template <typename PointType, typename PointArray = std::vector<PointType>>
+    class KDTree
     {
-        return coords_[index];
-    }
-    /**
-     * Returns the distance squared from this point to another
-     * point.
-     *
-     * @param pnt another point
-     * @return distance squared from this point to the other point
-     */
-    double distance(const Point &pnt) const
-    {
-        double dist = 0;
-        for (size_t i = 0; i < dimensions; ++i)
+    private:
+        std::unique_ptr<Node<PointType, 0>> root;
+        PointArray points;
+        std::vector<size_t> pointIndeces;
+
+        /// @brief  fubction to build tree from vector iterator
+        /// @tparam SplitDimension
+        /// @param begin    begin iterator
+        /// @param end  end iterator
+        /// @return pointer to KD tree
+        template <int SplitDimension>
+        std::unique_ptr<Node<PointType, SplitDimension>> buildSubtree(std::vector<size_t>::iterator begin, std::vector<size_t>::iterator end);
+
+        /// @brief  print tree
+        /// @tparam SplitDimension
+        /// @param node tree to print
+        template <int SplitDimension>
+        void dumpSubtree(std::unique_ptr<Node<PointType, SplitDimension>> &node);
+
+        /// @brief  func, that return subtree's points, that in cube 
+        /// @tparam SplitDimension
+        /// @param testPoint    central point
+        /// @param queryRange   K dimention range
+        /// @param node subtree
+        /// @param ret  return value
+        template <int SplitDimension>
+        void getPointsWithinCubeSubtree(PointType testPoint, double queryRange[2 * PointType::dimension], std::unique_ptr<Node<PointType, SplitDimension>> &node, std::vector<size_t> &ret);
+
+        /// @brief  check if point in range (in K dimention)
+        /// @param testPoint    point to check
+        /// @param queryRange   K dimention range
+        /// @return is point in range or not
+        static bool pointInRange(PointType testPoint, double queryRange[2 * PointType::dimension])
         {
-            double d = get(i) - pnt.get(i);
-            dist += d * d;
-        }
-        return dist;
-    }
-};
+            for (int i = 0; i < PointType::dimension; ++i)
+                if (testPoint.getDimension(i) < queryRange[2 * i] || testPoint.getDimension(i) > queryRange[2 * i + 1])
+                    return false;
 
-template <typename coordinate_type, size_t dimensions>
-std::ostream &operator<<(std::ostream &out, const Point<coordinate_type, dimensions> &pnt)
-{
-    out << '(';
-    for (size_t i = 0; i < dimensions; ++i)
-    {
-        if (i > 0)
-            out << ", ";
-        out << pnt.get(i);
-    }
-    out << ')';
-    return out;
+            return true;
+        }
+
+        /// @brief  function, that find minimum value in subtree
+        /// @tparam SplitDimension
+        /// @param dimension    dimention of value
+        /// @param node subtree's root
+        /// @return minimum value
+        template <int SplitDimension>
+        size_t findMinSubtree(int dimension, std::unique_ptr<Node<PointType, SplitDimension>> &node);
+
+        /// @brief  delete node from subtree
+        /// @tparam SplitDimension
+        /// @param nodeIndex    index of node
+        /// @param node node to delete
+        /// @return new root of subtree
+        template <int SplitDimension>
+        std::unique_ptr<Node<PointType, SplitDimension>> deleteFromSubtree(size_t nodeIndex, std::unique_ptr<Node<PointType, SplitDimension>> &node);
+
+/*
+        /// @brief  
+        /// @tparam function
+        /// @tparam SplitDimension
+        /// @param func 
+        /// @param node subtree's root
+        template <int SplitDimension, typename function>
+        void inorderTraversalSubtree(function func, std::unique_ptr<Node<PointType, SplitDimension>> &node);
+*/
+        /// @brief  insertion in tree
+        /// @tparam SplitDimension
+        /// @param node root of subtree
+        /// @param pointIndex   index of point
+        /// @return new root of subtree
+        template <int SplitDimension>
+        std::unique_ptr<Node<PointType, SplitDimension>> insertPointSubtree(std::unique_ptr<Node<PointType, SplitDimension>> &node, size_t pointIndex);
+
+    public:
+        /// @brief  constructor
+        KDTree() {}
+
+        /// @brief  constructor
+        /// @param pointsIn array of points
+        KDTree(const PointArray &pointsIn) { buildTree(pointsIn); }
+
+        /// @brief  func, that make tree from array of points
+        /// @param pointsIn array of points
+        void buildTree(const PointArray &pointsIn);
+
+        /// @brief  print all tree
+        void dumpTreeInorder();
+
+        /// @brief  make inorder traversal with function 
+        /// @tparam function
+        /// @param func function
+        template <typename function>
+        void inorderTraversal(function func);
+
+        /// @brief  function that return points in some cube
+        /// @param testPoint    central point
+        /// @param radius   radius of area
+        /// @return vector with all points in cube
+        std::vector<size_t> getPointsWithinCube(PointType testPoint, double radius);
+
+        /// @brief  find minimal
+        /// @param dimension    in which dimension
+        /// @return index of minimal
+        size_t findMin(int dimension);
+
+        /// @brief  print node
+        /// @param i   index of node 
+        void dumpNode(size_t i) { std::cout << points[i] << std::endl; }
+
+        /// @brief  delete point 
+        /// @param nodeIndex    index of point to delete
+        void deletePoint(size_t nodeIndex);
+
+        /// @brief  get point from index
+        /// @param nodeIndex    index of point
+        /// @return point
+        PointType getPoint(size_t nodeIndex) { return points[nodeIndex]; }
+
+        /// @brief  insertion in tree
+        /// @param p    point to insert
+        void insertPoint(const PointType &p);
+    };
 }
-
-/**
- * C++ k-d tree implementation, based on the C version at rosettacode.org.
- */
-template <typename coordinate_type, size_t dimensions>
-class kdtree
-{
-public:
-    typedef Point<coordinate_type, dimensions> Point_type;
-
-private:
-    struct node
-    {
-        node(const Point_type &pnt) : point(pnt), left(nullptr), right(nullptr) {}
-        coordinate_type get(size_t index) const
-        {
-            return point.get(index);
-        }
-        double distance(const Point_type &pnt) const
-        {
-            return point.distance(pnt);
-        }
-        Point_type point;
-        node *left;
-        node *right;
-    };
-    node *root = nullptr;
-    node *best = nullptr;
-    double best_dist_ = 0;
-    size_t visited_ = 0;
-    std::vector<node> nodes_;
-
-    struct node_cmp
-    {
-        node_cmp(size_t index) : index_(index) {}
-        bool operator()(const node &n1, const node &n2) const
-        {
-            return n1.point.get(index_) < n2.point.get(index_);
-        }
-        size_t index_;
-    };
-
-    node *make_tree(size_t begin, size_t end, size_t index)
-    {
-        if (end <= begin)
-            return nullptr;
-        size_t n = begin + (end - begin) / 2;
-        auto i = nodes_.begin();
-        std::nth_element(i + begin, i + n, i + end, node_cmp(index));
-        index = (index + 1) % dimensions;
-        nodes_[n].left = make_tree(begin, n, index);
-        nodes_[n].right = make_tree(n + 1, end, index);
-        return &nodes_[n];
-    }
-
-    void nearest(node *root, const Point_type &Point, size_t index)
-    {
-        if (root == nullptr)
-            return;
-        ++visited_;
-        double d = root->distance(Point);
-        if (best == nullptr || d < best_dist_)
-        {
-            best_dist_ = d;
-            best = root;
-        }
-        if (best_dist_ == 0)
-            return;
-        double dx = root->get(index) - Point.get(index);
-        index = (index + 1) % dimensions;
-        nearest(dx > 0 ? root->left : root->right, Point, index);
-        if (dx * dx >= best_dist_)
-            return;
-        nearest(dx > 0 ? root->right : root->left, Point, index);
-    }
-
-public:
-    kdtree(const kdtree &) = delete;
-    kdtree &operator=(const kdtree &) = delete;
-    /**
-     * Constructor taking a pair of iterators. Adds each
-     * Point in the range [begin, end) to the tree.
-     *
-     * @param begin start of range
-     * @param end end of range
-     */
-    template <typename iterator>
-    kdtree(iterator begin, iterator end) : nodes_(begin, end)
-    {
-        root = make_tree(0, nodes_.size(), 0);
-    }
-
-    /**
-     * Constructor taking a function object that generates
-     * Points. The function object will be called n times
-     * to populate the tree.
-     *
-     * @param f function that returns a Point
-     * @param n number of Points to add
-     */
-    template <typename func>
-    kdtree(func &&f, size_t n)
-    {
-        nodes_.reserve(n);
-        for (size_t i = 0; i < n; ++i)
-            nodes_.push_back(f());
-        root = make_tree(0, nodes_.size(), 0);
-    }
-
-    /**
-     * Returns true if the tree is empty, false otherwise.
-     */
-    bool empty() const { return nodes_.empty(); }
-
-    /**
-     * Returns the number of nodes visited by the last call
-     * to nearest().
-     */
-    size_t visited() const { return visited_; }
-
-    /**
-     * Returns the distance between the input Point and return value
-     * from the last call to nearest().
-     */
-    double distance() const { return std::sqrt(best_dist_); }
-
-    /**
-     * Finds the nearest Point in the tree to the given Point.
-     * It is not valid to call this function if the tree is empty.
-     *
-     * @param pnt a Point
-     * @return the nearest Point in the tree to the given Point
-     */
-    const Point_type &nearest(const Point_type &pnt)
-    {
-        if (root == nullptr)
-            throw std::logic_error("tree is empty");
-        best = nullptr;
-        visited_ = 0;
-        best_dist_ = 0;
-        nearest(root, pnt, 0);
-        return best->point;
-    }
-};
 
 #endif
