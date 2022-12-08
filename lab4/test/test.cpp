@@ -13,31 +13,63 @@
 #include "../include/squad.hpp"
 #include "../include/kdtree.hpp"
 
+//  Skill
+
+TEST(Skill, constructors_getters)
+{
+}
+
+TEST(Skill, setters)
+{
+}
+
+TEST(Skill, other_func)
+{
+}
+
+//  Squad
+
+TEST(Squad, constructors_getters)
+{
+}
+
+TEST(Squad, setters)
+{
+}
+
+TEST(Squad, other_func)
+{
+}
+
+//  Moral
+
+TEST(Moral, constructors_getters)
+{
+}
+
+TEST(Moral, setters)
+{
+}
+
+TEST(Moral, other_func)
+{
+}
+
+//  Amoral
+
 TEST(Amoral, constructors_getters)
 {
 }
 
 TEST(Amoral, setters)
 {
-    squad::Immortal_moral tmp;
-    ASSERT_EQ(squad::immortal_moral_type::REAPER, tmp.get_type());
-    tmp.set_type(squad::immortal_moral_type::MIMIC);
-    ASSERT_EQ(squad::immortal_moral_type::MIMIC, tmp.get_type());
 }
 
 TEST(Amoral, other_func)
 {
-    squad::Immortal_moral tmp;
-    ASSERT_EQ(squad::immortal_moral_type::REAPER, tmp.get_type());
-    tmp.set_probability(1.0);
-    tmp.set_max_health(constant::max_health::REAPER);
-    tmp.set_health(constant::max_health::REAPER);
-    ASSERT_EQ(constant::max_health::REAPER, tmp.get_health());
-    tmp.set_health(constant::max_health::REAPER / 2);
-    tmp.set_restore(constant::max_health::REAPER);
-    tmp.heal();
-    ASSERT_EQ(constant::max_health::REAPER, tmp.get_health());
 }
+
+//  Immortal_moral
 
 TEST(Immortal_moral, constructors_getters)
 {
@@ -60,16 +92,17 @@ TEST(Immortal_moral, other_func)
     squad::Immortal_moral tmp;
     ASSERT_EQ(squad::immortal_moral_type::REAPER, tmp.get_type());
     tmp.set_probability(1.0);
-    tmp.set_max_health(constant::max_health::REAPER);
-    tmp.set_health(constant::max_health::REAPER);
-    ASSERT_EQ(constant::max_health::REAPER, tmp.get_health());
-    tmp.set_health(constant::max_health::REAPER / 2);
-    tmp.set_restore(constant::max_health::REAPER);
+    tmp.set_max_health(constant::max_health::REAPER_MH);
+    tmp.set_health(constant::max_health::REAPER_MH);
+    ASSERT_EQ(constant::max_health::REAPER_MH, tmp.get_health());
+    tmp.set_health(constant::max_health::REAPER_MH / 2);
+    tmp.set_restore(constant::max_health::REAPER_MH);
     tmp.heal();
-    ASSERT_EQ(constant::max_health::REAPER, tmp.get_health());
+    ASSERT_EQ(constant::max_health::REAPER_MH, tmp.get_health());
 }
 
-/*
+// Immortal_amoral
+
 TEST(Immortal_amoral, constructors_getters)
 {
     squad::Immortal_amoral tmp;
@@ -91,61 +124,90 @@ TEST(Immortal_amoral, other_func)
     squad::Immortal_amoral tmp;
     ASSERT_EQ(squad::immortal_amoral_type::COLOSSUS, tmp.get_type());
     tmp.set_probability(1.0);
-    tmp.set_max_health(constant::max_health::COLOSSUS);
-    tmp.set_health(constant::max_health::COLOSSUS);
-    ASSERT_EQ(constant::max_health::COLOSSUS, tmp.get_health());
-    tmp.set_health(constant::max_health::COLOSSUS / 2);
-    tmp.set_restore(constant::max_health::COLOSSUS);
+    tmp.set_max_health(constant::max_health::COLOSSUS_MH);
+    tmp.set_health(constant::max_health::COLOSSUS_MH);
+    ASSERT_EQ(constant::max_health::COLOSSUS_MH, tmp.get_health());
+    tmp.set_health(constant::max_health::COLOSSUS_MH / 2);
+    tmp.set_restore(constant::max_health::COLOSSUS_MH);
     tmp.heal();
-    ASSERT_EQ(constant::max_health::COLOSSUS, tmp.get_health());
-}*/
+    ASSERT_EQ(constant::max_health::COLOSSUS_MH, tmp.get_health());
+}
+
+//  KDTree
+
+typedef size_t node;
+
+struct point_3D
+{
+    double x, y, z;
+    const static int dimension = 2;
+
+    double getDimension(int dim) const
+    {
+        switch (dim)
+        {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        default:
+            return std::numeric_limits<double>::quiet_NaN();
+        }
+    }
+
+    bool operator==(const point_3D &point) const
+    {
+        if (this->x == point.x && this->y == point.y)
+            return true;
+        return false;
+    }
+};
+
+std::ostream &operator<<(std::ostream &cout, const point_3D &point)
+{
+    cout << '(' << point.x << ", " << point.y << ')';
+    return cout;
+}
 
 TEST(KDTree, all_tests)
 {
-    
+    std::KDTree<point_3D> tree;
 
-    std::KDTree<simplePoint3> tree;
-    std::vector<simplePoint3> pts{{0, 0, 0}, {1, 1, 1}, {-1, 3, 4}, {5, 6, 7}, {2, -6, 8}, {4, 5, -4}, {2, 3, 4}, {2, 5, 6}};
+    std::vector<point_3D> pts{{0, 0}, {1, 1}, {-1, 3}, {5, 6}, {2, -6}, {4, 5}, {2, 3}, {2, 5}};
     tree.buildTree(pts);
-    tree.dumpTreeInorder();
+    tree.dumpTreeInorder(std::cout);
 
-    std::cout << "searching near 0,0,0.1" << std::endl;
-    auto closeNodes = tree.getPointsWithinCube({0, 0, 0.1}, 0.2);
-    std::cout << "found" << std::endl;
+    point_3D point_0{0, 0};
+
+    ASSERT_EQ(point_0, tree.getPoint(0));
+
+    std::vector<node> check = {1, 0};
+
+    auto closeNodes = tree.getPointsWithinCube({0, 0, 0}, 1);
+
+    ASSERT_EQ(check, closeNodes);
+
+    std::ostringstream stream;
+
+    char str[] = "(1, 1)\n(0, 0)\n";
+
     for (auto n : closeNodes)
     {
-        tree.dumpNode(n);
+        tree.dumpNode(n, stream);
     }
 
-    std::cout << "searching near 0.5,0.5,0.5" << std::endl;
-    closeNodes = tree.getPointsWithinCube({0.5, 0.5, 0.5}, 0.7);
-    std::cout << "found" << std::endl;
-    for (auto n : closeNodes)
-    {
-        tree.dumpNode(n);
-    }
+    ASSERT_STREQ(str, stream.str().c_str());
 
-    std::cout << "min, x: " << std::endl;
-    tree.dumpNode(tree.findMin(0));
+    ASSERT_EQ(2, tree.findMin(0));
+    ASSERT_EQ(4, tree.findMin(1));
+    ASSERT_EQ(4, tree.findMin(2));
 
-    std::cout << "min, y: " << std::endl;
-    tree.dumpNode(tree.findMin(1));
-    std::cout << "min, z: " << std::endl;
-    tree.dumpNode(tree.findMin(2));
-
-    for (auto i = 0; i < pts.size() - 1; ++i)
-    {
-        std::cout << "deleting node " << i << std::endl;
-        tree.deletePoint(i);
-        tree.dumpTreeInorder();
-    }
-
-    std::cout << "inserting 2 points" << std::endl;
-    tree.insertPoint({1, 4, 5});
-    tree.dumpTreeInorder();
-    tree.insertPoint({3, 8, 6});
-    tree.dumpTreeInorder();
+    ASSERT_NO_THROW(tree.deletePoint(2));
+    ASSERT_ANY_THROW(tree.getPoint(2));
+    ASSERT_NO_THROW(tree.dumpTreeInorder(std::cout));
 }
+
+// main
 
 int main(int argc, char *argv[])
 {

@@ -1,8 +1,8 @@
 #ifndef CONSTANT_HPP
 #define CONSTANT_HPP
 
-#include <vector>
 #include <cstdint>
+#include <cstddef>
 #define UNITS_PER_SCHOOL (size_t)3
 
 namespace constant
@@ -18,7 +18,7 @@ namespace constant
     };
 
     /// @brief units types
-    enum class unit
+    enum unit
     {
         ROBOMECH,
         CENTRY,
@@ -39,45 +39,45 @@ namespace constant
     };
 
     /// @brief max quantity of units
-    enum class max_quantity
+    enum max_quantity
     {
-        ROBOMECH = 3,
-        CENTRY = 3,
-        COLOSSUS = 1,
-        GHOST = 2,
-        INFESTOR = 1,
-        DISRUPTOR = 1,
-        ELF = 4,
-        GNOME = 5,
-        DENDRIOD = 2,
-        MARINE = 5,
-        CYCLONE = 1,
-        REAPER = 5,
-        POLTERGEIST = 1,
-        TYPHON = 2,
-        MIMIC = 5,
-        LORD = 1
+        ROBOMECH_MQ = 3,
+        CENTRY_MQ = 3,
+        COLOSSUS_MQ = 1,
+        GHOST_MQ = 2,
+        INFESTOR_MQ = 1,
+        DISRUPTOR_MQ = 1,
+        ELF_MQ = 4,
+        GNOME_MQ = 5,
+        DENDRIOD_MQ = 2,
+        MARINE_MQ = 5,
+        CYCLONE_MQ = 1,
+        REAPER_MQ = 5,
+        POLTERGEIST_MQ = 1,
+        TYPHON_MQ = 2,
+        MIMIC_MQ = 5,
+        LORD_MQ = 1
     };
 
     /// @brief max health of units
     enum max_health : std::uint32_t
     {
-        ROBOMECH = 400,
-        CENTRY = 250,
-        COLOSSUS = 450,
-        GHOST = 500,
-        INFESTOR = 350,
-        DISRUPTOR = 300,
-        ELF = 400,
-        GNOME = 600,
-        DENDRIOD = 400,
-        MARINE = 250,
-        CYCLONE = 300,
-        REAPER = 350,
-        POLTERGEIST = 400,
-        TYPHON = 500,
-        MIMIC = 250,
-        LORD = 1500
+        ROBOMECH_MH = 400,
+        CENTRY_MH = 250,
+        COLOSSUS_MH = 450,
+        GHOST_MH = 500,
+        INFESTOR_MH = 350,
+        DISRUPTOR_MH = 300,
+        ELF_MH = 400,
+        GNOME_MH = 600,
+        DENDRIOD_MH = 400,
+        MARINE_MH = 250,
+        CYCLONE_MH = 300,
+        REAPER_MH = 350,
+        POLTERGEIST_MH = 400,
+        TYPHON_MH = 500,
+        MIMIC_MH = 250,
+        LORD_MH = 1500
     };
 
     /// @brief speed of units

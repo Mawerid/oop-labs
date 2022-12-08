@@ -64,6 +64,11 @@ namespace field
         /// @param pnt point to compare
         /// @return is two points are equal
         bool operator==(const point &pnt) const;
+
+        /// @brief
+        /// @param pnt point to copy
+        /// @return
+        point operator=(const point &pnt);
     };
 
     /// @brief class describing a Cell in the game field
@@ -71,7 +76,7 @@ namespace field
     {
     private:
         cell_type type;
-        point *coor = nullptr;
+        point coor;
         squad::Squad *filling = nullptr;
 
     public:
@@ -84,13 +89,20 @@ namespace field
 
         /// @brief  constructor
         /// @param coor_new    coordinates of Cell in field
-        Cell(point *coor_new);
+        Cell(const point coor_new);
 
         /// @brief  constructor
         /// @param coor_new    coordinates of Cell in field
         /// @param type type of Cell
         /// @param fill filling of the Cell
-        Cell(point *coor_new, const cell_type &c_type, squad::Squad *fill);
+        Cell(const point coor_new, const cell_type &c_type, squad::Squad *fill);
+
+        /// @brief
+        /// @param coor_x
+        /// @param coor_y
+        /// @param c_type
+        /// @param fill
+        Cell(const size_t &coor_x, const size_t &coor_y, const cell_type &c_type, squad::Squad *fill);
 
         /// @brief  copy constructor
         /// @param old_cell Cell to copy
@@ -112,7 +124,7 @@ namespace field
 
         /// @brief  getter of the coordinates of Cell
         /// @return point contains coordinates of Cell
-        point *get_coor() const;
+        point get_coor() const;
 
         /// @brief  setter of the Cell type
         /// @param type new type of Cell
@@ -124,7 +136,7 @@ namespace field
 
         /// @brief  setter of the coordinates of Cell
         /// @param coor_new    point contains coordinates of Cell
-        void set_coor(point *coor_new);
+        void set_coor(const point &coor_new);
 
         /// @brief  operator of equal compare of two cells
         /// @param other_cell   Cell to compare

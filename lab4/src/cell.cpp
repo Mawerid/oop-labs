@@ -44,36 +44,40 @@ namespace field
             return false;
     }
 
+    point point::operator=(const point &pnt)
+    {
+        coor_x = pnt.get_x();
+        coor_y = pnt.get_y();
+
+        return *this;
+    }
+
     /// Cell class
 
-    Cell::Cell() 
+    Cell::Cell()
     {
         type = cell_type::FREE;
-        coor = new point;
+        coor = point();
     }
 
-    Cell::Cell(const cell_type &type_new) 
+    Cell::Cell(const cell_type &type_new)
     {
         type = type_new;
-        coor = new point;
+        coor = point();
     }
 
-    Cell::Cell(point *coor_new)
+    Cell::Cell(const point coor_new)
     {
         type = cell_type::FREE;
-        coor = new point;
-        coor->set_x(coor_new->get_x());
-        coor->set_y(coor_new->get_y());
+        coor = coor_new;
     }
 
-    Cell::Cell(point *coor_new, const cell_type &type_new, squad::Squad *fill): type(type_new), filling(fill), coor(coor_new) {}
+    Cell::Cell(const point coor_new, const cell_type &type_new, squad::Squad *fill) : type(type_new), filling(fill), coor(coor_new) {}
 
     Cell::Cell(const Cell &old_cell)
     {
         type = old_cell.type;
-        coor = new point;
-        coor->set_x(old_cell.coor->get_x());
-        coor->set_y(old_cell.coor->get_y());
+        coor = old_cell.coor;
         filling = new squad::Squad(*old_cell.filling);
     }
 
@@ -83,14 +87,17 @@ namespace field
         filling = old_cell.filling;
         coor = old_cell.coor;
         old_cell.filling = nullptr;
-        old_cell.coor = nullptr;
+    }
+
+    Cell::Cell(const size_t &coor_x, const size_t &coor_y, const cell_type &c_type, squad::Squad *fill)
+    {
+        type = c_type;
+        coor = point(coor_x, coor_y);
+        filling = fill;
     }
 
     Cell::~Cell()
     {
-        if (coor != nullptr)
-            delete coor;
-        
         filling = nullptr;
     }
 
@@ -98,17 +105,17 @@ namespace field
 
     squad::Squad *Cell::get_filling() const { return filling; }
 
-    point *Cell::get_coor() const { return coor; }
+    point Cell::get_coor() const { return coor; }
 
     void Cell::set_type(const cell_type &type_new) { type = type_new; }
 
     void Cell::set_filling(squad::Squad *fill) { filling = fill; }
 
-    void Cell::set_coor(point *coor_new) { coor = coor_new; }
+    void Cell::set_coor(const point &coor_new) { coor = coor_new; }
 
     bool Cell::operator==(const Cell &other_cell) const
     {
-        if (*coor == *(other_cell.coor) && type == other_cell.type)
+        if (coor == other_cell.coor && type == other_cell.type)
             return true;
         else
             return false;
@@ -119,7 +126,7 @@ namespace field
         type = cell.type;
         filling = cell.filling;
         coor = cell.coor;
-        
+
         return *this;
     }
 }

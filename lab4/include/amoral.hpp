@@ -67,6 +67,8 @@ namespace squad
         /// @brief  get damage from other squad
         /// @param squad    squad get hit from
         void defence(Squad *squad);
+
+        void die();
     };
 }
 

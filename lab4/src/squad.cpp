@@ -120,8 +120,6 @@ namespace squad
             health -= damage;
     }
 
-    void Squad::die() {}
-
     Squad Squad::operator=(const Squad &squad)
     {
         motivation = squad.motivation;

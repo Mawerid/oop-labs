@@ -89,6 +89,8 @@ namespace squad
         /// @brief  modificate moral
         /// @param modif    moral value to add
         void mod_moral(const int &modif);
+
+        void die();
     };
 }
 
