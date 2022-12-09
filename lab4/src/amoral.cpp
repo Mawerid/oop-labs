@@ -1,5 +1,4 @@
 #include "../include/amoral.hpp"
-#include "../include/moral.hpp"
 
 namespace squad
 {
@@ -48,8 +47,9 @@ namespace squad
         this->get_hit(damage);
     }
 
-    void Squad::die()
+    void Amoral::die()
     {
+        return;
     }
 
 }

@@ -8,6 +8,7 @@ namespace squad
 {
     enum class immortal_moral_type
     {
+        DENDRIOD,
         REAPER,
         MIMIC
     };

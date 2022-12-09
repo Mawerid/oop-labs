@@ -58,7 +58,8 @@ namespace game
 
         /// @brief  set squad to cell
         /// @param cell cell to set
-        void set_squad(field::Cell *cell);
+        /// @param squad    squad to set
+        void set_squad(field::Cell *cell, squad::Squad *squad);
 
         /// @brief  function of playing each squad
         void play_next();

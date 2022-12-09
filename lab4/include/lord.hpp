@@ -5,6 +5,11 @@
 #include <string>
 #include "squad.hpp"
 #include "constants.hpp"
+#include "school.hpp"
+#include "moral.hpp"
+#include "amoral.hpp"
+#include "immortal_amoral.hpp"
+#include "immortal_moral.hpp"
 
 namespace squad
 {
@@ -16,7 +21,7 @@ namespace squad
         unsigned energy;
         unsigned max_energy;
         double accum_coef;
-        std::map<constant::school_type, unsigned> knowledge;
+        std::map<school::School, unsigned> knowledge;
 
     public:
         /// @brief  constructor
@@ -52,7 +57,7 @@ namespace squad
 
         /// @brief  getter of knowledge table
         /// @return knowledge table
-        std::map<constant::school_type, unsigned> get_knowledge();
+        std::map<school::School, unsigned> get_knowledge();
 
         /// @brief  setter of player's name
         /// @param name name
@@ -72,11 +77,11 @@ namespace squad
 
         /// @brief  setter of knowledge table
         /// @param new_knowledge    knowledge table
-        void set_knowledge(const std::map<constant::school_type, unsigned> &new_knowledge);
+        void set_knowledge(const std::map<school::School, unsigned> &new_knowledge);
 
         /// @brief  upgrade some school level
         /// @param school   school to upgrade
-        void upgrade_school(const constant::school_type &school);
+        void upgrade_school(const school::School &school);
 
         /// @brief  call new squad to field
         /// @param squad_name   squad name to call

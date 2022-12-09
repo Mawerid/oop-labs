@@ -8,7 +8,7 @@
 namespace constant
 {
     /// @brief school types
-    enum class school_type
+    enum school_type
     {
         ROBOTICS,
         ENERGISER,
@@ -81,108 +81,108 @@ namespace constant
     };
 
     /// @brief speed of units
-    enum class speed
+    enum speed
     {
-        ROBOMECH = 3,
-        CENTRY = 3,
-        COLOSSUS = 3,
-        GHOST = 5,
-        INFESTOR = 2,
-        DISRUPTOR = 2,
-        ELF = 7,
-        GNOME = 2,
-        DENDRIOD = 2,
-        MARINE = 4,
-        CYCLONE = 7,
-        REAPER = 7,
-        POLTERGEIST = 4,
-        TYPHON = 3,
-        MIMIC = 5,
-        LORD = 0
+        ROBOMECH_S = 3,
+        CENTRY_S = 3,
+        COLOSSUS_S = 3,
+        GHOST_S = 5,
+        INFESTOR_S = 2,
+        DISRUPTOR_S = 2,
+        ELF_S = 7,
+        GNOME_S = 2,
+        DENDRIOD_S = 2,
+        MARINE_S = 4,
+        CYCLONE_S = 7,
+        REAPER_S = 7,
+        POLTERGEIST_S = 4,
+        TYPHON_S = 3,
+        MIMIC_S = 5,
+        LORD_S = 0
     };
 
     /// @brief experience of units
-    enum class experience
+    enum experience
     {
-        ROBOMECH = 100,
-        CENTRY = 75,
-        COLOSSUS = 100,
-        GHOST = 125,
-        INFESTOR = 100,
-        DISRUPTOR = 75,
-        ELF = 150,
-        GNOME = 125,
-        DENDRIOD = 75,
-        MARINE = 100,
-        CYCLONE = 100,
-        REAPER = 75,
-        POLTERGEIST = 100,
-        TYPHON = 150,
-        MIMIC = 50,
-        LORD = 250
+        ROBOMECH_EX = 100,
+        CENTRY_EX = 75,
+        COLOSSUS_EX = 100,
+        GHOST_EX = 125,
+        INFESTOR_EX = 100,
+        DISRUPTOR_EX = 75,
+        ELF_EX = 150,
+        GNOME_EX = 125,
+        DENDRIOD_EX = 75,
+        MARINE_EX = 100,
+        CYCLONE_EX = 100,
+        REAPER_EX = 75,
+        POLTERGEIST_EX = 100,
+        TYPHON_EX = 150,
+        MIMIC_EX = 50,
+        LORD_EX = 250
     };
 
     /// @brief motivation of units
-    enum class motivation
+    enum motivation
     {
-        ROBOMECH = 3,
-        CENTRY = 3,
-        COLOSSUS = 1,
-        GHOST = 2,
-        INFESTOR = 1,
-        DISRUPTOR = 1,
-        ELF = 4,
-        GNOME = 5,
-        DENDRIOD = 2,
-        MARINE = 5,
-        CYCLONE = 1,
-        REAPER = 5,
-        POLTERGEIST = 1,
-        TYPHON = 2,
-        MIMIC = 5,
-        LORD = 5
+        ROBOMECH_MT = 3,
+        CENTRY_MT = 3,
+        COLOSSUS_MT = 1,
+        GHOST_MT = 2,
+        INFESTOR_MT = 1,
+        DISRUPTOR_MT = 1,
+        ELF_MT = 4,
+        GNOME_MT = 5,
+        DENDRIOD_MT = 2,
+        MARINE_MT = 5,
+        CYCLONE_MT = 1,
+        REAPER_MT = 5,
+        POLTERGEIST_MT = 1,
+        TYPHON_MT = 2,
+        MIMIC_MT = 5,
+        LORD_MT = 5
     };
 
     /// @brief damage of units
-    enum class damage
+    enum damage
     {
-        ROBOMECH = 3,
-        CENTRY = 3,
-        COLOSSUS = 1,
-        GHOST = 2,
-        INFESTOR = 1,
-        DISRUPTOR = 1,
-        ELF = 4,
-        GNOME = 5,
-        DENDRIOD = 2,
-        MARINE = 5,
-        CYCLONE = 1,
-        REAPER = 5,
-        POLTERGEIST = 1,
-        TYPHON = 2,
-        MIMIC = 5,
-        LORD = 5
+        ROBOMECH_DM = 3,
+        CENTRY_DM = 3,
+        COLOSSUS_DM = 1,
+        GHOST_DM = 2,
+        INFESTOR_DM = 1,
+        DISRUPTOR_DM = 1,
+        ELF_DM = 4,
+        GNOME_DM = 5,
+        DENDRIOD_DM = 2,
+        MARINE_DM = 5,
+        CYCLONE_DM = 1,
+        REAPER_DM = 5,
+        POLTERGEIST_DM = 1,
+        TYPHON_DM = 2,
+        MIMIC_DM = 5,
+        LORD_DM = 5
     };
 
     /// @brief defense of units
-    enum class defense
+    enum defense
     {
-        ROBOMECH = 3,
-        CENTRY = 3,
-        COLOSSUS = 1,
-        GHOST = 2,
-        INFESTOR = 1,
-        DISRUPTOR = 1,
-        ELF = 4,
-        GNOME = 5,
-        DENDRIOD = 2,
-        MARINE = 5,
-        CYCLONE = 1,
-        REAPER = 5,
-        POLTERGEIST = 1,
-        TYPHON = 2,
-        MIMIC = 5,
-        LORD = 5
+        ROBOMECH_DF = 3,
+        CENTRY_DF = 3,
+        COLOSSUS_DF = 1,
+        GHOST_DF = 2,
+        INFESTOR_DF = 1,
+        DISRUPTOR_DF = 1,
+        ELF_DF = 4,
+        GNOME_DF = 5,
+        DENDRIOD_DF = 2,
+        MARINE_DF = 5,
+        CYCLONE_DF = 1,
+        REAPER_DF = 5,
+        POLTERGEIST_DF = 1,
+        TYPHON_DF = 2,
+        MIMIC_DF = 5,
+        LORD_DF = 5
     };
 };
 

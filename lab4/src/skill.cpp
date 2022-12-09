@@ -5,22 +5,52 @@ namespace school
 
     Skill::Skill()
     {
+        name = constant::unit::ROBOMECH;
+        desc = constant::unit::ROBOMECH;
+        min_study = constant::experience::ROBOMECH_EX;
+        energy = 0;
+        count_coef = 1.0;
+        easy_kill = {};
     }
 
     Skill::Skill(const squad::Squad &new_decs)
     {
+        desc = new_decs;
+        name = new_decs.get_name();
+        min_study = constant::experience::ROBOMECH_EX;
+        energy = 0;
+        count_coef = 1.0;
+        easy_kill = {};
     }
 
     Skill::Skill(const constant::unit &new_name)
     {
+        name = new_name;
+        desc = constant::unit::ROBOMECH;
+        min_study = constant::experience::ROBOMECH_EX;
+        energy = 0;
+        count_coef = 1.0;
+        easy_kill = {};
     }
 
     Skill::Skill(const constant::unit &new_name, const squad::Squad &new_decs, const unsigned &study, const unsigned &nrgy, const double &coef)
     {
+        name = new_name;
+        desc = new_decs;
+        min_study = study;
+        energy = nrgy;
+        count_coef = coef;
+        easy_kill = {};
     }
 
     Skill::Skill(const Skill &skill)
     {
+        name = skill.name;
+        desc = skill.desc;
+        min_study = skill.min_study;
+        energy = skill.energy;
+        count_coef = skill.count_coef;
+        easy_kill = skill.easy_kill;
     }
 
     void Skill::set_name(const constant::unit &new_name) { name = new_name; }
@@ -49,13 +79,28 @@ namespace school
 
     void Skill::add_easy_kill(const constant::unit &new_name)
     {
+        easy_kill.insert(easy_kill.end(), new_name);
     }
 
     void Skill::remove_easy_kill(const constant::unit &new_name)
     {
+        size_t i = 0;
+
+        for (; easy_kill[i] != new_name; i++)
+            ;
+
+        easy_kill.erase(easy_kill.begin() + i);
     }
 
     bool Skill::check_easy_kill(const constant::unit &new_name)
     {
+        size_t i = 0;
+        for (; easy_kill[i] != new_name; i++)
+            ;
+
+        if (easy_kill[i] == new_name)
+            return true;
+        else
+            return false;
     }
 }

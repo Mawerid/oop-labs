@@ -1,13 +1,21 @@
 #include "../include/landscape.hpp"
+#include <stdexcept>
+
 
 namespace game
 {
     Landscape::Landscape()
     {
+        school_table = {};
+        map = nullptr;
+        units_list = {};
     }
 
     Landscape::Landscape(field::Node *root)
     {
+        school_table = {};
+        map = root;
+        units_list = {};
     }
 
     void Landscape::set_school_table(const std::map<constant::school_type, school::School> &new_table) { school_table = new_table; }
@@ -24,13 +32,20 @@ namespace game
 
     void Landscape::move_squad(field::Cell *cell_1, field::Cell *cell_2)
     {
+        auto *tmp = cell_1->get_filling();
+        cell_1->set_filling(cell_2->get_filling());
+        cell_2->set_filling(tmp);
     }
 
-    void Landscape::set_squad(field::Cell *cell)
+    void Landscape::set_squad(field::Cell *cell, squad::Squad *squad)
     {
+        if (cell->get_type() != field::cell_type::FREE)
+            throw std::invalid_argument("There is already a squad");
+        cell->set_filling(squad);
     }
 
     void Landscape::play_next()
     {
+        
     }
 }

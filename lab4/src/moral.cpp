@@ -1,5 +1,4 @@
 #include "../include/moral.hpp"
-#include "../include/amoral.hpp"
 
 namespace squad
 {
@@ -74,6 +73,9 @@ namespace squad
 
     void Moral::mod_moral(const int &modif) { moral += modif; }
 
-    void Squad::die() {}
+    void Moral::die()
+    {
+        return;
+    }
 
 }

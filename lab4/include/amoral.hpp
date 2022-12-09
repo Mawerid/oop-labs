@@ -2,6 +2,7 @@
 #define AMORAL_HPP
 
 #include "unit.hpp"
+#include "moral.hpp"
 
 namespace squad
 {
