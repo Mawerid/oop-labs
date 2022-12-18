@@ -2,7 +2,7 @@
 #define CELL_HPP
 
 #include <math.h>
-#include "squad.hpp"
+#include "lord.hpp"
 
 namespace field
 {
@@ -22,6 +22,8 @@ namespace field
         size_t coor_y;
 
     public:
+        unsigned dimension = 2;
+
         /// @brief  empty constructor
         point();
 
@@ -53,6 +55,19 @@ namespace field
         /// @brief  getter of y coordinate
         /// @return y coordinate
         size_t get_y() const;
+
+        size_t getDimension(int dim) const
+        {
+            switch (dim)
+            {
+            case 0:
+                return coor_x;
+            case 1:
+                return coor_y;
+            default:
+                return std::numeric_limits<size_t>::quiet_NaN();
+            }
+        }
 
         /// @brief  calculate distance between two points
         /// @param point_1  first point

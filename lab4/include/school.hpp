@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "skill.hpp"
-#include "constants.hpp"
 
 namespace school
 {

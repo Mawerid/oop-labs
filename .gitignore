@@ -16,3 +16,4 @@ external_code
 *.bak
 latex
 html
+libkdtree

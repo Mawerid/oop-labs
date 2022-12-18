@@ -2,8 +2,7 @@
 #define SKILL_HPP
 
 #include <vector>
-#include "squad.hpp"
-#include "constants.hpp"
+#include "immortal.hpp"
 
 namespace school
 {

@@ -3,13 +3,7 @@
 
 #include <map>
 #include <string>
-#include "squad.hpp"
-#include "constants.hpp"
 #include "school.hpp"
-#include "moral.hpp"
-#include "amoral.hpp"
-#include "immortal_amoral.hpp"
-#include "immortal_moral.hpp"
 
 namespace squad
 {

@@ -4,10 +4,9 @@
 #include <map>
 #include <list>
 #include <string>
-#include "squad.hpp"
+// #include <kdtree++/kdtree.hpp>
 #include "field.hpp"
-#include "school.hpp"
-#include "constants.hpp"
+#include "lord.hpp"
 
 namespace game
 {
@@ -16,8 +15,8 @@ namespace game
     {
     private:
         std::map<constant::school_type, school::School> school_table;
-        field::Node *map;
-        std::list<squad::Squad> units_list;
+        std::KDTree<field::Cell, std::vector<field::Cell>> *map;
+        std::list<squad::Squad *> units_list;
 
     public:
         /// @brief  empty constructor
@@ -25,7 +24,7 @@ namespace game
 
         /// @brief  cosntructor
         /// @param root filed
-        Landscape(field::Node *root);
+        Landscape(std::KDTree<field::Cell, std::vector<field::Cell>> *root);
 
         /// @brief  setter of schools table
         /// @param new_table    new table of schools of player
@@ -33,11 +32,11 @@ namespace game
 
         /// @brief  setter of field(map)
         /// @param root root of 2D tree
-        void set_map(field::Node *root);
+        void set_map(std::KDTree<field::Cell, std::vector<field::Cell>> *map);
 
         /// @brief  setter of units list
         /// @param new_list new units list
-        void set_units_list(const std::list<squad::Squad> &new_list);
+        void set_units_list(const std::list<squad::Squad *> &new_list);
 
         /// @brief  getter of school table
         /// @return school table
@@ -45,11 +44,11 @@ namespace game
 
         /// @brief  getter of field(map)
         /// @return root to field(map)
-        field::Node *get_map() const;
+        std::KDTree<field::Cell, std::vector<field::Cell>> *get_map() const;
 
         /// @brief  getter of units list
         /// @return units list
-        std::list<squad::Squad> get_units_list() const;
+        std::list<squad::Squad *> get_units_list() const;
 
         /// @brief  move squad from one cell to another
         /// @param cell_1   cell from

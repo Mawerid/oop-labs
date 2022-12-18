@@ -1,16 +1,5 @@
 #include <gtest/gtest.h>
-// #include "../include/amoral.hpp"
-// #include "../include/cell.hpp"
-// #include "../include/immortal_amoral.hpp"
-// #include "../include/immortal_moral.hpp"
-// #include "../include/immortal.hpp"
-// #include "../include/interface.hpp"
 // #include "../include/landscape.hpp"
-// #include "../include/lord.hpp"
-// #include "../include/moral.hpp"
-// #include "../include/school.hpp"
-// #include "../include/skill.hpp"
-// #include "../include/squad.hpp"
 #include "../include/kdtree.hpp"
 #include <math.h>
 

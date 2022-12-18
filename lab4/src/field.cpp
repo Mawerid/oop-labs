@@ -4,10 +4,14 @@ namespace field
 {
     Node::Node(const Cell &root_info)
     {
+        info = root_info;
+        left = nullptr;
+        right = nullptr;
     }
 
     Node::Node(const Node &tree)
     {
+        
     }
 
     Node::Node(Node &&tree)
