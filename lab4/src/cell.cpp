@@ -28,12 +28,17 @@ namespace field
 
     double point::distance(const point &pnt) const
     {
-        double dist;
+        double dist = 0.0;
 
-        dist = pow((coor_x - pnt.get_x()), 2) + pow((coor_y - pnt.get_y()), 2);
-        dist = sqrt(dist);
+        double coor_1 = static_cast<double>(coor_x);
+        double coor_2 = static_cast<double>(pnt.get_x());
+        dist += pow((coor_1 - coor_2), 2);
 
-        return dist;
+        coor_1 = static_cast<double>(coor_y);
+        coor_2 = static_cast<double>(pnt.get_y());
+        dist += pow((coor_1 - coor_2), 2);
+
+        return sqrt(dist);
     }
 
     bool point::operator==(const point &pnt) const

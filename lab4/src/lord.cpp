@@ -23,8 +23,8 @@ namespace squad
     Lord::Lord(std::string &name, const unsigned &nrgy, const unsigned &max_nrgy)
     {
         lord_name = name;
-        energy = 0;
-        max_energy = 0;
+        energy = nrgy;
+        max_energy = max_nrgy;
         accum_coef = 1.0;
         knowledge = {{school::School(constant::school_type::ROBOTICS), 0}, {school::School(constant::school_type::ENERGISER), 0}, {school::School(constant::school_type::PARALLEL), 0}, {school::School(constant::school_type::BIOTECH), 0}, {school::School(constant::school_type::NANOSLIME), 0}};
     }

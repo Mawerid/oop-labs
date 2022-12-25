@@ -20,7 +20,7 @@ add_library(school school.cpp ${HEADER_SCHOOL})
 add_library(skill skill.cpp ${HEADER_SKILL})
 add_library(squad squad.cpp ${HEADER_SQUAD})
 add_library(unit unit.cpp ${HEADER_UNIT})
-add_library(kdtree ${HEADER_KDTREE})
+add_library(kdtree kdtree.cpp ${HEADER_KDTREE})
 
 target_include_directories(cell PUBLIC ../include)
 target_include_directories(field PUBLIC ../include)

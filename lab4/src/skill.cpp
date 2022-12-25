@@ -1,4 +1,5 @@
 #include "../include/skill.hpp"
+#include <iostream>
 
 namespace school
 {
@@ -73,7 +74,7 @@ namespace school
 
     unsigned Skill::get_energy() const { return energy; }
 
-    unsigned Skill::get_count_coef() const { return count_coef; }
+    double Skill::get_count_coef() const { return count_coef; }
 
     std::vector<constant::unit> Skill::get_easy_kill() const { return easy_kill; }
 
@@ -95,10 +96,10 @@ namespace school
     bool Skill::check_easy_kill(const constant::unit &new_name)
     {
         size_t i = 0;
-        for (; easy_kill[i] != new_name; i++)
+        for (; easy_kill[i] != new_name && i < easy_kill.size() ; i++)
             ;
 
-        if (easy_kill[i] == new_name)
+        if (i < easy_kill.size() && easy_kill[i] == new_name)
             return true;
         else
             return false;

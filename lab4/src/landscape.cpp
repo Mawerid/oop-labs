@@ -6,28 +6,28 @@ namespace game
     Landscape::Landscape()
     {
         school_table = {};
-        map = nullptr;
+        map = {};
         units_list = {};
     }
 
-    Landscape::Landscape(std::KDTree<field::Cell, std::vector<field::Cell>> *root)
+    Landscape::Landscape(const map_type &root)
     {
         school_table = {};
         map = root;
         units_list = {};
     }
 
-    void Landscape::set_school_table(const std::map<constant::school_type, school::School> &new_table) { school_table = new_table; }
+    void Landscape::set_school_table(const school_table_type &new_table) { school_table = new_table; }
 
-    void Landscape::set_map(std::KDTree<field::Cell, std::vector<field::Cell>> *root) { map = root; }
+    void Landscape::set_map(const map_type &root) { map = root; }
 
-    void Landscape::set_units_list(const std::list<squad::Squad *> &new_list) { units_list = new_list; }
+    void Landscape::set_units_list(const list &new_list) { units_list = new_list; }
 
-    std::map<constant::school_type, school::School> Landscape::get_school_table() const { return school_table; }
+    Landscape::school_table_type Landscape::get_school_table() const { return school_table; }
 
-    std::KDTree<field::Cell, std::vector<field::Cell>> *Landscape::get_map() const { return map; }
+    Landscape::map_type Landscape::get_map() const { return map; }
 
-    std::list<squad::Squad *> Landscape::get_units_list() const { return units_list; }
+    Landscape::list Landscape::get_units_list() const { return units_list; }
 
     void Landscape::move_squad(field::Cell *cell_1, field::Cell *cell_2)
     {
@@ -50,18 +50,18 @@ namespace game
 
         auto unit = squad->get_name();
         if (unit % 3 == 1 || unit == 2 || unit == 5)
-            squad = dynamic_cast<squad::Amoral *>(squad);
+            squad = static_cast<squad::Amoral *>(squad);
         else if (unit % 3 == 0 || unit == 14 || unit == 11)
-            squad = dynamic_cast<squad::Moral *>(squad);
+            squad = static_cast<squad::Moral *>(squad);
         else if (unit == 14 || unit == 11)
-            squad = dynamic_cast<squad::Immortal_moral *>(squad);
+            squad = static_cast<squad::Immortal_moral *>(squad);
         else if (unit == 2 || unit == 5)
-            squad = dynamic_cast<squad::Immortal_amoral *>(squad);
+            squad = static_cast<squad::Immortal_amoral *>(squad);
         else
-            squad = dynamic_cast<squad::Lord *>(squad);
+            squad = static_cast<squad::Lord *>(squad);
 
         char what_to_do;
-        std::cin >> what_to_do;
+        // std::cin << what_to_do;
 
         switch (what_to_do)
         {

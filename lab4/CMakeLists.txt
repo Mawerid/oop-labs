@@ -20,6 +20,7 @@ FetchContent_MakeAvailable(SFML)
 
 include(CTest)
 add_subdirectory(src)
+add_subdirectory(graphics)
 add_subdirectory(app)
 
 if(BUILD_TESTING)

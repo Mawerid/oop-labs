@@ -158,6 +158,26 @@ namespace field
         /// @return if two points are equal or not
         bool operator==(const Cell &other_cell) const;
 
+        bool operator>(const Cell &other_cell) const
+        {
+            float rg1 = sqrt(this->coor.get_x() * this->coor.get_x() + this->coor.get_y() * this->coor.get_y());
+            float rg2 = sqrt(other_cell.coor.get_x() * other_cell.coor.get_x() + other_cell.coor.get_y() * other_cell.coor.get_y());
+            if (rg1 > rg2)
+                return true;
+            else
+                return false;
+        }
+
+        bool operator<(const Cell &other_cell) const
+        {
+            float rg1 = sqrt(this->coor.get_x() * this->coor.get_x() + this->coor.get_y() * this->coor.get_y());
+            float rg2 = sqrt(other_cell.coor.get_x() * other_cell.coor.get_x() + other_cell.coor.get_y() * other_cell.coor.get_y());
+            if (rg1 < rg2)
+                return true;
+            else
+                return false;
+        }
+
         /// @brief  operator of assignment
         /// @param cell cell to assign
         /// @return new state if class object (this)

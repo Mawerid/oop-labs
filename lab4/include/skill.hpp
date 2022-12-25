@@ -83,7 +83,7 @@ namespace school
 
         /// @brief  getter of coefficient of increase
         /// @return coefficient of increase
-        unsigned get_count_coef() const;
+        double get_count_coef() const;
 
         /// @brief  getter of easy kill list
         /// @return easy to kill units list

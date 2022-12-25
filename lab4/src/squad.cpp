@@ -112,10 +112,7 @@ namespace squad
     void Squad::get_hit(unsigned &damage)
     {
         if (health < damage)
-        {
             health = 0;
-            die();
-        }
         else
             health -= damage;
     }

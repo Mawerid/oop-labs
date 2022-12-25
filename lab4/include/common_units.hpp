@@ -67,8 +67,6 @@ namespace squad
         /// @brief  get damage from other squad
         /// @param squad    squad get hit from
         void defence(Squad *squad);
-
-        void die();
     };
 
     enum class moral_type
@@ -155,8 +153,6 @@ namespace squad
         /// @brief  modificate moral
         /// @param modif    moral value to add
         void mod_moral(const int &modif);
-
-        void die();
     };
 }
 

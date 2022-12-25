@@ -36,20 +36,10 @@ namespace squad
         auto unit = squad->get_name();
         unsigned damage = 0;
         if (unit % 3 == 1 || unit == 2 || unit == 5)
-            damage = dynamic_cast<Amoral *>(squad)->get_damage_val();
+            damage = static_cast<Amoral *>(squad)->get_damage_val();
         else if (unit % 3 == 0 || unit == 14 || unit == 11)
-            damage = dynamic_cast<Moral *>(squad)->get_damage_val();
-        // else if (unit == 14 || unit == 11)
-        //     damage = dynamic_cast<Immortal_moral *>(squad)->get_damage_val();
-        // else if (unit == 2 || unit == 5)
-        //     damage = dynamic_cast<Immortal_amoral *>(squad)->get_damage_val();
-
+            damage = static_cast<Moral *>(squad)->get_damage_val();
         this->get_hit(damage);
-    }
-
-    void Amoral::die()
-    {
-        return;
     }
 
     Moral::Moral()
@@ -105,11 +95,9 @@ namespace squad
         auto unit = squad->get_name();
         unsigned damage = 0;
         if (unit % 3 == 1 || unit == 2 || unit == 5)
-            damage = dynamic_cast<Amoral *>(squad)->get_damage_val();
+            damage = static_cast<Amoral *>(squad)->get_damage_val();
         else if (unit % 3 == 0 || unit == 14 || unit == 11)
-            damage = dynamic_cast<Moral *>(squad)->get_damage_val();
-        // this->get_hit(squad.get_damage())
-
+            damage = static_cast<Moral *>(squad)->get_damage_val();
         this->get_hit(damage);
     }
 
@@ -122,10 +110,4 @@ namespace squad
     }
 
     void Moral::mod_moral(const int &modif) { moral += modif; }
-
-    void Moral::die()
-    {
-        return;
-    }
-
 }

@@ -124,9 +124,6 @@ namespace squad
         /// @param damage   damage
         void get_hit(unsigned &damage);
 
-        /// @brief  die func of squad
-        virtual void die();
-
         /// @brief  operator of assignment
         /// @param squad    squad to assign
         /// @return new state of class object (this)
