@@ -5,9 +5,7 @@
 #include <list>
 #include <string>
 #include <vector>
-#include <list>
 #include "cell.hpp"
-#include "lord.hpp"
 
 namespace game
 {
@@ -77,6 +75,9 @@ namespace game
 
         /// @brief  function of playing each squad
         void play_next();
+
+        /// @brief
+        void init();
     };
 }
 

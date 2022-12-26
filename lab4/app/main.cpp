@@ -1,14 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "../include/landscape.hpp"
+// #include "../include/landscape.hpp"
 #include "../graphics/set_tiles.hpp"
-#include "setup.hpp"
 
-using namespace std;
+using namespace game;
 
 static const sf::Vector2i tileSize(16, 16);
 static const float scale = 4.f;
-static const string wrap = "========================================================================================\n";
+static const std::string wrap = "========================================================================================\n";
 
 void render(sf::RenderWindow &window, sf::Texture &texture, sf::Text &text, game::Landscape &land)
 {
@@ -21,6 +20,7 @@ void render(sf::RenderWindow &window, sf::Texture &texture, sf::Text &text, game
     tileMap.drawTexts(window);
     window.display();
 }
+
 /*
 void talent_dialog(Landscape &land)
 {
@@ -77,7 +77,6 @@ void talent_dialog(Landscape &land)
 
 int main()
 {
-    cout << "hello" << endl;
     auto window = sf::RenderWindow{{1920u, 1080u}, "The Call of the Wild"};
     window.setFramerateLimit(60);
 
@@ -94,8 +93,6 @@ int main()
     sf::Clock clock;
     sf::Time elapsed1 = clock.getElapsedTime();
     sf::Time elapsed2 = clock.getElapsedTime();
-
-    cout << "hello" << endl;
 
     while (window.isOpen())
     {
@@ -117,5 +114,4 @@ int main()
 
         window.display();
     }
-    
 }

@@ -74,8 +74,8 @@ namespace squad
         void set_knowledge(const std::map<school::School, unsigned> &new_knowledge);
 
         /// @brief  upgrade some school level
-        /// @param school   school to upgrade
-        void upgrade_school(const school::School &school);
+        /// @param school_t   school to upgrade
+        void upgrade_school(const constant::school_type &school_t);
 
         /// @brief  call new squad to field
         /// @param squad_name   squad name to call

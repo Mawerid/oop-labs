@@ -86,7 +86,11 @@ namespace squad
             health = max_health;
     }
 
-    void Squad::set_max_health(const unsigned &max_heal) { max_health = max_heal; }
+    void Squad::set_max_health(const unsigned &max_heal)
+    {
+        max_health = max_heal;
+        health = max_heal;
+    }
 
     void Squad::set_speed(const unsigned &spd) { speed = spd; }
 

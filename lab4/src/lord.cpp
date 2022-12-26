@@ -1,4 +1,5 @@
 #include "../include/lord.hpp"
+#include <iostream>
 
 namespace squad
 {
@@ -49,17 +50,21 @@ namespace squad
 
     void Lord::set_knowledge(const std::map<school::School, unsigned> &new_knowledge) { knowledge = new_knowledge; }
 
-    void Lord::upgrade_school(const school::School &school)
+    void Lord::upgrade_school(const constant::school_type &school_t)
     {
-        unsigned curr_level = knowledge[school];
+        auto school = knowledge.begin();
 
-        auto list = school.get_skill_list();
+        for(; school->first.get_type()!=school_t; school++);
 
-        unsigned min_energy = list[curr_level - 1].get_energy();
+        unsigned curr_level = school->second;
+
+        auto list = school->first.get_skill_list();
+
+        unsigned min_energy = list[curr_level].get_energy();
 
         if (energy >= min_energy)
         {
-            knowledge[school]++;
+            (school->second)++;
             energy -= min_energy;
         }
     }
@@ -75,24 +80,48 @@ namespace squad
 
             if (sq_type == 0 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
             {
+                energy -= (knowledge.begin()->first.get_skill_list())[0].get_energy();
                 Moral *unit;
                 unit = new Moral(squad::moral_type::ROBOMECH, 0);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::ROBOMECH_MH * accum_coef));
+                unit->set_damage_val(constant::damage::ROBOMECH_DM);
+                unit->set_defense_val(constant::defense::ROBOMECH_DF);
+                unit->set_motivation(constant::motivation::ROBOMECH_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::ROBOMECH_MQ * accum_coef));
+                unit->set_experience(constant::experience::ROBOMECH_EX);
+                unit->set_name(constant::unit::ROBOMECH);
+                unit->set_speed(constant::speed::ROBOMECH_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if (sq_type == 1 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (sq_type == 1 && (knowledge.begin()->first.get_skill_list())[1].get_energy() <= energy)
             {
+                energy -= (knowledge.begin()->first.get_skill_list())[1].get_energy();
                 Amoral *unit;
                 unit = new Amoral(squad::amoral_type::CENTRY);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::CENTRY_MH * accum_coef));
+                unit->set_damage_val(constant::damage::CENTRY_DM);
+                unit->set_defense_val(constant::defense::CENTRY_DF);
+                unit->set_motivation(constant::motivation::CENTRY_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::CENTRY_MQ * accum_coef));
+                unit->set_experience(constant::experience::CENTRY_EX);
+                unit->set_name(constant::unit::CENTRY);
+                unit->set_speed(constant::speed::CENTRY_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if ((knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if ((knowledge.begin()->first.get_skill_list())[2].get_energy() <= energy)
             {
+                energy -= (knowledge.begin()->first.get_skill_list())[2].get_energy();
                 Immortal_amoral *unit;
                 unit = new Immortal_amoral(squad::immortal_amoral_type::COLOSSUS);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::COLOSSUS_MH * accum_coef));
+                unit->set_damage_val(constant::damage::COLOSSUS_DM);
+                unit->set_defense_val(constant::defense::COLOSSUS_DF);
+                unit->set_motivation(constant::motivation::COLOSSUS_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::COLOSSUS_MQ * accum_coef));
+                unit->set_experience(constant::experience::COLOSSUS_EX);
+                unit->set_name(constant::unit::COLOSSUS);
+                unit->set_speed(constant::speed::COLOSSUS_S);
+                return static_cast<squad::Squad *>(unit);
             }
         }
         else if (squad_name < 6)
@@ -100,26 +129,50 @@ namespace squad
             if (squad_name == 16 || sq_type > knowledge.begin()->second)
                 return nullptr;
 
-            if (sq_type == 0 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            if (sq_type == 0 && ((knowledge.begin()++)->first.get_skill_list())[0].get_energy() <= energy)
             {
+                energy -= ((knowledge.begin()++)->first.get_skill_list())[0].get_energy();
                 Moral *unit;
                 unit = new Moral(squad::moral_type::GHOST, 0);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::GHOST_MH * accum_coef));
+                unit->set_damage_val(constant::damage::GHOST_DM);
+                unit->set_defense_val(constant::defense::GHOST_DF);
+                unit->set_motivation(constant::motivation::GHOST_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::GHOST_MQ * accum_coef));
+                unit->set_experience(constant::experience::GHOST_EX);
+                unit->set_name(constant::unit::GHOST);
+                unit->set_speed(constant::speed::GHOST_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if (sq_type == 1 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (sq_type == 1 && ((knowledge.begin()++)->first.get_skill_list())[1].get_energy() <= energy)
             {
+                energy -= ((knowledge.begin()++)->first.get_skill_list())[1].get_energy();
                 Amoral *unit;
                 unit = new Amoral(squad::amoral_type::INFESTOR);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::INFESTOR_MH * accum_coef));
+                unit->set_damage_val(constant::damage::INFESTOR_DM);
+                unit->set_defense_val(constant::defense::INFESTOR_DF);
+                unit->set_motivation(constant::motivation::INFESTOR_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::INFESTOR_MQ * accum_coef));
+                unit->set_experience(constant::experience::INFESTOR_EX);
+                unit->set_name(constant::unit::INFESTOR);
+                unit->set_speed(constant::speed::INFESTOR_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if ((knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (((knowledge.begin()++)->first.get_skill_list())[2].get_energy() <= energy)
             {
+                energy -= ((knowledge.begin()++)->first.get_skill_list())[2].get_energy();
                 Immortal_amoral *unit;
                 unit = new Immortal_amoral(squad::immortal_amoral_type::DISRUPTOR);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::DISRUPTOR_MH * accum_coef));
+                unit->set_damage_val(constant::damage::DISRUPTOR_DM);
+                unit->set_defense_val(constant::defense::DISRUPTOR_DF);
+                unit->set_motivation(constant::motivation::DISRUPTOR_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::DISRUPTOR_MQ * accum_coef));
+                unit->set_experience(constant::experience::DISRUPTOR_EX);
+                unit->set_name(constant::unit::DISRUPTOR);
+                unit->set_speed(constant::speed::DISRUPTOR_S);
+                return static_cast<squad::Squad *>(unit);
             }
         }
         else if (squad_name < 9)
@@ -127,26 +180,50 @@ namespace squad
             if (squad_name == 16 || sq_type > knowledge.begin()->second)
                 return nullptr;
 
-            if (sq_type == 0 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            if (sq_type == 0 && (((knowledge.begin()++)++)->first.get_skill_list())[0].get_energy() <= energy)
             {
+                energy -= (((knowledge.begin()++)++)->first.get_skill_list())[0].get_energy();
                 Moral *unit;
                 unit = new Moral(squad::moral_type::ELF, 0);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::ELF_MH * accum_coef));
+                unit->set_damage_val(constant::damage::ELF_DM);
+                unit->set_defense_val(constant::defense::ELF_DF);
+                unit->set_motivation(constant::motivation::ELF_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::ELF_MQ * accum_coef));
+                unit->set_experience(constant::experience::ELF_EX);
+                unit->set_name(constant::unit::ELF);
+                unit->set_speed(constant::speed::ELF_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if (sq_type == 1 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (sq_type == 1 && (((knowledge.begin()++)++)->first.get_skill_list())[1].get_energy() <= energy)
             {
+                energy -= (((knowledge.begin()++)++)->first.get_skill_list())[1].get_energy();
                 Amoral *unit;
                 unit = new Amoral(squad::amoral_type::GNOME);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::GNOME_MH * accum_coef));
+                unit->set_damage_val(constant::damage::GNOME_DM);
+                unit->set_defense_val(constant::defense::GNOME_DF);
+                unit->set_motivation(constant::motivation::GNOME_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::GNOME_MQ * accum_coef));
+                unit->set_experience(constant::experience::GNOME_EX);
+                unit->set_name(constant::unit::GNOME);
+                unit->set_speed(constant::speed::GNOME_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if ((knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if ((((knowledge.begin()++)++)->first.get_skill_list())[2].get_energy() <= energy)
             {
+                energy -= (((knowledge.begin()++)++)->first.get_skill_list())[2].get_energy();
                 Immortal_moral *unit;
                 unit = new Immortal_moral(squad::immortal_moral_type::DENDRIOD);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::DENDRIOD_MH * accum_coef));
+                unit->set_damage_val(constant::damage::DENDRIOD_DM);
+                unit->set_defense_val(constant::defense::DENDRIOD_DF);
+                unit->set_motivation(constant::motivation::DENDRIOD_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::DENDRIOD_MQ * accum_coef));
+                unit->set_experience(constant::experience::DENDRIOD_EX);
+                unit->set_name(constant::unit::DENDRIOD);
+                unit->set_speed(constant::speed::DENDRIOD_S);
+                return static_cast<squad::Squad *>(unit);
             }
         }
         else if (squad_name < 12)
@@ -154,26 +231,50 @@ namespace squad
             if (squad_name == 16 || sq_type > knowledge.begin()->second)
                 return nullptr;
 
-            if (sq_type == 0 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            if (sq_type == 0 && ((((knowledge.begin()++)++)++)->first.get_skill_list())[0].get_energy() <= energy)
             {
+                energy -= ((((knowledge.begin()++)++)++)->first.get_skill_list())[0].get_energy();
                 Moral *unit;
                 unit = new Moral(squad::moral_type::MARINE, 0);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::MARINE_MH * accum_coef));
+                unit->set_damage_val(constant::damage::MARINE_DM);
+                unit->set_defense_val(constant::defense::MARINE_DF);
+                unit->set_motivation(constant::motivation::MARINE_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::MARINE_MQ * accum_coef));
+                unit->set_experience(constant::experience::MARINE_EX);
+                unit->set_name(constant::unit::MARINE);
+                unit->set_speed(constant::speed::MARINE_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if (sq_type == 1 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (sq_type == 1 && ((((knowledge.begin()++)++)++)->first.get_skill_list())[1].get_energy() <= energy)
             {
+                energy -= ((((knowledge.begin()++)++)++)->first.get_skill_list())[1].get_energy();
                 Amoral *unit;
                 unit = new Amoral(squad::amoral_type::CYCLONE);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::CYCLONE_MH * accum_coef));
+                unit->set_damage_val(constant::damage::CYCLONE_DM);
+                unit->set_defense_val(constant::defense::CYCLONE_DF);
+                unit->set_motivation(constant::motivation::CYCLONE_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::CYCLONE_MQ * accum_coef));
+                unit->set_experience(constant::experience::CYCLONE_EX);
+                unit->set_name(constant::unit::CYCLONE);
+                unit->set_speed(constant::speed::CYCLONE_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if ((knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (((((knowledge.begin()++)++)++)->first.get_skill_list())[2].get_energy() <= energy)
             {
+                energy -= ((((knowledge.begin()++)++)++)->first.get_skill_list())[2].get_energy();
                 Immortal_moral *unit;
                 unit = new Immortal_moral(squad::immortal_moral_type::REAPER);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::REAPER_MH * accum_coef));
+                unit->set_damage_val(constant::damage::REAPER_DM);
+                unit->set_defense_val(constant::defense::REAPER_DF);
+                unit->set_motivation(constant::motivation::REAPER_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::REAPER_MQ * accum_coef));
+                unit->set_experience(constant::experience::REAPER_EX);
+                unit->set_name(constant::unit::REAPER);
+                unit->set_speed(constant::speed::REAPER_S);
+                return static_cast<squad::Squad *>(unit);
             }
         }
         else
@@ -181,27 +282,53 @@ namespace squad
             if (squad_name == 16 || sq_type > knowledge.begin()->second)
                 return nullptr;
 
-            if (sq_type == 0 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            if (sq_type == 0 && (((((knowledge.begin()++)++)++)++)->first.get_skill_list())[0].get_energy() <= energy)
             {
+                energy -= (((((knowledge.begin()++)++)++)++)->first.get_skill_list())[0].get_energy();
                 Moral *unit;
                 unit = new Moral(squad::moral_type::POLTERGEIST, 0);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::POLTERGEIST_MH * accum_coef));
+                unit->set_damage_val(constant::damage::POLTERGEIST_DM);
+                unit->set_defense_val(constant::defense::POLTERGEIST_DF);
+                unit->set_motivation(constant::motivation::POLTERGEIST_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::POLTERGEIST_MQ * accum_coef));
+                unit->set_experience(constant::experience::POLTERGEIST_EX);
+                unit->set_name(constant::unit::POLTERGEIST);
+                unit->set_speed(constant::speed::POLTERGEIST_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if (sq_type == 1 && (knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if (sq_type == 1 && (((((knowledge.begin()++)++)++)++)->first.get_skill_list())[1].get_energy() <= energy)
             {
+                energy -= (((((knowledge.begin()++)++)++)++)->first.get_skill_list())[1].get_energy();
                 Amoral *unit;
                 unit = new Amoral(squad::amoral_type::TYPHON);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::TYPHON_MH * accum_coef));
+                unit->set_damage_val(constant::damage::TYPHON_DM);
+                unit->set_defense_val(constant::defense::TYPHON_DF);
+                unit->set_motivation(constant::motivation::TYPHON_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::TYPHON_MQ * accum_coef));
+                unit->set_experience(constant::experience::TYPHON_EX);
+                unit->set_name(constant::unit::TYPHON);
+                unit->set_speed(constant::speed::TYPHON_S);
+                return static_cast<squad::Squad *>(unit);
             }
-            else if ((knowledge.begin()->first.get_skill_list())[0].get_energy() <= energy)
+            else if ((((((knowledge.begin()++)++)++)++)->first.get_skill_list())[2].get_energy() <= energy)
             {
+                energy -= (((((knowledge.begin()++)++)++)++)->first.get_skill_list())[2].get_energy();
                 Immortal_moral *unit;
                 unit = new Immortal_moral(squad::immortal_moral_type::MIMIC);
-                dynamic_cast<squad::Squad *>(unit);
-                return unit;
+                unit->set_max_health((unsigned)((int)constant::max_health::MIMIC_MH * accum_coef));
+                unit->set_damage_val(constant::damage::MIMIC_DM);
+                unit->set_defense_val(constant::defense::MIMIC_DF);
+                unit->set_motivation(constant::motivation::MIMIC_MT);
+                unit->set_quantity((unsigned)((int)constant::max_quantity::MIMIC_MQ * accum_coef));
+                unit->set_experience(constant::experience::MIMIC_EX);
+                unit->set_name(constant::unit::MIMIC);
+                unit->set_speed(constant::speed::MIMIC_S);
+                return static_cast<squad::Squad *>(unit);
             }
         }
+
+        return nullptr;
     }
 }

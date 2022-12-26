@@ -56,8 +56,16 @@ TEST(Cell, other_func)
     ASSERT_NEAR(5.0, tmp.distance(tmp_1), 0.0001);
 }
 
+/*
+    Осталось:
+    - проверить Lord DONE и Landscape
+    - проверить графику и дописать функции
+    - диалоговая функция
 
+    Опционально - добавить заглушку для работы с картой.
+*/
 
+/*
 void init_skills()
 {
     squad::Moral squad(squad::moral_type::ROBOMECH, 0);
@@ -79,6 +87,7 @@ void init_schools()
 
 
 }
+*/
 
 //  Landscape
 
@@ -162,7 +171,76 @@ TEST(Lord, other_func)
     std::string str = "Max";
     squad::Lord lord(str, 100, 300);
 
-    std::map<school::School, unsigned> knowledge = {};
+    school::School school(constant::school_type::ROBOTICS);
+    squad::Moral squad(squad::moral_type::ROBOMECH);
+    squad.set_max_health(constant::max_health::ROBOMECH_MH);
+    squad.set_damage_val(constant::damage::ROBOMECH_DM);
+    squad.set_defense_val(constant::defense::ROBOMECH_DF);
+    squad.set_health(constant::max_health::ROBOMECH_MH);
+    squad.set_motivation(constant::motivation::ROBOMECH_MT);
+    squad.set_quantity(constant::max_quantity::ROBOMECH_MQ);
+    squad.set_team(game::player_type::RIGHT);
+    squad.set_experience(constant::experience::ROBOMECH_EX);
+    squad.set_name(constant::unit::ROBOMECH);
+    squad.set_speed(constant::speed::ROBOMECH_S);
+
+    school::Skill skill(constant::unit::ROBOMECH, squad, 0, 30, 1.0);
+
+    school.add_skill(skill);
+
+    squad::Amoral squad_1(squad::amoral_type::CENTRY);
+    squad_1.set_max_health(constant::max_health::CENTRY_MH);
+    squad_1.set_damage_val(constant::damage::CENTRY_DM);
+    squad_1.set_defense_val(constant::defense::CENTRY_DF);
+    squad_1.set_health(constant::max_health::CENTRY_MH);
+    squad_1.set_motivation(constant::motivation::CENTRY_MT);
+    squad_1.set_quantity(constant::max_quantity::CENTRY_MQ);
+    squad_1.set_team(game::player_type::RIGHT);
+    squad_1.set_experience(constant::experience::CENTRY_EX);
+    squad_1.set_name(constant::unit::CENTRY);
+    squad_1.set_speed(constant::speed::CENTRY_S);
+
+    school::Skill skill_1(constant::unit::CENTRY, squad_1, 1, 70, 1.0);
+
+    school.add_skill(skill_1);
+
+    squad::Immortal_amoral squad_2(squad::immortal_amoral_type::COLOSSUS);
+    squad_2.set_max_health(constant::max_health::COLOSSUS_MH);
+    squad_2.set_damage_val(constant::damage::COLOSSUS_DM);
+    squad_2.set_defense_val(constant::defense::COLOSSUS_DF);
+    squad_2.set_health(constant::max_health::COLOSSUS_MH);
+    squad_2.set_motivation(constant::motivation::COLOSSUS_MT);
+    squad_2.set_quantity(constant::max_quantity::COLOSSUS_MQ);
+    squad_2.set_team(game::player_type::RIGHT);
+    squad_2.set_experience(constant::experience::COLOSSUS_EX);
+    squad_2.set_name(constant::unit::COLOSSUS);
+    squad_2.set_speed(constant::speed::COLOSSUS_S);
+
+    school::Skill skill_2(constant::unit::COLOSSUS, squad_2, 2, 150, 1.1);
+
+    school.add_skill(skill_2);
+
+    std::map<school::School, unsigned> knowledge = {{school, 0}, {school, 0}, {school, 0}, {school, 0}, {school, 0}};
+
+    ASSERT_NO_THROW(lord.set_knowledge(knowledge));
+
+    squad::Squad *tmp;
+
+    ASSERT_NO_THROW(tmp = lord.call_squad(constant::unit::ROBOMECH));
+
+    auto tmp_1 = static_cast<squad::Moral *>(tmp);
+
+    ASSERT_EQ(constant::unit::ROBOMECH, tmp_1->get_name());
+    ASSERT_EQ(constant::max_health::ROBOMECH_MH, tmp_1->get_max_health());
+    ASSERT_EQ(0, tmp_1->get_moral_val());
+    ASSERT_EQ(squad::moral_type::ROBOMECH, tmp_1->get_type());
+
+    ASSERT_EQ(70, lord.get_energy());
+    ASSERT_EQ(nullptr, lord.call_squad(constant::unit::CENTRY));
+
+    ASSERT_NO_THROW(lord.upgrade_school(constant::school_type::ROBOTICS));
+
+    ASSERT_EQ(40, lord.get_energy());
 }
 
 //  School
@@ -301,7 +379,7 @@ TEST(Moral, other_func)
     squad_1.set_speed(constant::speed::CYCLONE_S);
 
     ASSERT_NO_THROW(squad.hit(&squad_1));
-    ASSERT_EQ(295, squad_1.get_health());
+    ASSERT_EQ(275, squad_1.get_health());
     ASSERT_NO_THROW(squad.defence(&squad_1));
     ASSERT_EQ(249, squad.get_health());
 }
@@ -426,10 +504,9 @@ TEST(Immortal_amoral, other_func)
     squad.set_speed(constant::speed::MARINE_S);
 
     ASSERT_NO_THROW(squad.hit(&tmp));
-    ASSERT_EQ(445, tmp.get_health());
+    ASSERT_EQ(425, tmp.get_health());
     ASSERT_NO_THROW(squad.defence(&tmp));
     ASSERT_EQ(249, squad.get_health());
-
 }
 
 //  KDTree

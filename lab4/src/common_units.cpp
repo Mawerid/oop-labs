@@ -29,7 +29,12 @@ namespace squad
 
     void Amoral::set_defense_val(const unsigned &def) { defense = def; }
 
-    void Amoral::hit(Squad *squad) { squad->get_hit(damage); }
+    void Amoral::hit(Squad *squad)
+    {
+        unsigned dam = this->get_damage_val();
+        dam *= quantity;
+        squad->get_hit(dam);
+    }
 
     void Amoral::defence(Squad *squad)
     {
@@ -88,7 +93,12 @@ namespace squad
 
     void Moral::set_defense_val(const unsigned &def) { defense = def; }
 
-    void Moral::hit(Squad *squad) { squad->get_hit(damage); }
+    void Moral::hit(Squad *squad)
+    {
+        unsigned dam = this->get_damage_val();
+        dam *= quantity;
+        squad->get_hit(dam);
+    }
 
     void Moral::defence(Squad *squad)
     {

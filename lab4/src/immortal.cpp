@@ -7,7 +7,8 @@ namespace squad
     Immortal_moral::Immortal_moral(const immortal_moral_type &new_type) { type = new_type; }
 
     Immortal_moral::~Immortal_moral()
-    {}
+    {
+    }
 
     immortal_moral_type Immortal_moral::get_type() { return type; }
 
@@ -39,7 +40,8 @@ namespace squad
     Immortal_amoral::Immortal_amoral(const immortal_amoral_type &new_type) { type = new_type; }
 
     Immortal_amoral::~Immortal_amoral()
-    {}
+    {
+    }
 
     immortal_amoral_type Immortal_amoral::get_type() { return type; }
 
