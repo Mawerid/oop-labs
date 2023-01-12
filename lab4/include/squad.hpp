@@ -7,38 +7,38 @@ namespace squad {
 /// @brief parent class of all objects in game
 class Squad {
    protected:
-    unsigned motivation;
-    unsigned health;
-    unsigned max_health;
-    size_t quantity;
-    unsigned speed;
-    unsigned experience;
-    unsigned team;
-    constant::unit name;
+    unsigned motivation_;
+    unsigned health_;
+    unsigned max_health_;
+    size_t quantity_;
+    unsigned speed_;
+    unsigned experience_;
+    unsigned team_;
+    constant::unit name_;
 
    public:
     /// @brief  constructor
-    /// @param new_name squad name
-    explicit Squad(const constant::unit &new_name);
+    /// @param name squad name
+    explicit Squad(const constant::unit &name);
 
     /// @brief  constructor
-    /// @param new_name squad name
-    /// @param new_team squad team
-    Squad(const constant::unit &new_name, const unsigned &new_team);
+    /// @param name squad name
+    /// @param team squad team
+    Squad(const constant::unit &name, const unsigned &team);
 
     /// @brief  constructor
-    /// @param motiv    motivation
-    /// @param heal health
-    /// @param max_heal max health
-    /// @param quant    quantity
-    /// @param spd  speed
-    /// @param exp  experience
-    /// @param new_team squad team
-    /// @param new_name squad name
-    Squad(const unsigned &motiv, const unsigned &heal,
-          const unsigned &max_heal, const size_t quant,
-          const unsigned &spd, const unsigned &exp,
-          const unsigned &new_team, const constant::unit &new_name);
+    /// @param motivation    motivation
+    /// @param health health
+    /// @param max_health max health
+    /// @param quantity    quantity
+    /// @param speed  speed
+    /// @param experience  experience
+    /// @param team squad team
+    /// @param name squad name
+    Squad(const unsigned &motivation, const unsigned &health,
+          const unsigned &max_health, const size_t quantity,
+          const unsigned &speed, const unsigned &experience,
+          const unsigned &team, const constant::unit &name);
 
     /// @brief  copy constructor
     /// @param squad    squad to copy
@@ -51,36 +51,36 @@ class Squad {
     ~Squad();
 
     /// @brief  setter of motivation
-    /// @param motiv    motivation
-    void set_motivation(const unsigned &motiv);
+    /// @param motivation    motivation
+    void set_motivation(const unsigned &motivation);
 
     /// @brief  setter of current health
-    /// @param heal health
-    void set_health(const unsigned &heal);
+    /// @param health health
+    void set_health(const unsigned &health);
 
     /// @brief  setter of maximum health
-    /// @param max_heal max health
-    void set_max_health(const unsigned &max_heal);
+    /// @param max_health max health
+    void set_max_health(const unsigned &max_health);
 
     /// @brief  setter of speed
-    /// @param spd  speed
-    void set_speed(const unsigned &spd);
+    /// @param speed  speed
+    void set_speed(const unsigned &speed);
 
     /// @brief  setter of experience
-    /// @param exp  experience
-    void set_experience(const unsigned &exp);
+    /// @param experience  experience
+    void set_experience(const unsigned &experience);
 
     /// @brief  setter of squad's team
-    /// @param new_team squad team
-    void set_team(const unsigned &new_team);
+    /// @param team squad team
+    void set_team(const unsigned &team);
 
     /// @brief  setter of quantity
-    /// @param quant    quantity
-    void set_quantity(const size_t &quant);
+    /// @param quantity    quantity
+    void set_quantity(const size_t &quantity);
 
     /// @brief  setter of squad's name
-    /// @param new_name squad name
-    void set_name(const constant::unit &new_name);
+    /// @param name squad name
+    void set_name(const constant::unit &name);
 
     /// @brief  getter of motivation
     /// @return motivation
