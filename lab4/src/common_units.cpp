@@ -8,10 +8,17 @@ constant::unit Amoral::convert_name(const amoral_type &type) const {
 
 Amoral::Amoral(const amoral_type &type) : Unit(convert_name(type)), type_(type) {}
 
+Amoral::Amoral(const constant::unit &type) : Unit(type),
+                                             type_(amoral_type::NONE) {}
+
 Amoral::Amoral(const amoral_type &type, const unsigned &damage,
                const unsigned &shield) : Unit(convert_name(type),
                                               damage, shield),
                                          type_(type) {}
+
+Amoral::Amoral(const constant::unit &type, const unsigned &damage,
+               const unsigned &shield) : Unit(type, damage, shield),
+                                         type_(amoral_type::NONE) {}
 
 amoral_type Amoral::get_type() const { return type_; }
 
@@ -40,9 +47,18 @@ Moral::Moral(const moral_type &type) : Unit(convert_name(type)),
                                        type_(type),
                                        moral_(0) {}
 
+Moral::Moral(const constant::unit &type) : Unit(type),
+                                           type_(moral_type::NONE),
+                                           moral_(0) {}
+
 Moral::Moral(const moral_type &type,
              const int &moral) : Unit(convert_name(type)),
                                  type_(type),
+                                 moral_(moral) {}
+
+Moral::Moral(const constant::unit &type,
+             const int &moral) : Unit(type),
+                                 type_(moral_type::NONE),
                                  moral_(moral) {}
 
 Moral::Moral(const moral_type &type, const int &moral,
@@ -50,6 +66,12 @@ Moral::Moral(const moral_type &type, const int &moral,
              const unsigned &shield) : Unit(convert_name(type),
                                             damage, shield),
                                        type_(type),
+                                       moral_(moral) {}
+
+Moral::Moral(const constant::unit &type, const int &moral,
+             const unsigned &damage,
+             const unsigned &shield) : Unit(type, damage, shield),
+                                       type_(moral_type::NONE),
                                        moral_(moral) {}
 
 moral_type Moral::get_type() const { return type_; }

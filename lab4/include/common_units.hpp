@@ -9,7 +9,8 @@ enum amoral_type {
     INFESTOR,
     GNOME,
     CYCLONE,
-    TYPHON
+    TYPHON,
+    NONE
 };
 
 /// @brief class of amoral unit type
@@ -24,14 +25,25 @@ class Amoral : public Unit {
     constant::unit convert_name(const amoral_type &type) const;
 
     /// @brief  constructor
-    /// @param new_type type of amoral unit
+    /// @param type type of amoral unit
     Amoral(const amoral_type &type);
+
+    /// @brief  constructor
+    /// @param type type of unit
+    Amoral(const constant::unit &type);
 
     /// @brief   constructor
     /// @param type type of amoral unit
     /// @param damage  amount of damage
-    /// @param shield  amoubt of defense
+    /// @param shield  amount of defense
     Amoral(const amoral_type &type, const unsigned &damage,
+           const unsigned &shield);
+
+    /// @brief   constructor
+    /// @param type type of unit
+    /// @param damage  amount of damage
+    /// @param shield  amount of defense
+    Amoral(const constant::unit &type, const unsigned &damage,
            const unsigned &shield);
 
     ~Amoral() = default;
@@ -58,7 +70,8 @@ enum moral_type {
     GHOST,
     ELF,
     MARINE,
-    POLTERGEIST
+    POLTERGEIST,
+    NONE
 };
 
 /// @brief class of moral unit type
@@ -78,16 +91,33 @@ class Moral : public Unit {
     Moral(const moral_type &type);
 
     /// @brief  constructor
-    /// @param type
-    /// @param moral
+    /// @param type type of unit
+    Moral(const constant::unit &type);
+
+    /// @brief  constructor
+    /// @param type type of moral unit
+    /// @param moral moral value
     Moral(const moral_type &type, const int &moral);
+
+    /// @brief  constructor
+    /// @param type type of moral unit
+    /// @param moral moral value
+    Moral(const constant::unit &type, const int &moral);
 
     /// @brief  constructor
     /// @param type type of moral unit
     /// @param moral    moral value
     /// @param damage  amount of damage
-    /// @param shield  amoubt of defense
+    /// @param shield  amount of defense
     Moral(const moral_type &type, const int &moral,
+          const unsigned &damage, const unsigned &shield);
+
+    /// @brief  constructor
+    /// @param type type of unit
+    /// @param moral    moral value
+    /// @param damage  amount of damage
+    /// @param shield  amount of defense
+    Moral(const constant::unit &type, const int &moral,
           const unsigned &damage, const unsigned &shield);
 
     ~Moral() = default;
