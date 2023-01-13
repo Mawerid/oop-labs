@@ -1,123 +1,86 @@
 #include "../include/common_units.hpp"
 
-namespace squad
-{
-    Amoral::Amoral() { type = squad::amoral_type::CENTRY; }
+namespace squad {
 
-    Amoral::Amoral(const amoral_type &new_type) { type = new_type; }
-
-    Amoral::Amoral(const amoral_type &new_type, const unsigned &dmg, const unsigned &def)
-    {
-        type = new_type;
-        damage = dmg;
-        defense = def;
-    }
-
-    Amoral::~Amoral()
-    {
-    }
-
-    amoral_type Amoral::get_type() const { return type; }
-
-    void Amoral::set_type(const amoral_type &new_type) { type = new_type; }
-
-    unsigned Amoral::get_damage_val() const { return damage; }
-
-    unsigned Amoral::get_defense_val() const { return defense; }
-
-    void Amoral::set_damage_val(const unsigned &dam) { damage = dam; }
-
-    void Amoral::set_defense_val(const unsigned &def) { defense = def; }
-
-    void Amoral::hit(Squad *squad)
-    {
-        unsigned dam = this->get_damage_val();
-        dam *= quantity;
-        squad->get_hit(dam);
-    }
-
-    void Amoral::defence(Squad *squad)
-    {
-        auto unit = squad->get_name();
-        unsigned damage = 0;
-        if (unit % 3 == 1 || unit == 2 || unit == 5)
-            damage = static_cast<Amoral *>(squad)->get_damage_val();
-        else if (unit % 3 == 0 || unit == 14 || unit == 11)
-            damage = static_cast<Moral *>(squad)->get_damage_val();
-        this->get_hit(damage);
-    }
-
-    Moral::Moral()
-    {
-        type = squad::moral_type::ROBOMECH;
-        moral = 0;
-    }
-
-    Moral::Moral(const moral_type &new_type)
-    {
-        type = new_type;
-        moral = 0;
-    }
-
-    Moral::Moral(const moral_type &new_type, const int &new_moral)
-    {
-        type = new_type;
-        moral = new_moral;
-    }
-
-    Moral::Moral(const moral_type &new_type, const int &new_moral, const unsigned &dmg, const unsigned &def)
-    {
-        type = new_type;
-        moral = new_moral;
-        damage = dmg;
-        defense = def;
-    }
-
-    Moral::~Moral()
-    {
-    }
-
-    moral_type Moral::get_type() const { return type; }
-
-    int Moral::get_moral_val() const { return moral; }
-
-    void Moral::set_type(const moral_type &new_type) { type = new_type; }
-
-    void Moral::set_moral_val(const int &new_moral) { moral = new_moral; }
-
-    unsigned Moral::get_damage_val() const { return damage; }
-
-    unsigned Moral::get_defense_val() const { return defense; }
-
-    void Moral::set_damage_val(const unsigned &dam) { damage = dam; }
-
-    void Moral::set_defense_val(const unsigned &def) { defense = def; }
-
-    void Moral::hit(Squad *squad)
-    {
-        unsigned dam = this->get_damage_val();
-        dam *= quantity;
-        squad->get_hit(dam);
-    }
-
-    void Moral::defence(Squad *squad)
-    {
-        auto unit = squad->get_name();
-        unsigned damage = 0;
-        if (unit % 3 == 1 || unit == 2 || unit == 5)
-            damage = static_cast<Amoral *>(squad)->get_damage_val();
-        else if (unit % 3 == 0 || unit == 14 || unit == 11)
-            damage = static_cast<Moral *>(squad)->get_damage_val();
-        this->get_hit(damage);
-    }
-
-    void Moral::balance()
-    {
-        if (moral > 0)
-            moral--;
-        else if (moral < 0)
-            moral++;
-    }
-
-    void Moral::mod_moral(const int &modif) { moral += modif; }
+constant::unit Amoral::convert_name(const amoral_type &type) const {
+    return static_cast<constant::unit>(type * 3 + 1);
 }
+
+Amoral::Amoral(const amoral_type &type) : Unit(convert_name(type)), type_(type) {}
+
+Amoral::Amoral(const amoral_type &type, const unsigned &damage,
+               const unsigned &shield) : Unit(convert_name(type),
+                                              damage, shield),
+                                         type_(type) {}
+
+amoral_type Amoral::get_type() const { return type_; }
+
+void Amoral::set_type(const amoral_type &type) { type_ = type; }
+
+void Amoral::attack(Squad &squad) const {
+    unsigned damage = damage_ * quantity_;
+    squad.get_damage(damage);
+}
+
+void Amoral::defence(Squad &squad) {
+    auto unit = squad.get_name();
+    unsigned damage = 0;
+    if (unit % 3 == 1 || unit == 2 || unit == 5)
+        damage = static_cast<Amoral &>(squad).get_damage_val();
+    else if (unit % 3 == 0 || unit == 14 || unit == 11)
+        damage = static_cast<Moral &>(squad).get_damage_val();
+    this->get_damage(damage);
+}
+
+constant::unit Moral::convert_name(const moral_type &type) const {
+    return static_cast<constant::unit>(type * 3);
+}
+
+Moral::Moral(const moral_type &type) : Unit(convert_name(type)),
+                                       type_(type),
+                                       moral_(0) {}
+
+Moral::Moral(const moral_type &type,
+             const int &moral) : Unit(convert_name(type)),
+                                 type_(type),
+                                 moral_(moral) {}
+
+Moral::Moral(const moral_type &type, const int &moral,
+             const unsigned &damage,
+             const unsigned &shield) : Unit(convert_name(type),
+                                            damage, shield),
+                                       type_(type),
+                                       moral_(moral) {}
+
+moral_type Moral::get_type() const { return type_; }
+
+int Moral::get_moral() const { return moral_; }
+
+void Moral::set_type(const moral_type &type) { type_ = type; }
+
+void Moral::set_moral(const int &moral) { moral_ = moral; }
+
+void Moral::attack(Squad &squad) const {
+    unsigned damage = damage_ * quantity_ + moral_;
+    squad.get_damage(damage);
+}
+
+void Moral::defence(Squad &squad) {
+    auto unit = squad.get_name();
+    unsigned damage = (-1) * moral_;
+    if (unit % 3 == 1 || unit == 2 || unit == 5)
+        damage += static_cast<Amoral &>(squad).get_damage_val();
+    else if (unit % 3 == 0 || unit == 14 || unit == 11)
+        damage += static_cast<Moral &>(squad).get_damage_val();
+    this->get_damage(damage);
+}
+
+void Moral::balance_moral() {
+    if (moral_ > 0)
+        moral_--;
+    else if (moral_ < 0)
+        moral_++;
+}
+
+void Moral::modify_moral(const int &modify) { moral_ += modify; }
+}  // namespace squad

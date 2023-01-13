@@ -48,7 +48,7 @@ class Squad {
     /// @param squad    squad to move
     Squad(Squad &&squad);
 
-    ~Squad();
+    ~Squad() = default;
 
     /// @brief  setter of motivation
     /// @param motivation    motivation

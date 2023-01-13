@@ -3,157 +3,126 @@
 
 #include "unit.hpp"
 
-namespace squad
-{
-    enum class amoral_type
-    {
-        CENTRY,
-        INFESTOR,
-        GNOME,
-        CYCLONE,
-        TYPHON
-    };
+namespace squad {
+enum amoral_type {
+    CENTRY,
+    INFESTOR,
+    GNOME,
+    CYCLONE,
+    TYPHON
+};
 
-    /// @brief class of amoral unit type
-    class Amoral : public Unit
-    {
-    protected:
-        amoral_type type;
+/// @brief class of amoral unit type
+class Amoral : public Unit {
+   protected:
+    amoral_type type_;
 
-    public:
-        /// @brief  empty constructor
-        Amoral();
+   public:
+    /// @brief  convert amoral_type to constant::unit
+    /// @param type amoral type to convert
+    /// @return equivalent unit type
+    constant::unit convert_name(const amoral_type &type) const;
 
-        /// @brief  constructor
-        /// @param new_type type of amoral unit
-        Amoral(const amoral_type &new_type);
+    /// @brief  constructor
+    /// @param new_type type of amoral unit
+    Amoral(const amoral_type &type);
 
-        /// @brief   constructor
-        /// @param new_type type of amoral unit
-        /// @param dmg  amount of damage
-        /// @param def  amoubt of defense
-        Amoral(const amoral_type &new_type, const unsigned &dmg, const unsigned &def);
+    /// @brief   constructor
+    /// @param type type of amoral unit
+    /// @param damage  amount of damage
+    /// @param shield  amoubt of defense
+    Amoral(const amoral_type &type, const unsigned &damage,
+           const unsigned &shield);
 
-        ~Amoral();
+    ~Amoral() = default;
 
-        /// @brief  getter of type
-        /// @return type of amoral unit
-        amoral_type get_type() const;
+    /// @brief  getter of type
+    /// @return type of amoral unit
+    amoral_type get_type() const;
 
-        /// @brief  setter of type
-        /// @param new_type new type of amoral unit
-        void set_type(const amoral_type &new_type);
+    /// @brief  setter of type
+    /// @param type new type of amoral unit
+    void set_type(const amoral_type &type);
 
-        /// @brief  getter of damage
-        /// @return damage
-        unsigned get_damage_val() const;
+    /// @brief  hit other squad
+    /// @param squad    squad to hit
+    void attack(Squad &squad) const override;
 
-        /// @brief  getter of defense
-        /// @return defense
-        unsigned get_defense_val() const;
+    /// @brief  get damage from other squad
+    /// @param squad    squad get hit from
+    void defence(Squad &squad) override;
+};
 
-        /// @brief  setter of damage
-        /// @param dam  damage
-        void set_damage_val(const unsigned &dam);
+enum moral_type {
+    ROBOMECH,
+    GHOST,
+    ELF,
+    MARINE,
+    POLTERGEIST
+};
 
-        /// @brief  setter of defense
-        /// @param def  defense
-        void set_defense_val(const unsigned &def);
+/// @brief class of moral unit type
+class Moral : public Unit {
+   protected:
+    moral_type type_;
+    int moral_ = 0;
 
-        /// @brief  hit other squad
-        /// @param squad    squad to hit
-        void hit(Squad *squad);
+   public:
+    /// @brief  convert moral_type to constant::unit
+    /// @param type moral type to convert
+    /// @return equivalent unit type
+    constant::unit convert_name(const moral_type &type) const;
 
-        /// @brief  get damage from other squad
-        /// @param squad    squad get hit from
-        void defence(Squad *squad);
-    };
+    /// @brief  constructor
+    /// @param type type of moral unit
+    Moral(const moral_type &type);
 
-    enum class moral_type
-    {
-        ROBOMECH,
-        GHOST,
-        ELF,
-        MARINE,
-        POLTERGEIST
-    };
+    /// @brief  constructor
+    /// @param type
+    /// @param moral
+    Moral(const moral_type &type, const int &moral);
 
-    /// @brief class of moral unit type
-    class Moral : public Unit
-    {
-    protected:
-        moral_type type;
-        int moral;
+    /// @brief  constructor
+    /// @param type type of moral unit
+    /// @param moral    moral value
+    /// @param damage  amount of damage
+    /// @param shield  amoubt of defense
+    Moral(const moral_type &type, const int &moral,
+          const unsigned &damage, const unsigned &shield);
 
-    public:
-        /// @brief  empty constructor
-        Moral();
+    ~Moral() = default;
 
-        /// @brief  constructor
-        /// @param new_type type of moral unit
-        Moral(const moral_type &new_type);
+    /// @brief  getter of type
+    /// @return type of moral unit
+    moral_type get_type() const;
 
-        /// @brief  constructor
-        /// @param new_type
-        /// @param new_moral
-        Moral(const moral_type &new_type, const int &new_moral);
+    /// @brief  getter of moral
+    /// @return moral value
+    int get_moral() const;
 
-        /// @brief  constructor
-        /// @param new_type type of moral unit
-        /// @param new_moral    moral value
-        /// @param dmg  amount of damage
-        /// @param def  amoubt of defense
-        Moral(const moral_type &new_type, const int &new_moral, const unsigned &dmg, const unsigned &def);
+    /// @brief  setter of type
+    /// @param type new type of amoral unit
+    void set_type(const moral_type &type);
 
-        ~Moral();
+    /// @brief  setter of moral
+    /// @param moral    new moral value
+    void set_moral(const int &moral);
 
-        /// @brief  getter of type
-        /// @return type of moral unit
-        moral_type get_type() const;
+    /// @brief  hit other squad
+    /// @param squad    squad to hit
+    void attack(Squad &squad) const override;
 
-        /// @brief  getter of moral
-        /// @return moral value
-        int get_moral_val() const;
+    /// @brief  get damage from other squad
+    /// @param squad    squad get hit from
+    void defence(Squad &squad) override;
 
-        /// @brief  setter of type
-        /// @param new_type new type of amoral unit
-        void set_type(const moral_type &new_type);
+    /// @brief  func to balance moral near 0
+    void balance_moral();
 
-        /// @brief  setter of moral
-        /// @param new_moral    new moral value
-        void set_moral_val(const int &new_moral);
-
-        /// @brief  getter of damage
-        /// @return damage
-        unsigned get_damage_val() const;
-
-        /// @brief  getter of defense
-        /// @return defense
-        unsigned get_defense_val() const;
-
-        /// @brief  setter of damage
-        /// @param dam  damage
-        void set_damage_val(const unsigned &dam);
-
-        /// @brief  setter of defense
-        /// @param def  defense
-        void set_defense_val(const unsigned &def);
-
-        /// @brief  hit other squad
-        /// @param squad    squad to hit
-        void hit(Squad *squad);
-
-        /// @brief  get damage from other squad
-        /// @param squad    squad get hit from
-        void defence(Squad *squad);
-
-        /// @brief  func to balance moral near 0
-        void balance();
-
-        /// @brief  modificate moral
-        /// @param modif    moral value to add
-        void mod_moral(const int &modif);
-    };
-}
+    /// @brief  modificate moral
+    /// @param modify    moral value to add
+    void modify_moral(const int &modify);
+};
+}  // namespace squad
 
 #endif

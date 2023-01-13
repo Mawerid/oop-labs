@@ -54,8 +54,6 @@ Squad::Squad(Squad &&squad) : motivation_(squad.motivation_),
                               team_(squad.team_),
                               name_(squad.name_) {}
 
-Squad::~Squad() {}
-
 void Squad::set_health(const unsigned &health) {
     if (health <= max_health_)
         health_ = health;
