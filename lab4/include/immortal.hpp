@@ -67,21 +67,15 @@ class Immortal_moral : public Moral, public Immortal {
 
     /// @brief constructor
     /// @param type type of immortal moral unit
-    /// @param damage amount of damage
-    /// @param shield amount of defense
     /// @param moral moral value
-    Immortal_moral(const immortal_moral_type &type, const unsigned &damage,
-                   const unsigned &shield, const int &moral);
+    Immortal_moral(const immortal_moral_type &type, const int &moral);
 
     /// @brief constructor
     /// @param type type of immortal moral unit
-    /// @param damage amount of damage
-    /// @param shield amount of defense
     /// @param restore restore value of health
     /// @param probability probability of restoration
     /// @param moral moral value
-    Immortal_moral(const immortal_moral_type &type, const unsigned &damage,
-                   const unsigned &shield, const unsigned &restore,
+    Immortal_moral(const immortal_moral_type &type, const unsigned &restore,
                    const double &probability, const int &moral);
 
     /// @brief  copy constructor
@@ -148,19 +142,9 @@ class Immortal_amoral : public Amoral, public Immortal {
 
     /// @brief constructor
     /// @param type type of immortal moral unit
-    /// @param damage amount of damage
-    /// @param shield amount of defense
-    Immortal_amoral(const immortal_amoral_type &type, const unsigned &damage,
-                    const unsigned &shield);
-
-    /// @brief constructor
-    /// @param type type of immortal moral unit
-    /// @param damage amount of damage
-    /// @param shield amount of defense
     /// @param restore restore value of health
     /// @param probability probability of restoration
-    Immortal_amoral(const immortal_amoral_type &type, const unsigned &damage,
-                    const unsigned &shield, const unsigned &restore,
+    Immortal_amoral(const immortal_amoral_type &type, const unsigned &restore,
                     const double &probability);
 
     /// @brief  copy constructor

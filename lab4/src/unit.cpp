@@ -1,12 +1,9 @@
 #include "../include/unit.hpp"
 
 namespace squad {
-Unit::Unit(const constant::unit &name) : Squad(name), damage_(0), shield_(0) {}
-
-Unit::Unit(const constant::unit &name, const unsigned &damage,
-           const unsigned &shield) : Squad(name),
-                                     damage_(damage),
-                                     shield_(shield) {}
+Unit::Unit(const constant::unit &name) : Squad(name),
+                                         damage_(constant::damage[name]),
+                                         shield_(constant::shield[name]) {}
 
 Unit::Unit(const Unit &squad) : Squad(squad.name_),
                                 damage_(squad.damage_),

@@ -14,15 +14,6 @@ Amoral::Amoral(const amoral_type &type)
 Amoral::Amoral(const constant::unit &type) : Unit(type),
                                              type_(amoral_type::NONE) {}
 
-Amoral::Amoral(const amoral_type &type, const unsigned &damage,
-               const unsigned &shield) : Unit(convert_name(type),
-                                              damage, shield),
-                                         type_(type) {}
-
-Amoral::Amoral(const constant::unit &type, const unsigned &damage,
-               const unsigned &shield) : Unit(type, damage, shield),
-                                         type_(amoral_type::NONE) {}
-
 Amoral::Amoral(const Amoral &squad) : Unit(convert_name(squad.type_)),
                                       type_(squad.type_) {}
 
@@ -87,19 +78,6 @@ Moral::Moral(const constant::unit &type,
              const int &moral) : Unit(type),
                                  type_(moral_type::NONE),
                                  moral_(moral) {}
-
-Moral::Moral(const moral_type &type, const int &moral,
-             const unsigned &damage,
-             const unsigned &shield) : Unit(convert_name(type),
-                                            damage, shield),
-                                       type_(type),
-                                       moral_(moral) {}
-
-Moral::Moral(const constant::unit &type, const int &moral,
-             const unsigned &damage,
-             const unsigned &shield) : Unit(type, damage, shield),
-                                       type_(moral_type::NONE),
-                                       moral_(moral) {}
 
 Moral::Moral(const Moral &squad) : Unit(convert_name(squad.type_)),
                                    type_(squad.type_),

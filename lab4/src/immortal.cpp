@@ -32,19 +32,15 @@ Immortal_moral::Immortal_moral(
     const immortal_moral_type &type) : Moral(convert_name(type)), type_(type) {}
 
 Immortal_moral::Immortal_moral(const immortal_moral_type &type,
-                               const unsigned &damage,
-                               const unsigned &shield,
                                const int &moral)
-    : Moral(convert_name(type), moral, damage, shield),
+    : Moral(convert_name(type), moral),
       type_(type) {}
 
 Immortal_moral::Immortal_moral(const immortal_moral_type &type,
-                               const unsigned &damage,
-                               const unsigned &shield,
                                const unsigned &restore,
                                const double &probability,
                                const int &moral)
-    : Moral(convert_name(type), moral, damage, shield),
+    : Moral(convert_name(type), moral),
       Immortal(restore, probability),
       type_(type) {}
 
@@ -99,16 +95,9 @@ Immortal_amoral::Immortal_amoral(
                                         type_(type) {}
 
 Immortal_amoral::Immortal_amoral(const immortal_amoral_type &type,
-                                 const unsigned &damage,
-                                 const unsigned &shield)
-    : Amoral(convert_name(type), damage, shield), type_(type) {}
-
-Immortal_amoral::Immortal_amoral(const immortal_amoral_type &type,
-                                 const unsigned &damage,
-                                 const unsigned &shield,
                                  const unsigned &restore,
                                  const double &probability)
-    : Amoral(convert_name(type), damage, shield),
+    : Amoral(convert_name(type)),
       Immortal(restore, probability),
       type_(type) {}
 

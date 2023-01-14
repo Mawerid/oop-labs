@@ -15,13 +15,6 @@ class Unit : public Squad {
     /// @param name name of unit
     Unit(const constant::unit &name);
 
-    /// @brief constructor for Unit class
-    /// @param name name of unit
-    /// @param damage damage of unit
-    /// @param shield shield count of unit
-    Unit(const constant::unit &name, const unsigned &damage,
-         const unsigned &shield);
-
     /// @brief  copy constructor
     /// @param squad    squad to copy
     Unit(const Unit &squad);

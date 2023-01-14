@@ -179,7 +179,7 @@ static const std::vector<uint32_t> damage =
      REAPER_DM, POLTERGEIST_DM, TYPHON_DM, MIMIC_DM, LORD_DM};
 
 /// @brief defense of units
-enum defense_set : std::uint32_t {
+enum shield_set : std::uint32_t {
     ROBOMECH_DF = 3,
     CENTRY_DF = 3,
     COLOSSUS_DF = 1,
@@ -197,7 +197,7 @@ enum defense_set : std::uint32_t {
     MIMIC_DF = 5,
     LORD_DF = 5
 };
-static const std::vector<uint32_t> defense =
+static const std::vector<uint32_t> shield =
     {ROBOMECH_DF, CENTRY_DF, COLOSSUS_DF, GHOST_DF, INFESTOR_DF,
      DISRUPTOR_DF, ELF_DF, GNOME_DF, DENDRIOD_DF, MARINE_DF, CYCLONE_DF,
      REAPER_DF, POLTERGEIST_DF, TYPHON_DF, MIMIC_DF, LORD_DF};

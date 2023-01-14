@@ -32,20 +32,6 @@ class Amoral : public Unit {
     /// @param type type of unit
     Amoral(const constant::unit &type);
 
-    /// @brief   constructor
-    /// @param type type of amoral unit
-    /// @param damage  amount of damage
-    /// @param shield  amount of defense
-    Amoral(const amoral_type &type, const unsigned &damage,
-           const unsigned &shield);
-
-    /// @brief   constructor
-    /// @param type type of unit
-    /// @param damage  amount of damage
-    /// @param shield  amount of defense
-    Amoral(const constant::unit &type, const unsigned &damage,
-           const unsigned &shield);
-
     /// @brief  copy constructor
     /// @param squad    squad to copy
     Amoral(const Amoral &squad);
@@ -131,22 +117,6 @@ class Moral : public Unit {
     /// @param type type of moral unit
     /// @param moral moral value
     Moral(const constant::unit &type, const int &moral);
-
-    /// @brief  constructor
-    /// @param type type of moral unit
-    /// @param moral    moral value
-    /// @param damage  amount of damage
-    /// @param shield  amount of defense
-    Moral(const moral_type &type, const int &moral,
-          const unsigned &damage, const unsigned &shield);
-
-    /// @brief  constructor
-    /// @param type type of unit
-    /// @param moral    moral value
-    /// @param damage  amount of damage
-    /// @param shield  amount of defense
-    Moral(const constant::unit &type, const int &moral,
-          const unsigned &damage, const unsigned &shield);
 
     /// @brief  copy constructor
     /// @param squad    squad to copy
