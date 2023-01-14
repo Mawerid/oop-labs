@@ -1,107 +1,86 @@
 #include "../include/skill.hpp"
+
 #include <iostream>
 
-namespace school
-{
+namespace school {
 
-    Skill::Skill()
-    {
-        name = constant::unit::ROBOMECH;
-        desc = constant::unit::ROBOMECH;
-        min_study = constant::experience::ROBOMECH_EX;
-        energy = 0;
-        count_coef = 1.0;
-        easy_kill = {};
-    }
+Skill::Skill(const constant::unit &name,
+             const unsigned &minimal_study,
+             const unsigned &energy,
+             const double &count_coefficient) : name_(name),
+                                                minimal_study_(minimal_study),
+                                                energy_(energy),
+                                                count_coefficient_(count_coefficient),
+                                                easy_kill_({}) {}
 
-    Skill::Skill(const squad::Squad &new_decs)
-    {
-        desc = new_decs;
-        name = new_decs.get_name();
-        min_study = constant::experience::ROBOMECH_EX;
-        energy = 0;
-        count_coef = 1.0;
-        easy_kill = {};
-    }
+Skill::Skill(const constant::unit &name, const unsigned &minimal_study,
+             const unsigned &energy, const double &count_coefficient,
+             const unit_list easy_kill) : name_(name),
+                                          minimal_study_(minimal_study),
+                                          energy_(energy),
+                                          count_coefficient_(count_coefficient),
+                                          easy_kill_(easy_kill) {}
 
-    Skill::Skill(const constant::unit &new_name)
-    {
-        name = new_name;
-        desc = constant::unit::ROBOMECH;
-        min_study = constant::experience::ROBOMECH_EX;
-        energy = 0;
-        count_coef = 1.0;
-        easy_kill = {};
-    }
+void Skill::set_name(const constant::unit &name) { name_ = name; }
 
-    Skill::Skill(const constant::unit &new_name, const squad::Squad &new_decs, const unsigned &study, const unsigned &nrgy, const double &coef)
-    {
-        name = new_name;
-        desc = new_decs;
-        min_study = study;
-        energy = nrgy;
-        count_coef = coef;
-        easy_kill = {};
-    }
-
-    Skill::Skill(const Skill &skill)
-    {
-        name = skill.name;
-        desc = skill.desc;
-        min_study = skill.min_study;
-        energy = skill.energy;
-        count_coef = skill.count_coef;
-        easy_kill = skill.easy_kill;
-    }
-
-    void Skill::set_name(const constant::unit &new_name) { name = new_name; }
-
-    void Skill::set_desc(const squad::Squad &new_decs) { desc = new_decs; }
-
-    void Skill::set_min_study(const unsigned &new_study) { min_study = new_study; }
-
-    void Skill::set_energy(const unsigned &nrgy) { energy = nrgy; }
-
-    void Skill::set_count_coef(const double &new_coef) { count_coef = new_coef; }
-
-    void Skill::set_easy_kill(const std::vector<constant::unit> &new_list) { easy_kill = new_list; }
-
-    constant::unit Skill::get_name() const { return name; }
-
-    squad::Squad Skill::get_desc() const { return desc; }
-
-    unsigned Skill::get_min_study() const { return min_study; }
-
-    unsigned Skill::get_energy() const { return energy; }
-
-    double Skill::get_count_coef() const { return count_coef; }
-
-    std::vector<constant::unit> Skill::get_easy_kill() const { return easy_kill; }
-
-    void Skill::add_easy_kill(const constant::unit &new_name)
-    {
-        easy_kill.insert(easy_kill.end(), new_name);
-    }
-
-    void Skill::remove_easy_kill(const constant::unit &new_name)
-    {
-        size_t i = 0;
-
-        for (; easy_kill[i] != new_name; i++)
-            ;
-
-        easy_kill.erase(easy_kill.begin() + i);
-    }
-
-    bool Skill::check_easy_kill(const constant::unit &new_name)
-    {
-        size_t i = 0;
-        for (; easy_kill[i] != new_name && i < easy_kill.size() ; i++)
-            ;
-
-        if (i < easy_kill.size() && easy_kill[i] == new_name)
-            return true;
-        else
-            return false;
-    }
+void Skill::set_minimal_study(const unsigned &minimal_study) {
+    minimal_study_ = minimal_study;
 }
+
+void Skill::set_energy(const unsigned &energy) { energy_ = energy; }
+
+void Skill::set_count_coefficient(const double &count_coefficient) {
+    count_coefficient_ = count_coefficient;
+}
+
+void Skill::set_easy_kill(const unit_list &list) { easy_kill_ = list; }
+
+constant::unit Skill::get_name() const { return name_; }
+
+unsigned Skill::get_minimal_study() const { return minimal_study_; }
+
+unsigned Skill::get_energy() const { return energy_; }
+
+double Skill::get_count_coefficient() const { return count_coefficient_; }
+
+Skill::unit_list Skill::get_easy_kill() const { return easy_kill_; }
+
+void Skill::add_easy_kill(const constant::unit &name) {
+    easy_kill_.insert(easy_kill_.end(), name);
+}
+
+void Skill::remove_easy_kill(const constant::unit &name) {
+    size_t i = 0;
+    for (; easy_kill_[i] != name; i++)
+        ;
+
+    easy_kill_.erase(easy_kill_.begin() + i);
+}
+
+bool Skill::check_easy_kill(const constant::unit &name) {
+    size_t i = 0;
+    for (; easy_kill_[i] != name && i < easy_kill_.size(); i++)
+        ;
+
+    if (i < easy_kill_.size() && easy_kill_[i] == name)
+        return true;
+    else
+        return false;
+}
+
+bool Skill::operator==(const Skill &skill) {
+    if (name_ == skill.name_ &&
+        minimal_study_ == skill.minimal_study_ &&
+        energy_ == skill.name_ &&
+        count_coefficient_ == skill.count_coefficient_ &&
+        easy_kill_ == skill.easy_kill_)
+        return true;
+    else
+        return false;
+}
+
+bool Skill::operator!=(const Skill &skill) {
+    return !(*this == skill);
+}
+
+}  // namespace school

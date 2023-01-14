@@ -22,6 +22,14 @@ class Unit : public Squad {
     Unit(const constant::unit &name, const unsigned &damage,
          const unsigned &shield);
 
+    /// @brief  copy constructor
+    /// @param squad    squad to copy
+    Unit(const Unit &squad);
+
+    /// @brief  move constructor
+    /// @param squad    squad to move
+    Unit(Unit &&squad);
+
     ~Unit() = default;
 
     /// @brief  getter of damage
@@ -47,6 +55,26 @@ class Unit : public Squad {
     /// @brief  get damage from other squad
     /// @param squad    squad get hit from
     virtual void defence(Squad &squad) = 0;
+
+    /// @brief  copy operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Unit &operator=(const Unit &squad) = default;
+
+    /// @brief  move operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Unit &operator=(Unit &&squad) = default;
+
+    /// @brief  operator of equality
+    /// @param squad squad to check
+    /// @return is they equal or not
+    bool operator==(const Unit &squad);
+
+    /// @brief  operator !=
+    /// @param squad squad to check
+    /// @return is they eqial or not
+    bool operator!=(const Unit &squad);
 };
 }  // namespace squad
 

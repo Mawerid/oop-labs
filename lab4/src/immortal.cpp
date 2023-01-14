@@ -2,6 +2,8 @@
 
 namespace squad {
 
+// Immortal
+
 Immortal::Immortal() : restore_(10), probability_(0.5) {}
 
 Immortal::Immortal(const unsigned &restore,
@@ -18,6 +20,8 @@ void Immortal::set_probability(const double &probability) {
     if (probability >= 0.0 && probability <= 1.0)
         probability_ = probability;
 }
+
+// Immortal Moral
 
 constant::unit Immortal_moral::convert_name(const immortal_moral_type &type)
     const {
@@ -44,6 +48,16 @@ Immortal_moral::Immortal_moral(const immortal_moral_type &type,
       Immortal(restore, probability),
       type_(type) {}
 
+Immortal_moral::Immortal_moral(const Immortal_moral &squad)
+    : Moral(convert_name(squad.type_)),
+      Immortal(squad.restore_, squad.probability_),
+      type_(squad.type_) {}
+
+Immortal_moral::Immortal_moral(Immortal_moral &&squad)
+    : Moral(convert_name(squad.type_)),
+      Immortal(squad.restore_, squad.probability_),
+      type_(squad.type_) {}
+
 immortal_moral_type Immortal_moral::get_type() const { return type_; }
 
 void Immortal_moral::set_type(const immortal_moral_type &type) { type_ = type; }
@@ -55,6 +69,25 @@ void Immortal_moral::heal() {
     if (probability_ > rand_check)
         this->set_health((health_ + restore_));
 }
+
+bool Immortal_moral::operator==(const Immortal_moral &squad) {
+    if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
+        max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
+        speed_ == squad.speed_ && experience_ == squad.experience_ &&
+        team_ == squad.team_ && name_ == squad.name_ &&
+        damage_ == squad.damage_ && shield_ == squad.shield_ &&
+        type_ == squad.type_ && restore_ == squad.restore_ &&
+        probability_ == squad.probability_)
+        return true;
+    else
+        return false;
+}
+
+bool Immortal_moral::operator!=(const Immortal_moral &squad) {
+    return !(*this == squad);
+}
+
+// Immortal Amoral
 
 constant::unit Immortal_amoral::convert_name(const immortal_amoral_type &type)
     const {
@@ -79,6 +112,16 @@ Immortal_amoral::Immortal_amoral(const immortal_amoral_type &type,
       Immortal(restore, probability),
       type_(type) {}
 
+Immortal_amoral::Immortal_amoral(const Immortal_amoral &squad)
+    : Amoral(convert_name(squad.type_)),
+      Immortal(squad.restore_, squad.probability_),
+      type_(squad.type_) {}
+
+Immortal_amoral::Immortal_amoral(Immortal_amoral &&squad)
+    : Amoral(convert_name(squad.type_)),
+      Immortal(squad.restore_, squad.probability_),
+      type_(squad.type_) {}
+
 immortal_amoral_type Immortal_amoral::get_type() const { return type_; }
 
 void Immortal_amoral::set_type(const immortal_amoral_type &type) {
@@ -92,4 +135,22 @@ void Immortal_amoral::heal() {
     if (probability_ > rand_check)
         this->set_health((health_ + restore_));
 }
+
+bool Immortal_amoral::operator==(const Immortal_amoral &squad) {
+    if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
+        max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
+        speed_ == squad.speed_ && experience_ == squad.experience_ &&
+        team_ == squad.team_ && name_ == squad.name_ &&
+        damage_ == squad.damage_ && shield_ == squad.shield_ &&
+        type_ == squad.type_ && restore_ == squad.restore_ &&
+        probability_ == squad.probability_)
+        return true;
+    else
+        return false;
+}
+
+bool Immortal_amoral::operator!=(const Immortal_amoral &squad) {
+    return !(*this == squad);
+}
+
 }  // namespace squad

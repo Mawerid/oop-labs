@@ -46,6 +46,14 @@ class Amoral : public Unit {
     Amoral(const constant::unit &type, const unsigned &damage,
            const unsigned &shield);
 
+    /// @brief  copy constructor
+    /// @param squad    squad to copy
+    Amoral(const Amoral &squad);
+
+    /// @brief  move constructor
+    /// @param squad    squad to move
+    Amoral(Amoral &&squad);
+
     ~Amoral() = default;
 
     /// @brief  getter of type
@@ -63,6 +71,26 @@ class Amoral : public Unit {
     /// @brief  get damage from other squad
     /// @param squad    squad get hit from
     void defence(Squad &squad) override;
+
+    /// @brief  copy operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Amoral &operator=(const Amoral &squad) = default;
+
+    /// @brief  move operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Amoral &operator=(Amoral &&squad) = default;
+
+    /// @brief  operator of equality
+    /// @param squad squad to check
+    /// @return is they equal or not
+    bool operator==(const Amoral &squad);
+
+    /// @brief  operator !=
+    /// @param squad squad to check
+    /// @return is they eqial or not
+    bool operator!=(const Amoral &squad);
 };
 
 enum moral_type {
@@ -120,6 +148,14 @@ class Moral : public Unit {
     Moral(const constant::unit &type, const int &moral,
           const unsigned &damage, const unsigned &shield);
 
+    /// @brief  copy constructor
+    /// @param squad    squad to copy
+    Moral(const Moral &squad);
+
+    /// @brief  move constructor
+    /// @param squad    squad to move
+    Moral(Moral &&squad);
+
     ~Moral() = default;
 
     /// @brief  getter of type
@@ -152,6 +188,26 @@ class Moral : public Unit {
     /// @brief  modificate moral
     /// @param modify    moral value to add
     void modify_moral(const int &modify);
+
+    /// @brief  copy operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Moral &operator=(const Moral &squad) = default;
+
+    /// @brief  move operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Moral &operator=(Moral &&squad) = default;
+
+    /// @brief  operator of equality
+    /// @param squad squad to check
+    /// @return is they equal or not
+    bool operator==(const Moral &squad);
+
+    /// @brief  operator !=
+    /// @param squad squad to check
+    /// @return is they eqial or not
+    bool operator!=(const Moral &squad);
 };
 }  // namespace squad
 

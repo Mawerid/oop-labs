@@ -2,11 +2,14 @@
 
 namespace squad {
 
+// Amoral
+
 constant::unit Amoral::convert_name(const amoral_type &type) const {
     return static_cast<constant::unit>(type * 3 + 1);
 }
 
-Amoral::Amoral(const amoral_type &type) : Unit(convert_name(type)), type_(type) {}
+Amoral::Amoral(const amoral_type &type)
+    : Unit(convert_name(type)), type_(type) {}
 
 Amoral::Amoral(const constant::unit &type) : Unit(type),
                                              type_(amoral_type::NONE) {}
@@ -19,6 +22,12 @@ Amoral::Amoral(const amoral_type &type, const unsigned &damage,
 Amoral::Amoral(const constant::unit &type, const unsigned &damage,
                const unsigned &shield) : Unit(type, damage, shield),
                                          type_(amoral_type::NONE) {}
+
+Amoral::Amoral(const Amoral &squad) : Unit(convert_name(squad.type_)),
+                                      type_(squad.type_) {}
+
+Amoral::Amoral(Amoral &&squad) : Unit(convert_name(squad.type_)),
+                                 type_(squad.type_) {}
 
 amoral_type Amoral::get_type() const { return type_; }
 
@@ -38,6 +47,24 @@ void Amoral::defence(Squad &squad) {
         damage = static_cast<Moral &>(squad).get_damage_val();
     this->get_damage(damage);
 }
+
+bool Amoral::operator==(const Amoral &squad) {
+    if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
+        max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
+        speed_ == squad.speed_ && experience_ == squad.experience_ &&
+        team_ == squad.team_ && name_ == squad.name_ &&
+        damage_ == squad.damage_ && shield_ == squad.shield_ &&
+        type_ == squad.type_)
+        return true;
+    else
+        return false;
+}
+
+bool Amoral::operator!=(const Amoral &squad) {
+    return !(*this == squad);
+}
+
+// Moral
 
 constant::unit Moral::convert_name(const moral_type &type) const {
     return static_cast<constant::unit>(type * 3);
@@ -74,6 +101,14 @@ Moral::Moral(const constant::unit &type, const int &moral,
                                        type_(moral_type::NONE),
                                        moral_(moral) {}
 
+Moral::Moral(const Moral &squad) : Unit(convert_name(squad.type_)),
+                                   type_(squad.type_),
+                                   moral_(squad.moral_) {}
+
+Moral::Moral(Moral &&squad) : Unit(convert_name(squad.type_)),
+                              type_(squad.type_),
+                              moral_(squad.moral_) {}
+
 moral_type Moral::get_type() const { return type_; }
 
 int Moral::get_moral() const { return moral_; }
@@ -105,4 +140,21 @@ void Moral::balance_moral() {
 }
 
 void Moral::modify_moral(const int &modify) { moral_ += modify; }
+
+bool Moral::operator==(const Moral &squad) {
+    if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
+        max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
+        speed_ == squad.speed_ && experience_ == squad.experience_ &&
+        team_ == squad.team_ && name_ == squad.name_ &&
+        damage_ == squad.damage_ && shield_ == squad.shield_ &&
+        type_ == squad.type_)
+        return true;
+    else
+        return false;
+}
+
+bool Moral::operator!=(const Moral &squad) {
+    return !(*this == squad);
+}
+
 }  // namespace squad

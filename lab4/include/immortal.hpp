@@ -84,6 +84,14 @@ class Immortal_moral : public Moral, public Immortal {
                    const unsigned &shield, const unsigned &restore,
                    const double &probability, const int &moral);
 
+    /// @brief  copy constructor
+    /// @param squad    squad to copy
+    Immortal_moral(const Immortal_moral &squad);
+
+    /// @brief  move constructor
+    /// @param squad    squad to move
+    Immortal_moral(Immortal_moral &&squad);
+
     ~Immortal_moral() = default;
 
     /// @brief  getter of unit type
@@ -96,6 +104,26 @@ class Immortal_moral : public Moral, public Immortal {
 
     /// @brief  func, that can restore some creatures in squad
     void heal() override;
+
+    /// @brief  copy operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Immortal_moral &operator=(const Immortal_moral &squad) = default;
+
+    /// @brief  move operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Immortal_moral &operator=(Immortal_moral &&squad) = default;
+
+    /// @brief  operator of equality
+    /// @param squad squad to check
+    /// @return is they equal or not
+    bool operator==(const Immortal_moral &squad);
+
+    /// @brief  operator !=
+    /// @param squad squad to check
+    /// @return is they eqial or not
+    bool operator!=(const Immortal_moral &squad);
 };
 
 enum immortal_amoral_type {
@@ -135,6 +163,14 @@ class Immortal_amoral : public Amoral, public Immortal {
                     const unsigned &shield, const unsigned &restore,
                     const double &probability);
 
+    /// @brief  copy constructor
+    /// @param squad    squad to copy
+    Immortal_amoral(const Immortal_amoral &squad);
+
+    /// @brief  move constructor
+    /// @param squad    squad to move
+    Immortal_amoral(Immortal_amoral &&squad);
+
     ~Immortal_amoral() = default;
 
     /// @brief  getter of unit type
@@ -147,6 +183,26 @@ class Immortal_amoral : public Amoral, public Immortal {
 
     /// @brief  func, that can restore some creatures in squad
     void heal() override;
+
+    /// @brief  copy operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Immortal_amoral &operator=(const Immortal_amoral &squad) = default;
+
+    /// @brief  move operator of assignment
+    /// @param squad    squad to assign
+    /// @return new state of class object (this)
+    Immortal_amoral &operator=(Immortal_amoral &&squad) = default;
+
+    /// @brief  operator of equality
+    /// @param squad squad to check
+    /// @return is they equal or not
+    bool operator==(const Immortal_amoral &squad);
+
+    /// @brief  operator !=
+    /// @param squad squad to check
+    /// @return is they eqial or not
+    bool operator!=(const Immortal_amoral &squad);
 };
 }  // namespace squad
 

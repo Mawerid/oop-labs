@@ -42,11 +42,11 @@ class Squad {
 
     /// @brief  copy constructor
     /// @param squad    squad to copy
-    Squad(const Squad &squad);
+    Squad(const Squad &squad) = default;
 
     /// @brief  move constructor
     /// @param squad    squad to move
-    Squad(Squad &&squad);
+    Squad(Squad &&squad) = default;
 
     ~Squad() = default;
 
@@ -121,12 +121,12 @@ class Squad {
     /// @brief  copy operator of assignment
     /// @param squad    squad to assign
     /// @return new state of class object (this)
-    Squad &operator=(const Squad &squad);
+    Squad &operator=(const Squad &squad) = default;
 
     /// @brief  move operator of assignment
     /// @param squad    squad to assign
     /// @return new state of class object (this)
-    Squad &operator=(Squad &&squad);
+    Squad &operator=(Squad &&squad) = default;
 
     /// @brief  operator of equality
     /// @param squad squad to check

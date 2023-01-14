@@ -36,24 +36,6 @@ Squad::Squad(const unsigned &motivation, const unsigned &health,
                                            team_(team),
                                            name_(name) {}
 
-Squad::Squad(const Squad &squad) : motivation_(squad.motivation_),
-                                   health_(squad.health_),
-                                   max_health_(squad.max_health_),
-                                   quantity_(squad.quantity_),
-                                   speed_(squad.speed_),
-                                   experience_(squad.experience_),
-                                   team_(squad.team_),
-                                   name_(squad.name_) {}
-
-Squad::Squad(Squad &&squad) : motivation_(squad.motivation_),
-                              health_(squad.health_),
-                              max_health_(squad.max_health_),
-                              quantity_(squad.quantity_),
-                              speed_(squad.speed_),
-                              experience_(squad.experience_),
-                              team_(squad.team_),
-                              name_(squad.name_) {}
-
 void Squad::set_health(const unsigned &health) {
     if (health <= max_health_)
         health_ = health;
@@ -93,34 +75,6 @@ void Squad::get_damage(const unsigned &damage) {
         health_ -= damage;
 }
 
-Squad &Squad::operator=(const Squad &squad) {
-    if (this != &squad) {
-        motivation_ = squad.motivation_;
-        health_ = squad.health_;
-        max_health_ = squad.max_health_;
-        quantity_ = squad.quantity_;
-        speed_ = squad.speed_;
-        experience_ = squad.experience_;
-        team_ = squad.team_;
-        name_ = squad.name_;
-    }
-    return *this;
-}
-
-Squad &Squad::operator=(Squad &&squad) {
-    size_t tmp;
-    std::swap(squad.experience_, experience_);
-    std::swap(squad.motivation_, motivation_);
-    std::swap(squad.health_, health_);
-    std::swap(squad.max_health_, max_health_);
-    std::swap(squad.quantity_, quantity_);
-    std::swap(squad.speed_, speed_);
-    std::swap(squad.team_, team_);
-    std::swap(squad.name_, name_);
-
-    return *this;
-}
-
 bool Squad::operator==(const Squad &squad) {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
@@ -134,4 +88,5 @@ bool Squad::operator==(const Squad &squad) {
 bool Squad::operator!=(const Squad &squad) {
     return !(*this == squad);
 }
+
 }  // namespace squad
