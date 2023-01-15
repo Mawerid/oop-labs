@@ -1,188 +1,217 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
-#include <math.h>
 #include "lord.hpp"
 
-namespace field
-{
-    /// @brief  3 types of Cell in field
-    enum class cell_type
-    {
-        FREE,
-        BUSY,
-        OBSTAClE
-    };
+namespace field {
+/// @brief  3 types of Cell in field
+enum class cell_type {
+    FREE,
+    BUSY,
+    OBSTAClE
+};
 
-    /// @brief  class describing common point
-    class point
-    {
-    private:
-        size_t coor_x;
-        size_t coor_y;
+/// @brief  class describing common Point
+class Point {
+   private:
+    int x_ = 0;
+    int y_ = 0;
 
-    public:
-        unsigned dimension = 2;
+   public:
+    /// @brief  empty constructor
+    Point();
 
-        /// @brief  empty constructor
-        point();
+    /// @brief  constuctor
+    /// @param x    x coordinate of Point
+    /// @param y    y coordinate of Point
+    Point(const int &x, const int &y);
 
-        /// @brief  constuctor
-        /// @param x    x coordinate of point
-        /// @param y    y coordinate of point
-        point(const size_t x, const size_t y);
+    /// @brief  copy constructor
+    /// @param point  other point
+    Point(const Point &point) = default;
 
-        /// @brief  copy constructor
-        /// @param pnt  other point
-        point(const point &pnt);
+    /// @brief  move constructor
+    /// @param point  other point
+    Point(Point &&point) = default;
 
-        /// @brief  move constructor
-        /// @param pnt  other point
-        point(point &&pnt);
+    ~Point() = default;
 
-        /// @brief  setter of x coordinate
-        /// @param x    new x coordinate of point
-        void set_x(const size_t &x);
+    /// @brief  setter of x coordinate
+    /// @param x    new x coordinate of point
+    void set_x(const int &x);
 
-        /// @brief  setter of y coordinate
-        /// @param y    new y coordinate of point
-        void set_y(const size_t &y);
+    /// @brief  setter of y coordinate
+    /// @param y    new y coordinate of point
+    void set_y(const int &y);
 
-        /// @brief  getter of x coordinate
-        /// @return x coordinate
-        size_t get_x() const;
+    /// @brief  getter of x coordinate
+    /// @return x coordinate
+    int get_x() const;
 
-        /// @brief  getter of y coordinate
-        /// @return y coordinate
-        size_t get_y() const;
+    /// @brief  getter of y coordinate
+    /// @return y coordinate
+    int get_y() const;
 
-        size_t getDimension(int dim) const
-        {
-            switch (dim)
-            {
-            case 0:
-                return coor_x;
-            case 1:
-                return coor_y;
-            default:
-                return std::numeric_limits<size_t>::quiet_NaN();
-            }
-        }
+    /// @brief  calculate distance between two points
+    /// @param point  second point
+    /// @return distance between two points
+    double distance(const Point &point) const;
 
-        /// @brief  calculate distance between two points
-        /// @param point_1  first point
-        /// @param point_2  second point
-        /// @return distance between two points
-        double distance(const point &pnt) const;
+    /// @brief function to understand is this point in raduius of other
+    /// @param radius radius to check
+    /// @param point  second point
+    /// @return is it near or not
+    bool near(const unsigned &radius, const Point &point) const;
 
-        /// @brief  compare two points
-        /// @param pnt point to compare
-        /// @return is two points are equal
-        bool operator==(const point &pnt) const;
+    /// @brief  copy operator of assignment
+    /// @param point    point to assign
+    /// @return new state of class object (this)
+    Point &operator=(const Point &point) = default;
 
-        /// @brief
-        /// @param pnt point to copy
-        /// @return
-        point operator=(const point &pnt);
-    };
+    /// @brief  move operator of assignment
+    /// @param point    point to assign
+    /// @return new state of class object (this)
+    Point &operator=(Point &&point) = default;
 
-    /// @brief class describing a Cell in the game field
-    class Cell
-    {
-    private:
-        cell_type type;
-        point coor;
-        squad::Squad *filling = nullptr;
+    /// @brief  operator of equality
+    /// @param point point to check
+    /// @return is they equal or not
+    bool operator==(const Point &point) const;
 
-    public:
-        /// @brief  empty constructor
-        Cell();
+    /// @brief  operator !=
+    /// @param point point to check
+    /// @return is they eqial or not
+    bool operator!=(const Point &point) const;
 
-        /// @brief  constructor
-        /// @param c_type type of Cell
-        Cell(const cell_type &c_type);
+    /// @brief  operator >
+    /// @param point point to check
+    /// @return is they eqial or not
+    bool operator>(const Point &point) const;
 
-        /// @brief  constructor
-        /// @param coor_new    coordinates of Cell in field
-        Cell(const point coor_new);
+    /// @brief  operator <
+    /// @param point point to check
+    /// @return is they eqial or not
+    bool operator<(const Point &point) const;
 
-        /// @brief  constructor
-        /// @param coor_new    coordinates of Cell in field
-        /// @param type type of Cell
-        /// @param fill filling of the Cell
-        Cell(const point coor_new, const cell_type &c_type, squad::Squad *fill);
+    /// @brief  operator <=
+    /// @param point point to check
+    /// @return is they eqial or not
+    bool operator<=(const Point &point) const;
 
-        /// @brief
-        /// @param coor_x
-        /// @param coor_y
-        /// @param c_type
-        /// @param fill
-        Cell(const size_t &coor_x, const size_t &coor_y, const cell_type &c_type, squad::Squad *fill);
+    /// @brief  operator >=
+    /// @param point point to check
+    /// @return is they eqial or not
+    bool operator>=(const Point &point) const;
+};
 
-        /// @brief  copy constructor
-        /// @param old_cell Cell to copy
-        Cell(const Cell &old_cell);
+/// @brief class describing a Cell in the game field
+class Cell {
+   private:
+    cell_type type_;
+    Point coordinates_;
+    squad::Squad *squad_ = nullptr;
 
-        /// @brief  move constructor
-        /// @param old_cell Cell to move
-        Cell(Cell &&old_cell);
+   public:
+    /// @brief  constructor
+    /// @param coordinates    coordinates of Cell in field
+    /// @param type type of Cell
+    /// @param squad filling of the Cell
+    Cell(const Point &coordinates, const cell_type &type,
+         squad::Squad *squad);
 
-        ~Cell();
+    /// @brief constructor
+    /// @param x x coordinate of cell
+    /// @param y y coordinate of cell
+    /// @param type type of Cell
+    /// @param squad filling of the Cell
+    Cell(const int &x, const int &y, const cell_type &type,
+         squad::Squad *squad);
 
-        /// @brief  getter of the type
-        /// @return type of Cell
-        cell_type get_type() const;
+    /// @brief  copy constructor
+    /// @param cell Cell to copy
+    Cell(const Cell &cell);
 
-        /// @brief  getter of the filling
-        /// @return pointer to filling squad of Cell
-        squad::Squad *get_filling() const;
+    /// @brief  move constructor
+    /// @param cell Cell to move
+    Cell(Cell &&cell);
 
-        /// @brief  getter of the coordinates of Cell
-        /// @return point contains coordinates of Cell
-        point get_coor() const;
+    ~Cell();
 
-        /// @brief  setter of the Cell type
-        /// @param type new type of Cell
-        void set_type(const cell_type &c_type);
+    /// @brief  getter of the type
+    /// @return type of Cell
+    cell_type get_type() const;
 
-        /// @brief  setter of the filling of Cell
-        /// @param fill pointer to squad
-        void set_filling(squad::Squad *fill);
+    /// @brief  getter of the squad
+    /// @return pointer to squad of Cell
+    squad::Squad *get_squad() const;
 
-        /// @brief  setter of the coordinates of Cell
-        /// @param coor_new    point contains coordinates of Cell
-        void set_coor(const point &coor_new);
+    /// @brief  getter of the coordinates of Cell
+    /// @return point contains coordinates of Cell
+    Point get_coordinates() const;
 
-        /// @brief  operator of equal compare of two cells
-        /// @param other_cell   Cell to compare
-        /// @return if two points are equal or not
-        bool operator==(const Cell &other_cell) const;
+    /// @brief  setter of the Cell type
+    /// @param type new type of Cell
+    void set_type(const cell_type &type);
 
-        bool operator>(const Cell &other_cell) const
-        {
-            float rg1 = sqrt(this->coor.get_x() * this->coor.get_x() + this->coor.get_y() * this->coor.get_y());
-            float rg2 = sqrt(other_cell.coor.get_x() * other_cell.coor.get_x() + other_cell.coor.get_y() * other_cell.coor.get_y());
-            if (rg1 > rg2)
-                return true;
-            else
-                return false;
-        }
+    /// @brief  setter of the squad of Cell
+    /// @param squad Pointer to squad
+    void set_squad(squad::Squad *squad);
 
-        bool operator<(const Cell &other_cell) const
-        {
-            float rg1 = sqrt(this->coor.get_x() * this->coor.get_x() + this->coor.get_y() * this->coor.get_y());
-            float rg2 = sqrt(other_cell.coor.get_x() * other_cell.coor.get_x() + other_cell.coor.get_y() * other_cell.coor.get_y());
-            if (rg1 < rg2)
-                return true;
-            else
-                return false;
-        }
+    /// @brief  setter of the coordinates of Cell
+    /// @param coordinates    Point contains coordinates of Cell
+    void set_coordinates(const Point &coordinates);
 
-        /// @brief  operator of assignment
-        /// @param cell cell to assign
-        /// @return new state if class object (this)
-        Cell operator=(Cell cell);
-    };
-}
+    /// @brief  calculate distance between two cells
+    /// @param cell  second Cell
+    /// @return distance between two cells
+    double distance(const Cell &cell) const;
+
+    /// @brief function to understand is this cell in raduius of other
+    /// @param radius radius to check
+    /// @param cell  second cell
+    /// @return is it near or not
+    bool near(const unsigned &radius, const Cell &cell) const;
+
+    /// @brief  copy operator of assignment
+    /// @param cell    cell to assign
+    /// @return new state of class object (this)
+    Cell &operator=(const Cell &cell);
+
+    /// @brief  move operator of assignment
+    /// @param cell    cell to assign
+    /// @return new state of class object (this)
+    Cell &operator=(Cell &&cell);
+
+    /// @brief  operator of equality
+    /// @param cell cell to check
+    /// @return is they equal or not
+    bool operator==(const Cell &cell) const;
+
+    /// @brief  operator !=
+    /// @param cell cell to check
+    /// @return is they eqial or not
+    bool operator!=(const Cell &cell) const;
+
+    /// @brief  operator >
+    /// @param cell cell to check
+    /// @return is they eqial or not
+    bool operator>(const Cell &cell) const;
+
+    /// @brief  operator <
+    /// @param cell cell to check
+    /// @return is they eqial or not
+    bool operator<(const Cell &cell) const;
+
+    /// @brief  operator <=
+    /// @param cell cell to check
+    /// @return is they eqial or not
+    bool operator<=(const Cell &cell) const;
+
+    /// @brief  operator >=
+    /// @param cell cell to check
+    /// @return is they eqial or not
+    bool operator>=(const Cell &cell) const;
+};
+}  // namespace field
 
 #endif

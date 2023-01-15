@@ -1,58 +1,58 @@
 #include <gtest/gtest.h>
 #include <math.h>
 
+#include "../include/kdtree.hpp"
 #include "../include/landscape.hpp"
-// #include "../include/kdtree.hpp"
 
-// TEST(Cell, constructors_getters) {
-//     field::point tmp;
-//     ASSERT_EQ(0, tmp.get_x());
-//     ASSERT_EQ(0, tmp.get_y());
+TEST(Cell, constructors_getters) {
+    field::Point tmp;
+    ASSERT_EQ(0, tmp.get_x());
+    ASSERT_EQ(0, tmp.get_y());
 
-//     field::point tmp_1(2, 3);
-//     ASSERT_EQ(2, tmp_1.get_x());
-//     ASSERT_EQ(3, tmp_1.get_y());
+    field::Point tmp_1(2, 3);
+    ASSERT_EQ(2, tmp_1.get_x());
+    ASSERT_EQ(3, tmp_1.get_y());
 
-//     field::Cell cell(tmp, field::cell_type::FREE, nullptr);
+    field::Cell cell(tmp, field::cell_type::FREE, nullptr);
 
-//     ASSERT_EQ(tmp, cell.get_coor());
-//     ASSERT_EQ(field::cell_type::FREE, cell.get_type());
-//     ASSERT_EQ(nullptr, cell.get_filling());
-// }
+    ASSERT_EQ(tmp, cell.get_coordinates());
+    ASSERT_EQ(field::cell_type::FREE, cell.get_type());
+    ASSERT_EQ(nullptr, cell.get_squad());
+}
 
-// TEST(Cell, setters) {
-//     field::point tmp;
-//     ASSERT_EQ(0, tmp.get_x());
-//     ASSERT_EQ(0, tmp.get_y());
+TEST(Cell, setters) {
+    field::Point tmp;
+    ASSERT_EQ(0, tmp.get_x());
+    ASSERT_EQ(0, tmp.get_y());
 
-//     field::Cell cell(tmp, field::cell_type::FREE, nullptr);
+    field::Cell cell(tmp, field::cell_type::FREE, nullptr);
 
-//     ASSERT_EQ(tmp, cell.get_coor());
-//     ASSERT_EQ(field::cell_type::FREE, cell.get_type());
-//     ASSERT_EQ(nullptr, cell.get_filling());
+    ASSERT_EQ(tmp, cell.get_coordinates());
+    ASSERT_EQ(field::cell_type::FREE, cell.get_type());
+    ASSERT_EQ(nullptr, cell.get_squad());
 
-//     field::point tmp_1(2, 3);
-//     ASSERT_EQ(2, tmp_1.get_x());
-//     ASSERT_EQ(3, tmp_1.get_y());
+    field::Point tmp_1(2, 3);
+    ASSERT_EQ(2, tmp_1.get_x());
+    ASSERT_EQ(3, tmp_1.get_y());
 
-//     cell.set_coor(tmp_1);
-//     cell.set_type(field::cell_type::BUSY);
+    cell.set_coordinates(tmp_1);
+    cell.set_type(field::cell_type::BUSY);
 
-//     ASSERT_EQ(tmp_1, cell.get_coor());
-//     ASSERT_EQ(field::cell_type::BUSY, cell.get_type());
-// }
+    ASSERT_EQ(tmp_1, cell.get_coordinates());
+    ASSERT_EQ(field::cell_type::BUSY, cell.get_type());
+}
 
-// TEST(Cell, other_func) {
-//     field::point tmp;
-//     ASSERT_EQ(0, tmp.get_x());
-//     ASSERT_EQ(0, tmp.get_y());
+TEST(Cell, other_func) {
+    field::Point tmp;
+    ASSERT_EQ(0, tmp.get_x());
+    ASSERT_EQ(0, tmp.get_y());
 
-//     field::point tmp_1(3, 4);
-//     ASSERT_EQ(3, tmp_1.get_x());
-//     ASSERT_EQ(4, tmp_1.get_y());
+    field::Point tmp_1(3, 4);
+    ASSERT_EQ(3, tmp_1.get_x());
+    ASSERT_EQ(4, tmp_1.get_y());
 
-//     ASSERT_NEAR(5.0, tmp.distance(tmp_1), 0.0001);
-// }
+    ASSERT_NEAR(5.0, tmp.distance(tmp_1), 0.0001);
+}
 
 TEST(Squad, constructors) {
     squad::Squad squad = squad::Squad(constant::unit::DENDRIOD);
@@ -396,71 +396,71 @@ TEST(Immortal_amoral, other_func) {
     ASSERT_EQ(249, squad.get_health());
 }
 
-// //  KDTree
+//  KDTree
 
-// typedef size_t node;
+typedef size_t node;
 
-// struct point_3D {
-//     double x, y, z;
-//     const static int dimension = 2;
+struct point_3D {
+    double x, y, z;
+    const static int dimension = 2;
 
-//     double getDimension(int dim) const {
-//         switch (dim) {
-//             case 0:
-//                 return x;
-//             case 1:
-//                 return y;
-//             default:
-//                 return std::numeric_limits<double>::quiet_NaN();
-//         }
-//     }
+    double getDimension(int dim) const {
+        switch (dim) {
+            case 0:
+                return x;
+            case 1:
+                return y;
+            default:
+                return std::numeric_limits<double>::quiet_NaN();
+        }
+    }
 
-//     bool operator==(const point_3D &point) const {
-//         if (this->x == point.x && this->y == point.y)
-//             return true;
-//         return false;
-//     }
-// };
+    bool operator==(const point_3D &point) const {
+        if (this->x == point.x && this->y == point.y)
+            return true;
+        return false;
+    }
+};
 
-// std::ostream &operator<<(std::ostream &cout, const point_3D &point) {
-//     cout << '(' << point.x << ", " << point.y << ')';
-//     return cout;
-// }
+std::ostream &operator<<(std::ostream &cout, const point_3D &point) {
+    cout << '(' << point.x << ", " << point.y << ')';
+    return cout;
+}
 
-// TEST(KDTree, all_tests) {
-//     std::KDTree<point_3D> tree;
+TEST(KDTree, all_tests) {
+    std::KDTree<point_3D> tree;
 
-//     std::vector<point_3D> pts{{0, 0}, {1, 1}, {-1, 3}, {5, 6}, {2, -6}, {4, 5}, {2, 3}, {2, 5}};
-//     tree.buildTree(pts);
-//     tree.dumpTreeInorder(std::cout);
+    std::vector<point_3D> pts{{0, 0}, {1, 1}, {-1, 3}, {5, 6}, {2, -6}, {4, 5}, {2, 3}, {2, 5}};
+    tree.buildTree(pts);
+    tree.dumpTreeInorder(std::cout);
 
-//     point_3D point_0{0, 0};
+    point_3D point_0{0, 0};
 
-//     ASSERT_EQ(point_0, tree.getPoint(0));
+    ASSERT_EQ(point_0, tree.getPoint(0));
 
-//     std::vector<node> check = {1, 0};
+    std::vector<node> check = {1, 0};
 
-//     auto closeNodes = tree.getPointsWithinCube({0, 0, 0}, 1);
+    auto closeNodes = tree.getPointsWithinCube({0, 0, 0}, 1);
 
-//     ASSERT_EQ(check, closeNodes);
+    ASSERT_EQ(check, closeNodes);
 
-//     std::ostringstream stream;
+    std::ostringstream stream;
 
-//     char str[] = "(1, 1)\n(0, 0)\n";
+    char str[] = "(1, 1)\n(0, 0)\n";
 
-//     for (auto n : closeNodes) {
-//         tree.dumpNode(n, stream);
-//     }
+    for (auto n : closeNodes) {
+        tree.dumpNode(n, stream);
+    }
 
-//     ASSERT_STREQ(str, stream.str().c_str());
+    ASSERT_STREQ(str, stream.str().c_str());
 
-//     ASSERT_EQ(2, tree.findMin(0));
-//     ASSERT_EQ(4, tree.findMin(1));
-//     ASSERT_EQ(4, tree.findMin(2));
+    ASSERT_EQ(2, tree.findMin(0));
+    ASSERT_EQ(4, tree.findMin(1));
+    ASSERT_EQ(4, tree.findMin(2));
 
-//     ASSERT_NO_THROW(tree.deletePoint(2));
-//     ASSERT_NO_THROW(tree.dumpTreeInorder(std::cout));
-// }
+    ASSERT_NO_THROW(tree.deletePoint(2));
+    ASSERT_NO_THROW(tree.dumpTreeInorder(std::cout));
+}
 
 // main
 

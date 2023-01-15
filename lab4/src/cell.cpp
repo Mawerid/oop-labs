@@ -1,137 +1,158 @@
 #include "../include/cell.hpp"
 
-namespace field
-{
-    point::point() : coor_x(0), coor_y(0) {}
+#include <math.h>
 
-    point::point(const size_t x, const size_t y) : coor_x(x), coor_y(y) {}
+namespace field {
+// Point
 
-    point::point(const point &pnt)
-    {
-        coor_x = pnt.get_x();
-        coor_y = pnt.get_y();
-    }
+Point::Point() : x_(0), y_(0) {}
 
-    point::point(point &&pnt)
-    {
-        coor_x = pnt.coor_x;
-        coor_y = pnt.coor_y;
-    }
+Point::Point(const int &x, const int &y) : x_(x), y_(y) {}
 
-    void point::set_x(const size_t &x) { coor_x = x; }
+void Point::set_x(const int &x) { x_ = x; }
 
-    void point::set_y(const size_t &y) { coor_y = y; }
+void Point::set_y(const int &y) { y_ = y; }
 
-    size_t point::get_x() const { return coor_x; }
+int Point::get_x() const { return x_; }
 
-    size_t point::get_y() const { return coor_y; }
+int Point::get_y() const { return y_; }
 
-    double point::distance(const point &pnt) const
-    {
-        double dist = 0.0;
-
-        double coor_1 = static_cast<double>(coor_x);
-        double coor_2 = static_cast<double>(pnt.get_x());
-        dist += pow((coor_1 - coor_2), 2);
-
-        coor_1 = static_cast<double>(coor_y);
-        coor_2 = static_cast<double>(pnt.get_y());
-        dist += pow((coor_1 - coor_2), 2);
-
-        return sqrt(dist);
-    }
-
-    bool point::operator==(const point &pnt) const
-    {
-        if (coor_x == pnt.get_x() && coor_y == pnt.get_y())
-            return true;
-        else
-            return false;
-    }
-
-    point point::operator=(const point &pnt)
-    {
-        coor_x = pnt.get_x();
-        coor_y = pnt.get_y();
-
-        return *this;
-    }
-
-    /// Cell class
-
-    Cell::Cell()
-    {
-        type = cell_type::FREE;
-        coor = point();
-    }
-
-    Cell::Cell(const cell_type &type_new)
-    {
-        type = type_new;
-        coor = point();
-    }
-
-    Cell::Cell(const point coor_new)
-    {
-        type = cell_type::FREE;
-        coor = coor_new;
-    }
-
-    Cell::Cell(const point coor_new, const cell_type &type_new, squad::Squad *fill) : type(type_new), filling(fill), coor(coor_new) {}
-
-    Cell::Cell(const Cell &old_cell)
-    {
-        type = old_cell.type;
-        coor = old_cell.coor;
-        filling = new squad::Squad(*old_cell.filling);
-    }
-
-    Cell::Cell(Cell &&old_cell)
-    {
-        type = old_cell.type;
-        filling = old_cell.filling;
-        coor = old_cell.coor;
-        old_cell.filling = nullptr;
-    }
-
-    Cell::Cell(const size_t &coor_x, const size_t &coor_y, const cell_type &c_type, squad::Squad *fill)
-    {
-        type = c_type;
-        coor = point(coor_x, coor_y);
-        filling = fill;
-    }
-
-    Cell::~Cell()
-    {
-        filling = nullptr;
-    }
-
-    cell_type Cell::get_type() const { return type; }
-
-    squad::Squad *Cell::get_filling() const { return filling; }
-
-    point Cell::get_coor() const { return coor; }
-
-    void Cell::set_type(const cell_type &type_new) { type = type_new; }
-
-    void Cell::set_filling(squad::Squad *fill) { filling = fill; }
-
-    void Cell::set_coor(const point &coor_new) { coor = coor_new; }
-
-    bool Cell::operator==(const Cell &other_cell) const
-    {
-        if (coor == other_cell.coor && type == other_cell.type)
-            return true;
-        else
-            return false;
-    }
-
-    Cell Cell::operator=(Cell cell)
-    {
-        type = cell.type;
-        filling = cell.filling;
-        coor = cell.coor;
-
-        return *this;
-    }
+double Point::distance(const Point &point) const {
+    return sqrt(pow((x_ - point.x_), 2) + pow((y_ - point.y_), 2));
 }
+
+bool Point::near(const unsigned &radius, const Point &point) const {
+    if (distance(point) < static_cast<double>(radius))
+        return true;
+    else
+        return false;
+}
+
+bool Point::operator==(const Point &point) const {
+    if (x_ == point.x_ && y_ == point.y_)
+        return true;
+    else
+        return false;
+}
+
+bool Point::operator!=(const Point &point) const {
+    return !(*this == point);
+}
+
+bool Point::operator>(const Point &point) const {
+    if (distance(Point(0, 0)) > point.distance(Point(0, 0)))
+        return true;
+    else
+        return false;
+}
+
+bool Point::operator<(const Point &point) const {
+    if (distance(Point(0, 0)) < point.distance(Point(0, 0)))
+        return true;
+    else
+        return false;
+}
+
+bool Point::operator<=(const Point &point) const {
+    return !(*this > point);
+}
+
+bool Point::operator>=(const Point &point) const {
+    return !(*this < point);
+}
+
+/// Cell class
+
+Cell::Cell(const Point &coordinates, const cell_type &type,
+           squad::Squad *squad) : coordinates_(coordinates),
+                                  type_(type),
+                                  squad_(squad) {}
+
+Cell::Cell(const int &x, const int &y, const cell_type &type,
+           squad::Squad *squad) : coordinates_(Point(x, y)),
+                                  type_(type),
+                                  squad_(squad) {}
+
+Cell::Cell(const Cell &cell) : type_(cell.type_),
+                               coordinates_(cell.coordinates_) {
+    squad_ = new squad::Squad(*cell.squad_);
+}
+
+Cell::Cell(Cell &&cell) : type_(cell.type_),
+                          coordinates_(cell.coordinates_),
+                          squad_(cell.squad_) {
+    cell.squad_ = nullptr;
+}
+
+Cell::~Cell() {
+    if (squad_ != nullptr)
+        delete squad_;
+}
+
+cell_type Cell::get_type() const { return type_; }
+
+squad::Squad *Cell::get_squad() const { return squad_; }
+
+Point Cell::get_coordinates() const { return coordinates_; }
+
+void Cell::set_type(const cell_type &type) { type_ = type; }
+
+void Cell::set_squad(squad::Squad *squad) { squad_ = squad; }
+
+void Cell::set_coordinates(const Point &coordinates) {
+    coordinates_ = coordinates;
+}
+
+double Cell::distance(const Cell &cell) const {
+    return coordinates_.distance(cell.coordinates_);
+}
+
+bool Cell::near(const unsigned &radius, const Cell &cell) const {
+    return coordinates_.near(radius, cell.coordinates_);
+}
+
+Cell &Cell::operator=(const Cell &cell) {
+    type_ = cell.type_;
+    coordinates_ = cell.coordinates_;
+    delete squad_;
+    squad_ = cell.squad_;
+
+    return *this;
+}
+
+Cell &Cell::operator=(Cell &&cell) {
+    std::swap(type_, cell.type_);
+    std::swap(coordinates_, cell.coordinates_);
+    std::swap(squad_, cell.squad_);
+
+    return *this;
+}
+
+bool Cell::operator==(const Cell &cell) const {
+    if (type_ == cell.type_ && coordinates_ == cell.coordinates_ &&
+        squad_ == cell.squad_)
+        return true;
+    else
+        return false;
+}
+
+bool Cell::operator!=(const Cell &cell) const {
+    return !(*this == cell);
+}
+
+bool Cell::operator>(const Cell &cell) const {
+    return coordinates_ > cell.coordinates_;
+}
+
+bool Cell::operator<(const Cell &cell) const {
+    return coordinates_ < cell.coordinates_;
+}
+
+bool Cell::operator<=(const Cell &cell) const {
+    return coordinates_ <= cell.coordinates_;
+}
+
+bool Cell::operator>=(const Cell &cell) const {
+    return coordinates_ >= cell.coordinates_;
+}
+}  // namespace field
