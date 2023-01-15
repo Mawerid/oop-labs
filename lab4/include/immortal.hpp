@@ -115,12 +115,12 @@ class Immortal_moral : public Moral, public Immortal {
     /// @brief  operator of equality
     /// @param squad squad to check
     /// @return is they equal or not
-    bool operator==(const Immortal_moral &squad);
+    bool operator==(const Immortal_moral &squad) const;
 
     /// @brief  operator !=
     /// @param squad squad to check
     /// @return is they eqial or not
-    bool operator!=(const Immortal_moral &squad);
+    bool operator!=(const Immortal_moral &squad) const;
 };
 
 enum immortal_amoral_type {
@@ -187,12 +187,12 @@ class Immortal_amoral : public Amoral, public Immortal {
     /// @brief  operator of equality
     /// @param squad squad to check
     /// @return is they equal or not
-    bool operator==(const Immortal_amoral &squad);
+    bool operator==(const Immortal_amoral &squad) const;
 
     /// @brief  operator !=
     /// @param squad squad to check
     /// @return is they eqial or not
-    bool operator!=(const Immortal_amoral &squad);
+    bool operator!=(const Immortal_amoral &squad) const;
 };
 }  // namespace squad
 

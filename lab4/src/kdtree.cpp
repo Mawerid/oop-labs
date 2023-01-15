@@ -1,5 +1,5 @@
 #include "../include/kdtree.hpp"
 
-namespace std
-{
+namespace std {
+// It is just a template
 }

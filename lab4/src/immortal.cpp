@@ -83,7 +83,7 @@ void Immortal_moral::heal() {
         this->set_health((health_ + restore_));
 }
 
-bool Immortal_moral::operator==(const Immortal_moral &squad) {
+bool Immortal_moral::operator==(const Immortal_moral &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
         speed_ == squad.speed_ && experience_ == squad.experience_ &&
@@ -96,7 +96,7 @@ bool Immortal_moral::operator==(const Immortal_moral &squad) {
         return false;
 }
 
-bool Immortal_moral::operator!=(const Immortal_moral &squad) {
+bool Immortal_moral::operator!=(const Immortal_moral &squad) const {
     return !(*this == squad);
 }
 
@@ -156,7 +156,7 @@ void Immortal_amoral::heal() {
         this->set_health((health_ + restore_));
 }
 
-bool Immortal_amoral::operator==(const Immortal_amoral &squad) {
+bool Immortal_amoral::operator==(const Immortal_amoral &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
         speed_ == squad.speed_ && experience_ == squad.experience_ &&
@@ -169,7 +169,7 @@ bool Immortal_amoral::operator==(const Immortal_amoral &squad) {
         return false;
 }
 
-bool Immortal_amoral::operator!=(const Immortal_amoral &squad) {
+bool Immortal_amoral::operator!=(const Immortal_amoral &squad) const {
     return !(*this == squad);
 }
 

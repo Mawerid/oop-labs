@@ -81,32 +81,32 @@ class School {
     /// @brief  operator of equality
     /// @param school school to check
     /// @return is they equal or not
-    bool operator==(const School &school);
+    bool operator==(const School &school) const;
 
     /// @brief  operator !=
     /// @param school school to check
     /// @return is they eqial or not
-    bool operator!=(const School &school);
+    bool operator!=(const School &school) const;
 
     /// @brief  operator <
     /// @param school school to check
     /// @return is less or not
-    bool operator<(const School &school);
+    bool operator<(const School &school) const;
 
     /// @brief  operator >
     /// @param school school to check
     /// @return is greater or not
-    bool operator>(const School &school);
+    bool operator>(const School &school) const;
 
     /// @brief  operator <=
     /// @param school school to check
     /// @return is less or not
-    bool operator<=(const School &school);
+    bool operator<=(const School &school) const;
 
     /// @brief  operator >=
     /// @param school school to check
     /// @return is greater or not
-    bool operator>=(const School &school);
+    bool operator>=(const School &school) const;
 };
 }  // namespace school
 

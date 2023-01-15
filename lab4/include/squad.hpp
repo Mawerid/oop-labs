@@ -131,12 +131,12 @@ class Squad {
     /// @brief  operator of equality
     /// @param squad squad to check
     /// @return is they equal or not
-    bool operator==(const Squad &squad);
+    bool operator==(const Squad &squad) const;
 
     /// @brief  operator !=
     /// @param squad squad to check
     /// @return is they eqial or not
-    bool operator!=(const Squad &squad);
+    bool operator!=(const Squad &squad) const;
 };
 }  // namespace squad
 

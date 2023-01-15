@@ -112,12 +112,12 @@ class Skill {
     /// @brief  operator of equality
     /// @param squad squad to check
     /// @return is they equal or not
-    bool operator==(const Skill &skill);
+    bool operator==(const Skill &skill) const;
 
     /// @brief  operator !=
     /// @param squad squad to check
     /// @return is they eqial or not
-    bool operator!=(const Skill &skill);
+    bool operator!=(const Skill &skill) const;
 };
 }  // namespace school
 

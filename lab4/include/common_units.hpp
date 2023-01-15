@@ -73,12 +73,12 @@ class Amoral : public Unit {
     /// @brief  operator of equality
     /// @param squad squad to check
     /// @return is they equal or not
-    bool operator==(const Amoral &squad);
+    bool operator==(const Amoral &squad) const;
 
     /// @brief  operator !=
     /// @param squad squad to check
     /// @return is they eqial or not
-    bool operator!=(const Amoral &squad);
+    bool operator!=(const Amoral &squad) const;
 };
 
 enum moral_type {
@@ -176,12 +176,12 @@ class Moral : public Unit {
     /// @brief  operator of equality
     /// @param squad squad to check
     /// @return is they equal or not
-    bool operator==(const Moral &squad);
+    bool operator==(const Moral &squad) const;
 
     /// @brief  operator !=
     /// @param squad squad to check
     /// @return is they eqial or not
-    bool operator!=(const Moral &squad);
+    bool operator!=(const Moral &squad) const;
 };
 }  // namespace squad
 

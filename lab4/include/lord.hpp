@@ -101,12 +101,12 @@ class Lord : public Squad {
     /// @brief  operator of equality
     /// @param lord lord to check
     /// @return is they equal or not
-    bool operator==(const Lord &lord);
+    bool operator==(const Lord &lord) const;
 
     /// @brief  operator !=
     /// @param lord squad to check
     /// @return is they eqial or not
-    bool operator!=(const Lord &lord);
+    bool operator!=(const Lord &lord) const;
 };
 }  // namespace squad
 

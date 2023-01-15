@@ -21,7 +21,7 @@ void Unit::set_damage_val(const unsigned &damage) { damage_ = damage; }
 
 void Unit::set_defense_val(const unsigned &shield) { shield_ = shield; }
 
-bool Unit::operator==(const Unit &squad) {
+bool Unit::operator==(const Unit &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
         speed_ == squad.speed_ && experience_ == squad.experience_ &&
@@ -32,7 +32,7 @@ bool Unit::operator==(const Unit &squad) {
         return false;
 }
 
-bool Unit::operator!=(const Unit &squad) {
+bool Unit::operator!=(const Unit &squad) const {
     return !(*this == squad);
 }
 

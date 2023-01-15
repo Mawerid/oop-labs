@@ -62,7 +62,7 @@ void Amoral::defence(Squad &squad) {
     this->get_damage(damage);
 }
 
-bool Amoral::operator==(const Amoral &squad) {
+bool Amoral::operator==(const Amoral &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
         speed_ == squad.speed_ && experience_ == squad.experience_ &&
@@ -74,7 +74,7 @@ bool Amoral::operator==(const Amoral &squad) {
         return false;
 }
 
-bool Amoral::operator!=(const Amoral &squad) {
+bool Amoral::operator!=(const Amoral &squad) const {
     return !(*this == squad);
 }
 
@@ -165,7 +165,7 @@ void Moral::balance_moral() {
 
 void Moral::modify_moral(const int &modify) { moral_ += modify; }
 
-bool Moral::operator==(const Moral &squad) {
+bool Moral::operator==(const Moral &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
         speed_ == squad.speed_ && experience_ == squad.experience_ &&
@@ -177,7 +177,7 @@ bool Moral::operator==(const Moral &squad) {
         return false;
 }
 
-bool Moral::operator!=(const Moral &squad) {
+bool Moral::operator!=(const Moral &squad) const {
     return !(*this == squad);
 }
 

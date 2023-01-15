@@ -68,7 +68,7 @@ bool Skill::check_easy_kill(const constant::unit &name) {
         return false;
 }
 
-bool Skill::operator==(const Skill &skill) {
+bool Skill::operator==(const Skill &skill) const {
     if (name_ == skill.name_ &&
         minimal_study_ == skill.minimal_study_ &&
         energy_ == skill.name_ &&
@@ -79,7 +79,7 @@ bool Skill::operator==(const Skill &skill) {
         return false;
 }
 
-bool Skill::operator!=(const Skill &skill) {
+bool Skill::operator!=(const Skill &skill) const {
     return !(*this == skill);
 }
 

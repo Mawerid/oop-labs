@@ -75,7 +75,7 @@ void Squad::get_damage(const unsigned &damage) {
         health_ -= damage;
 }
 
-bool Squad::operator==(const Squad &squad) {
+bool Squad::operator==(const Squad &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
         max_health_ == squad.max_health_ && quantity_ == squad.quantity_ &&
         speed_ == squad.speed_ && experience_ == squad.experience_ &&
@@ -85,7 +85,7 @@ bool Squad::operator==(const Squad &squad) {
         return false;
 }
 
-bool Squad::operator!=(const Squad &squad) {
+bool Squad::operator!=(const Squad &squad) const {
     return !(*this == squad);
 }
 

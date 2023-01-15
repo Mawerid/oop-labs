@@ -111,7 +111,7 @@ void Lord::modify_energy(const int &energy) {
     energy_ += energy;
 }
 
-bool Lord::operator==(const Lord &lord) {
+bool Lord::operator==(const Lord &lord) const {
     if (motivation_ == lord.motivation_ && health_ == lord.health_ &&
         max_health_ == lord.max_health_ && quantity_ == lord.quantity_ &&
         speed_ == lord.speed_ && experience_ == lord.experience_ &&
@@ -125,7 +125,7 @@ bool Lord::operator==(const Lord &lord) {
         return false;
 }
 
-bool Lord::operator!=(const Lord &lord) {
+bool Lord::operator!=(const Lord &lord) const {
     return !(*this == lord);
 }
 }  // namespace squad

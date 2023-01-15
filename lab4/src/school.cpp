@@ -67,36 +67,36 @@ constant::school_type School::get_type() const { return type_; }
 
 School::list School::get_skill_list() const { return skill_list_; }
 
-bool School::operator==(const School &school) {
+bool School::operator==(const School &school) const {
     if (type_ == school.type_ && skill_list_ == school.skill_list_)
         return true;
     else
         return false;
 }
 
-bool School::operator!=(const School &school) {
+bool School::operator!=(const School &school) const {
     return !(*this == school);
 }
 
-bool School::operator<(const School &school) {
+bool School::operator<(const School &school) const {
     if (type_ < school.type_)
         return true;
     else
         return false;
 }
 
-bool School::operator>(const School &school) {
+bool School::operator>(const School &school) const {
     if (type_ > school.type_)
         return true;
     else
         return false;
 }
 
-bool School::operator<=(const School &school) {
+bool School::operator<=(const School &school) const {
     return !(*this > school);
 }
 
-bool School::operator>=(const School &school) {
+bool School::operator>=(const School &school) const {
     return !(*this < school);
 }
 
