@@ -5,10 +5,13 @@
 #include <cstdint>
 #include <vector>
 #define UNITS_PER_SCHOOL (size_t)3
+#define UNITS_COUNT (size_t)15
+#define START_ENERGY 100
+#define START_MAX_ENERGY 1000
 
 namespace constant {
 /// @brief school types
-enum school_type {
+enum school_type : std::uint32_t {
     ROBOTICS,
     ENERGISER,
     PARALLEL,
@@ -17,7 +20,7 @@ enum school_type {
 };
 
 /// @brief units types
-enum unit {
+enum unit : std::uint32_t {
     ROBOMECH,
     CENTRY,
     COLOSSUS,
@@ -35,6 +38,9 @@ enum unit {
     MIMIC,
     LORD
 };
+static const std::vector<std::string> unit_type =
+    {"M", "A", "IA", "M", "A", "IA", "M", "A", "IM",
+     "M", "A", "IM", "M", "A", "IM", "L"};
 
 /// @brief max quantity of units
 enum max_quantity_set : std::uint32_t {
@@ -201,6 +207,30 @@ static const std::vector<uint32_t> shield =
     {ROBOMECH_DF, CENTRY_DF, COLOSSUS_DF, GHOST_DF, INFESTOR_DF,
      DISRUPTOR_DF, ELF_DF, GNOME_DF, DENDRIOD_DF, MARINE_DF, CYCLONE_DF,
      REAPER_DF, POLTERGEIST_DF, TYPHON_DF, MIMIC_DF, LORD_DF};
+
+/// @brief energy to call the units
+enum energy_set : std::uint32_t {
+    ROBOMECH_ENR = 3,
+    CENTRY_ENR = 3,
+    COLOSSUS_ENR = 1,
+    GHOST_ENR = 2,
+    INFESTOR_ENR = 1,
+    DISRUPTOR_ENR = 1,
+    ELF_ENR = 4,
+    GNOME_ENR = 5,
+    DENDRIOD_ENR = 2,
+    MARINE_ENR = 5,
+    CYCLONE_ENR = 1,
+    REAPER_ENR = 5,
+    POLTERGEIST_ENR = 1,
+    TYPHON_ENR = 2,
+    MIMIC_ENR = 5,
+    LORD_ENR = 5
+};
+static const std::vector<uint32_t> energy =
+    {ROBOMECH_ENR, CENTRY_ENR, COLOSSUS_ENR, GHOST_ENR, INFESTOR_ENR,
+     DISRUPTOR_ENR, ELF_ENR, GNOME_ENR, DENDRIOD_ENR, MARINE_ENR, CYCLONE_ENR,
+     REAPER_ENR, POLTERGEIST_ENR, TYPHON_ENR, MIMIC_ENR, LORD_ENR};
 
 };  // namespace constant
 

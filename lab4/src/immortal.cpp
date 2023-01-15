@@ -23,6 +23,23 @@ void Immortal::set_probability(const double &probability) {
 
 // Immortal Moral
 
+immortal_moral_type convert_to_immortal_moral(const constant::unit &name) {
+    switch (name) {
+        case constant::unit::DENDRIOD:
+            return immortal_moral_type::DENDRIOD;
+            break;
+        case constant::unit::REAPER:
+            return immortal_moral_type::REAPER;
+            break;
+        case constant::unit::MIMIC:
+            return immortal_moral_type::MIMIC;
+            break;
+        default:
+            return immortal_moral_type::NONE;
+            break;
+    }
+}
+
 constant::unit Immortal_moral::convert_name(const immortal_moral_type &type)
     const {
     return static_cast<constant::unit>(type * 3 + 2);
@@ -84,6 +101,20 @@ bool Immortal_moral::operator!=(const Immortal_moral &squad) {
 }
 
 // Immortal Amoral
+
+immortal_amoral_type convert_to_immortal_amoral(const constant::unit &name) {
+    switch (name) {
+        case constant::unit::COLOSSUS:
+            return immortal_amoral_type::COLOSSUS;
+            break;
+        case constant::unit::DISRUPTOR:
+            return immortal_amoral_type::DISRUPTOR;
+            break;
+        default:
+            return immortal_amoral_type::NONE;
+            break;
+    }
+}
 
 constant::unit Immortal_amoral::convert_name(const immortal_amoral_type &type)
     const {

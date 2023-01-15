@@ -13,6 +13,8 @@ enum amoral_type {
     NONE
 };
 
+amoral_type convert_to_amoral(const constant::unit &name);
+
 /// @brief class of amoral unit type
 class Amoral : public Unit {
    protected:
@@ -87,6 +89,8 @@ enum moral_type {
     POLTERGEIST,
     NONE
 };
+
+moral_type convert_to_moral(const constant::unit &name);
 
 /// @brief class of moral unit type
 class Moral : public Unit {

@@ -140,159 +140,127 @@ TEST(Squad, functions) {
 //     ASSERT_EQ(1.3, skill.get_count_coef());
 // }
 
-// //  Lord
+//  Lord
 
-// TEST(Lord, constructors_getters) {
-//     std::string str = "Max";
-//     squad::Lord lord(str, 100, 300);
+TEST(Lord, constructors_getters) {
+    std::string str = "Max";
+    squad::Lord lord(str, 0);
 
-//     ASSERT_EQ(str, lord.get_name());
-//     ASSERT_EQ(100, lord.get_energy());
-//     ASSERT_EQ(300, lord.get_max_energy());
-// }
+    ASSERT_EQ(str, lord.get_name());
+    ASSERT_EQ(100, lord.get_energy());
+    ASSERT_EQ(1000, lord.get_max_energy());
+}
 
-// TEST(Lord, other_func) {
-//     std::string str = "Max";
-//     squad::Lord lord(str, 100, 300);
+TEST(Lord, other_func) {
+    std::string str = "Max";
+    squad::Lord lord(str, 1);
 
-//     school::School school(constant::school_type::ROBOTICS);
-//     squad::Moral squad(squad::moral_type::ROBOMECH);
-//     squad.set_max_health(constant::max_health::ROBOMECH_MH);
-//     squad.set_damage_val(constant::damage::ROBOMECH_DM);
-//     squad.set_defense_val(constant::defense::ROBOMECH_DF);
-//     squad.set_health(constant::max_health::ROBOMECH_MH);
-//     squad.set_motivation(constant::motivation::ROBOMECH_MT);
-//     squad.set_quantity(constant::max_quantity::ROBOMECH_MQ);
-//     squad.set_team(game::player_type::RIGHT);
-//     squad.set_experience(constant::experience::ROBOMECH_EX);
-//     squad.set_name(constant::unit::ROBOMECH);
-//     squad.set_speed(constant::speed::ROBOMECH_S);
+    school::School school(constant::school_type::ROBOTICS);
+    squad::Moral squad(squad::moral_type::ROBOMECH);
 
-//     school::Skill skill(constant::unit::ROBOMECH, squad, 0, 30, 1.0);
+    school::Skill skill = school::Skill(constant::unit::ROBOMECH, 0, 30, 1.0);
 
-//     school.add_skill(skill);
+    school.add_skill(skill);
 
-//     squad::Amoral squad_1(squad::amoral_type::CENTRY);
-//     squad_1.set_max_health(constant::max_health::CENTRY_MH);
-//     squad_1.set_damage_val(constant::damage::CENTRY_DM);
-//     squad_1.set_defense_val(constant::defense::CENTRY_DF);
-//     squad_1.set_health(constant::max_health::CENTRY_MH);
-//     squad_1.set_motivation(constant::motivation::CENTRY_MT);
-//     squad_1.set_quantity(constant::max_quantity::CENTRY_MQ);
-//     squad_1.set_team(game::player_type::RIGHT);
-//     squad_1.set_experience(constant::experience::CENTRY_EX);
-//     squad_1.set_name(constant::unit::CENTRY);
-//     squad_1.set_speed(constant::speed::CENTRY_S);
+    squad::Amoral squad_1(squad::amoral_type::CENTRY);
 
-//     school::Skill skill_1(constant::unit::CENTRY, squad_1, 1, 70, 1.0);
+    school::Skill skill_1(constant::unit::CENTRY, 1, 70, 1.0);
 
-//     school.add_skill(skill_1);
+    school.add_skill(skill_1);
 
-//     squad::Immortal_amoral squad_2(squad::immortal_amoral_type::COLOSSUS);
-//     squad_2.set_max_health(constant::max_health::COLOSSUS_MH);
-//     squad_2.set_damage_val(constant::damage::COLOSSUS_DM);
-//     squad_2.set_defense_val(constant::defense::COLOSSUS_DF);
-//     squad_2.set_health(constant::max_health::COLOSSUS_MH);
-//     squad_2.set_motivation(constant::motivation::COLOSSUS_MT);
-//     squad_2.set_quantity(constant::max_quantity::COLOSSUS_MQ);
-//     squad_2.set_team(game::player_type::RIGHT);
-//     squad_2.set_experience(constant::experience::COLOSSUS_EX);
-//     squad_2.set_name(constant::unit::COLOSSUS);
-//     squad_2.set_speed(constant::speed::COLOSSUS_S);
+    squad::Immortal_amoral squad_2(squad::immortal_amoral_type::COLOSSUS);
 
-//     school::Skill skill_2(constant::unit::COLOSSUS, squad_2, 2, 150, 1.1);
+    school::Skill skill_2(constant::unit::COLOSSUS, 2, 150, 1.1);
 
-//     school.add_skill(skill_2);
+    school.add_skill(skill_2);
 
-//     std::map<school::School, unsigned> knowledge = {{school, 0}, {school, 0}, {school, 0}, {school, 0}, {school, 0}};
+    std::map<school::School, unsigned> knowledge = {{school, 0}, {school, 0}, {school, 0}, {school, 0}, {school, 0}};
 
-//     ASSERT_NO_THROW(lord.set_knowledge(knowledge));
+    ASSERT_NO_THROW(lord.set_knowledge(knowledge));
 
-//     squad::Squad *tmp;
+    squad::Squad *tmp;
+    ASSERT_NO_THROW(tmp = lord.call_squad(constant::unit::ROBOMECH));
+    auto tmp_1 = static_cast<squad::Moral *>(tmp);
 
-//     ASSERT_NO_THROW(tmp = lord.call_squad(constant::unit::ROBOMECH));
+    ASSERT_EQ(constant::unit::ROBOMECH, tmp_1->get_name());
+    ASSERT_EQ(constant::max_health[constant::ROBOMECH_MH],
+              tmp_1->get_max_health());
+    ASSERT_EQ(0, tmp_1->get_moral());
+    ASSERT_EQ(squad::moral_type::ROBOMECH, tmp_1->get_type());
+    ASSERT_EQ(70, lord.get_energy());
+    ASSERT_EQ(nullptr, lord.call_squad(constant::unit::CENTRY));
 
-//     auto tmp_1 = static_cast<squad::Moral *>(tmp);
+    ASSERT_NO_THROW(lord.upgrade_school(constant::school_type::ROBOTICS));
 
-//     ASSERT_EQ(constant::unit::ROBOMECH, tmp_1->get_name());
-//     ASSERT_EQ(constant::max_health::ROBOMECH_MH, tmp_1->get_max_health());
-//     ASSERT_EQ(0, tmp_1->get_moral_val());
-//     ASSERT_EQ(squad::moral_type::ROBOMECH, tmp_1->get_type());
+    ASSERT_EQ(40, lord.get_energy());
+}
 
-//     ASSERT_EQ(70, lord.get_energy());
-//     ASSERT_EQ(nullptr, lord.call_squad(constant::unit::CENTRY));
+//  School
 
-//     ASSERT_NO_THROW(lord.upgrade_school(constant::school_type::ROBOTICS));
+TEST(School, constructors_getters) {
+    school::School school(constant::school_type::NANOSLIME);
 
-//     ASSERT_EQ(40, lord.get_energy());
-// }
+    ASSERT_EQ(constant::school_type::NANOSLIME, school.get_type());
+}
 
-// //  School
+TEST(School, setters) {
+    school::School school(constant::school_type::NANOSLIME);
 
-// TEST(School, constructors_getters) {
-//     school::School school(constant::school_type::NANOSLIME);
+    ASSERT_EQ(constant::school_type::NANOSLIME, school.get_type());
 
-//     ASSERT_EQ(constant::school_type::NANOSLIME, school.get_type());
-// }
+    squad::Immortal_amoral squad(squad::immortal_amoral_type::COLOSSUS);
+    school::Skill skill(constant::unit::COLOSSUS, 10, 30, 1.1);
 
-// TEST(School, setters) {
-//     school::School school(constant::school_type::NANOSLIME);
+    ASSERT_NO_THROW(school.add_skill(skill));
+}
 
-//     ASSERT_EQ(constant::school_type::NANOSLIME, school.get_type());
+//  Skill
 
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
+TEST(Skill, constructors_getters) {
+    squad::Immortal_amoral squad(squad::immortal_amoral_type::COLOSSUS);
+    school::Skill skill(constant::unit::COLOSSUS, 10, 30, 1.1);
 
-//     ASSERT_NO_THROW(school.add_skill(skill));
-// }
+    ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
+    ASSERT_EQ(10, skill.get_minimal_study());
+    ASSERT_EQ(30, skill.get_energy());
+    ASSERT_EQ(1.1, skill.get_count_coefficient());
+}
 
-// //  Skill
+TEST(Skill, setters) {
+    squad::Immortal_amoral squad(squad::immortal_amoral_type::COLOSSUS);
+    school::Skill skill(constant::unit::COLOSSUS, 10, 30, 1.1);
 
-// TEST(Skill, constructors_getters) {
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
+    ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
+    ASSERT_EQ(10, skill.get_minimal_study());
+    ASSERT_EQ(30, skill.get_energy());
+    ASSERT_EQ(1.1, skill.get_count_coefficient());
 
-//     ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
-//     ASSERT_EQ(10, skill.get_min_study());
-//     ASSERT_EQ(30, skill.get_energy());
-//     ASSERT_EQ(1.1, skill.get_count_coef());
-// }
+    skill.set_count_coefficient(1.3);
+    skill.set_minimal_study(400);
+    skill.set_energy(20);
+    skill.set_name(constant::unit::CYCLONE);
 
-// TEST(Skill, setters) {
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
+    ASSERT_EQ(constant::unit::CYCLONE, skill.get_name());
+    ASSERT_EQ(400, skill.get_minimal_study());
+    ASSERT_EQ(20, skill.get_energy());
+    ASSERT_EQ(1.3, skill.get_count_coefficient());
+}
 
-//     ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
-//     ASSERT_EQ(10, skill.get_min_study());
-//     ASSERT_EQ(30, skill.get_energy());
-//     ASSERT_EQ(1.1, skill.get_count_coef());
+TEST(Skill, other_func) {
+    squad::Immortal_amoral squad(squad::immortal_amoral_type::COLOSSUS);
+    school::Skill skill(constant::unit::COLOSSUS, 10, 30, 1.1);
 
-//     skill.set_count_coef(1.3);
-//     skill.set_min_study(400);
-//     skill.set_energy(20);
-//     skill.set_name(constant::unit::CYCLONE);
+    std::vector<constant::unit> chill = {constant::unit::ROBOMECH, constant::unit::DISRUPTOR, constant::unit::CYCLONE};
 
-//     ASSERT_EQ(constant::unit::CYCLONE, skill.get_name());
-//     ASSERT_EQ(400, skill.get_min_study());
-//     ASSERT_EQ(20, skill.get_energy());
-//     ASSERT_EQ(1.3, skill.get_count_coef());
-// }
-
-// TEST(Skill, other_func) {
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
-
-//     std::vector<constant::unit> chill = {constant::unit::ROBOMECH, constant::unit::DISRUPTOR, constant::unit::CYCLONE};
-
-//     skill.set_easy_kill(chill);
-//     ASSERT_EQ(chill, skill.get_easy_kill());
-//     skill.add_easy_kill(constant::unit::ELF);
-//     ASSERT_NE(chill, skill.get_easy_kill());
-//     skill.remove_easy_kill(constant::unit::ELF);
-//     ASSERT_EQ(chill, skill.get_easy_kill());
-//     ASSERT_EQ(true, skill.check_easy_kill(constant::unit::DISRUPTOR));
-//     ASSERT_EQ(false, skill.check_easy_kill(constant::unit::DENDRIOD));
-// }
+    skill.set_easy_kill(chill);
+    ASSERT_EQ(chill, skill.get_easy_kill());
+    skill.add_easy_kill(constant::unit::ELF);
+    ASSERT_NE(chill, skill.get_easy_kill());
+    skill.remove_easy_kill(constant::unit::ELF);
+    ASSERT_EQ(chill, skill.get_easy_kill());
+    ASSERT_EQ(true, skill.check_easy_kill(constant::unit::DISRUPTOR));
+    ASSERT_EQ(false, skill.check_easy_kill(constant::unit::DENDRIOD));
+}
 
 //  Moral
 

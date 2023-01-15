@@ -96,7 +96,7 @@ class Skill {
 
     /// @brief  check for unit in easy kill list
     /// @param name name of unit ot check
-    /// @return is unit's name in listir not
+    /// @return is unit's name in list or not
     bool check_easy_kill(const constant::unit &name);
 
     /// @brief  copy operator of assignment

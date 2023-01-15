@@ -47,8 +47,11 @@ class Immortal {
 enum immortal_moral_type {
     DENDRIOD,
     REAPER,
-    MIMIC
+    MIMIC,
+    NONE
 };
+
+immortal_moral_type convert_to_immortal_moral(const constant::unit &name);
 
 /// @brief  class of immortal moral unit type
 class Immortal_moral : public Moral, public Immortal {
@@ -123,7 +126,10 @@ class Immortal_moral : public Moral, public Immortal {
 enum immortal_amoral_type {
     COLOSSUS,
     DISRUPTOR,
+    NONE
 };
+
+immortal_amoral_type convert_to_immortal_amoral(const constant::unit &name);
 
 /// @brief  class of immortal amoral unit type
 class Immortal_amoral : public Amoral, public Immortal {

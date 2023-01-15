@@ -4,6 +4,29 @@ namespace squad {
 
 // Amoral
 
+amoral_type convert_to_amoral(const constant::unit &name) {
+    switch (name) {
+        case constant::unit::CENTRY:
+            return amoral_type::CENTRY;
+            break;
+        case constant::unit::INFESTOR:
+            return amoral_type::INFESTOR;
+            break;
+        case constant::unit::GNOME:
+            return amoral_type::GNOME;
+            break;
+        case constant::unit::CYCLONE:
+            return amoral_type::CYCLONE;
+            break;
+        case constant::unit::TYPHON:
+            return amoral_type::TYPHON;
+            break;
+        default:
+            return amoral_type::NONE;
+            break;
+    }
+}
+
 constant::unit Amoral::convert_name(const amoral_type &type) const {
     return static_cast<constant::unit>(type * 3 + 1);
 }
@@ -56,6 +79,29 @@ bool Amoral::operator!=(const Amoral &squad) {
 }
 
 // Moral
+
+moral_type convert_to_moral(const constant::unit &name) {
+    switch (name) {
+        case constant::unit::ROBOMECH:
+            return moral_type::ROBOMECH;
+            break;
+        case constant::unit::GHOST:
+            return moral_type::GHOST;
+            break;
+        case constant::unit::ELF:
+            return moral_type::ELF;
+            break;
+        case constant::unit::MARINE:
+            return moral_type::MARINE;
+            break;
+        case constant::unit::POLTERGEIST:
+            return moral_type::POLTERGEIST;
+            break;
+        default:
+            return moral_type::NONE;
+            break;
+    }
+}
 
 constant::unit Moral::convert_name(const moral_type &type) const {
     return static_cast<constant::unit>(type * 3);
