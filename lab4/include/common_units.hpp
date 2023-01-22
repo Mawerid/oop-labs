@@ -4,7 +4,7 @@
 #include "unit.hpp"
 
 namespace squad {
-enum amoral_type {
+enum struct amoral_type : int {
     CENTRY,
     INFESTOR,
     GNOME,
@@ -81,7 +81,7 @@ class Amoral : public Unit {
     bool operator!=(const Amoral &squad) const;
 };
 
-enum moral_type {
+enum struct moral_type : int {
     ROBOMECH,
     GHOST,
     ELF,

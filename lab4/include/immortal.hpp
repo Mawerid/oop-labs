@@ -44,7 +44,7 @@ class Immortal {
     virtual void heal() = 0;
 };
 
-enum immortal_moral_type {
+enum struct immortal_moral_type : int {
     DENDRIOD,
     REAPER,
     MIMIC,
@@ -123,7 +123,7 @@ class Immortal_moral : public Moral, public Immortal {
     bool operator!=(const Immortal_moral &squad) const;
 };
 
-enum immortal_amoral_type {
+enum struct immortal_amoral_type : int {
     COLOSSUS,
     DISRUPTOR,
     NONE

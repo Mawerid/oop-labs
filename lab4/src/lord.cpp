@@ -66,9 +66,10 @@ auto find_school(Lord::knowledge_type knowledge, constant::school_type type) {
     for (auto iter : knowledge)
         if (iter.first.get_type() == type)
             return iter;
+    throw std::invalid_argument("No such school");
 }
 
-Squad *Lord::call_squad(const constant::unit &name) const {
+Squad *Lord::call_squad(const constant::unit &name) {
     if (name == constant::unit::LORD)
         throw std::invalid_argument("You cannot call one more lord");
 
@@ -78,27 +79,36 @@ Squad *Lord::call_squad(const constant::unit &name) const {
     auto skill_list = tmp.first.get_skill_list();
     unsigned level = tmp.second;
 
+    std::string moral = "M";
+    std::string amoral = "A";
+    std::string imm_moral = "IM";
+    std::string imm_amoral = "IA";
+
     if (skill_list[skill].get_minimal_study() > level)
         throw std::invalid_argument("Not enough level");
 
     if (skill_list[skill].get_energy() > energy_)
         throw std::invalid_argument("Not enough energy");
 
-    if (constant::unit_type[name] == "M") {
+    if (constant::unit_type[name] == moral) {
         moral_type type = convert_to_moral(name);
         Moral *squad = new Moral(type);
+        energy_ -= skill_list[skill].get_energy();
         return squad;
-    } else if (constant::unit_type[name] == "A") {
+    } else if (constant::unit_type[name] == amoral) {
         amoral_type type = convert_to_amoral(name);
-        Amoral *squad = new Amoral(name);
+        Amoral *squad = new Amoral(type);
+        energy_ -= skill_list[skill].get_energy();
         return squad;
-    } else if (constant::unit_type[name] == "IM") {
+    } else if (constant::unit_type[name] == imm_moral) {
         immortal_moral_type type = convert_to_immortal_moral(name);
         Immortal_moral *squad = new Immortal_moral(type);
+        energy_ -= skill_list[skill].get_energy();
         return squad;
-    } else if (constant::unit_type[name] == "IA") {
+    } else if (constant::unit_type[name] == imm_amoral) {
         immortal_amoral_type type = convert_to_immortal_amoral(name);
         Immortal_amoral *squad = new Immortal_amoral(type);
+        energy_ -= skill_list[skill].get_energy();
         return squad;
 
     } else

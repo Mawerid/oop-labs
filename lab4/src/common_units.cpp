@@ -28,7 +28,7 @@ amoral_type convert_to_amoral(const constant::unit &name) {
 }
 
 constant::unit Amoral::convert_name(const amoral_type &type) const {
-    return static_cast<constant::unit>(type * 3 + 1);
+    return static_cast<constant::unit>(static_cast<int>(type) * 3 + 1);
 }
 
 Amoral::Amoral(const amoral_type &type)
@@ -104,7 +104,7 @@ moral_type convert_to_moral(const constant::unit &name) {
 }
 
 constant::unit Moral::convert_name(const moral_type &type) const {
-    return static_cast<constant::unit>(type * 3);
+    return static_cast<constant::unit>(static_cast<int>(type) * 3);
 }
 
 Moral::Moral(const moral_type &type) : Unit(convert_name(type)),
@@ -148,12 +148,13 @@ void Moral::attack(Squad &squad) const {
 
 void Moral::defence(Squad &squad) {
     auto unit = squad.get_name();
-    unsigned damage = (-1) * moral_;
+    int damage = (-1) * moral_;
     if (unit % 3 == 1 || unit == 2 || unit == 5)
         damage += static_cast<Amoral &>(squad).get_damage_val();
     else if (unit % 3 == 0 || unit == 14 || unit == 11)
         damage += static_cast<Moral &>(squad).get_damage_val();
-    this->get_damage(damage);
+    if (damage > 0)
+        this->get_damage(static_cast<unsigned>(damage));
 }
 
 void Moral::balance_moral() {

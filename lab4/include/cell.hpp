@@ -117,7 +117,7 @@ class Cell {
     /// @param type type of Cell
     /// @param squad filling of the Cell
     Cell(const Point &coordinates, const cell_type &type,
-         squad::Squad *squad);
+         squad::Squad *squad = nullptr);
 
     /// @brief constructor
     /// @param x x coordinate of cell
@@ -125,7 +125,7 @@ class Cell {
     /// @param type type of Cell
     /// @param squad filling of the Cell
     Cell(const int &x, const int &y, const cell_type &type,
-         squad::Squad *squad);
+         squad::Squad *squad = nullptr);
 
     /// @brief  copy constructor
     /// @param cell Cell to copy

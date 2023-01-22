@@ -42,7 +42,7 @@ immortal_moral_type convert_to_immortal_moral(const constant::unit &name) {
 
 constant::unit Immortal_moral::convert_name(const immortal_moral_type &type)
     const {
-    return static_cast<constant::unit>(type * 3 + 2);
+    return static_cast<constant::unit>(static_cast<int> (type) * 3 + 8);
 }
 
 Immortal_moral::Immortal_moral(
@@ -77,7 +77,7 @@ void Immortal_moral::set_type(const immortal_moral_type &type) { type_ = type; }
 
 void Immortal_moral::heal() {
     std::srand(std::time(nullptr));
-    double rand_check = (double)((std::rand() % 100) / 100);
+    double rand_check = (double)((std::rand() % 100 + 1) / 100);
 
     if (probability_ > rand_check)
         this->set_health((health_ + restore_));
@@ -118,7 +118,7 @@ immortal_amoral_type convert_to_immortal_amoral(const constant::unit &name) {
 
 constant::unit Immortal_amoral::convert_name(const immortal_amoral_type &type)
     const {
-    return static_cast<constant::unit>(type * 3 + 2);
+    return static_cast<constant::unit>(static_cast<int> (type) * 3 + 2);
 }
 
 Immortal_amoral::Immortal_amoral(

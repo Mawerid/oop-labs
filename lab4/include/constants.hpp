@@ -3,16 +3,20 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <string>
 #include <vector>
+
 #define UNITS_PER_SCHOOL (size_t)3
 #define UNITS_COUNT (size_t)15
 #define START_ENERGY 100
 #define START_MAX_ENERGY 1000
-#define MAP_SIZE {10, 15}
+#define MAP_SIZE_VERTICAL 15
+#define MAP_SIZE_HORIZONTAL 10
+#define OBSTACLES_COUNT 10
 
 namespace constant {
 /// @brief school types
-enum school_type : std::uint32_t {
+enum school_type : unsigned {
     ROBOTICS,
     ENERGISER,
     PARALLEL,
@@ -21,7 +25,7 @@ enum school_type : std::uint32_t {
 };
 
 /// @brief units types
-enum unit : std::uint32_t {
+enum unit : unsigned {
     ROBOMECH,
     CENTRY,
     COLOSSUS,
@@ -40,11 +44,13 @@ enum unit : std::uint32_t {
     LORD
 };
 static const std::vector<std::string> unit_type =
-    {"M", "A", "IA", "M", "A", "IA", "M", "A", "IM",
-     "M", "A", "IM", "M", "A", "IM", "L"};
+    {std::string("M"), std::string("A"), std::string("IA"), std::string("M"),
+     std::string("A"), std::string("IA"), std::string("M"), std::string("A"),
+     std::string("IM"), std::string("M"), std::string("A"), std::string("IM"),
+     std::string("M"), std::string("A"), std::string("IM"), std::string("L")};
 
 /// @brief max quantity of units
-enum max_quantity_set : std::uint32_t {
+enum max_quantity_set : unsigned {
     ROBOMECH_MQ = 3,
     CENTRY_MQ = 3,
     COLOSSUS_MQ = 1,
@@ -62,12 +68,12 @@ enum max_quantity_set : std::uint32_t {
     MIMIC_MQ = 5,
     LORD_MQ = 1
 };
-static const std::vector<uint32_t> max_quantity =
+static const std::vector<unsigned> max_quantity =
     {ROBOMECH_MQ, CENTRY_MQ, COLOSSUS_MQ, GHOST_MQ, INFESTOR_MQ,
      DISRUPTOR_MQ, ELF_MQ, GNOME_MQ, DENDRIOD_MQ, MARINE_MQ, CYCLONE_MQ, REAPER_MQ, POLTERGEIST_MQ, TYPHON_MQ, MIMIC_MQ, LORD_MQ};
 
 /// @brief max health of units
-enum max_health_set : std::uint32_t {
+enum max_health_set : unsigned {
     ROBOMECH_MH = 400,
     CENTRY_MH = 250,
     COLOSSUS_MH = 450,
@@ -85,12 +91,12 @@ enum max_health_set : std::uint32_t {
     MIMIC_MH = 250,
     LORD_MH = 1500
 };
-static const std::vector<uint32_t> max_health =
+static const std::vector<unsigned> max_health =
     {ROBOMECH_MH, CENTRY_MH, COLOSSUS_MH, GHOST_MH, INFESTOR_MH,
      DISRUPTOR_MH, ELF_MH, GNOME_MH, DENDRIOD_MH, MARINE_MH, CYCLONE_MH, REAPER_MH, POLTERGEIST_MH, TYPHON_MH, MIMIC_MH, LORD_MH};
 
 /// @brief speed of units
-enum speed_set : std::uint32_t {
+enum speed_set : unsigned {
     ROBOMECH_S = 3,
     CENTRY_S = 3,
     COLOSSUS_S = 3,
@@ -108,13 +114,13 @@ enum speed_set : std::uint32_t {
     MIMIC_S = 5,
     LORD_S = 0
 };
-static const std::vector<uint32_t> speed =
+static const std::vector<unsigned> speed =
     {ROBOMECH_S, CENTRY_S, COLOSSUS_S, GHOST_S, INFESTOR_S,
      DISRUPTOR_S, ELF_S, GNOME_S, DENDRIOD_S, MARINE_S, CYCLONE_S,
      REAPER_S, POLTERGEIST_S, TYPHON_S, MIMIC_S, LORD_S};
 
 /// @brief experience of units
-enum experience_set : std::uint32_t {
+enum experience_set : unsigned {
     ROBOMECH_EX = 100,
     CENTRY_EX = 75,
     COLOSSUS_EX = 100,
@@ -132,13 +138,13 @@ enum experience_set : std::uint32_t {
     MIMIC_EX = 50,
     LORD_EX = 250
 };
-static const std::vector<uint32_t> experience =
+static const std::vector<unsigned> experience =
     {ROBOMECH_EX, CENTRY_EX, COLOSSUS_EX, GHOST_EX, INFESTOR_EX,
      DISRUPTOR_EX, ELF_EX, GNOME_EX, DENDRIOD_EX, MARINE_EX, CYCLONE_EX,
      REAPER_EX, POLTERGEIST_EX, TYPHON_EX, MIMIC_EX, LORD_EX};
 
 /// @brief motivation of units
-enum motivation_set : std::uint32_t {
+enum motivation_set : unsigned {
     ROBOMECH_MT = 3,
     CENTRY_MT = 3,
     COLOSSUS_MT = 1,
@@ -156,13 +162,13 @@ enum motivation_set : std::uint32_t {
     MIMIC_MT = 5,
     LORD_MT = 5
 };
-static const std::vector<uint32_t> motivation =
+static const std::vector<unsigned> motivation =
     {ROBOMECH_MT, CENTRY_MT, COLOSSUS_MT, GHOST_MT, INFESTOR_MT,
      DISRUPTOR_MT, ELF_MT, GNOME_MT, DENDRIOD_MT, MARINE_MT, CYCLONE_MT,
      REAPER_MT, POLTERGEIST_MT, TYPHON_MT, MIMIC_MT, LORD_MT};
 
 /// @brief damage of units
-enum damage_set : std::uint32_t {
+enum damage_set : unsigned {
     ROBOMECH_DM = 3,
     CENTRY_DM = 3,
     COLOSSUS_DM = 1,
@@ -180,13 +186,13 @@ enum damage_set : std::uint32_t {
     MIMIC_DM = 5,
     LORD_DM = 5
 };
-static const std::vector<uint32_t> damage =
+static const std::vector<unsigned> damage =
     {ROBOMECH_DM, CENTRY_DM, COLOSSUS_DM, GHOST_DM, INFESTOR_DM,
      DISRUPTOR_DM, ELF_DM, GNOME_DM, DENDRIOD_DM, MARINE_DM, CYCLONE_DM,
      REAPER_DM, POLTERGEIST_DM, TYPHON_DM, MIMIC_DM, LORD_DM};
 
 /// @brief defense of units
-enum shield_set : std::uint32_t {
+enum shield_set : unsigned {
     ROBOMECH_DF = 3,
     CENTRY_DF = 3,
     COLOSSUS_DF = 1,
@@ -204,31 +210,31 @@ enum shield_set : std::uint32_t {
     MIMIC_DF = 5,
     LORD_DF = 5
 };
-static const std::vector<uint32_t> shield =
+static const std::vector<unsigned> shield =
     {ROBOMECH_DF, CENTRY_DF, COLOSSUS_DF, GHOST_DF, INFESTOR_DF,
      DISRUPTOR_DF, ELF_DF, GNOME_DF, DENDRIOD_DF, MARINE_DF, CYCLONE_DF,
      REAPER_DF, POLTERGEIST_DF, TYPHON_DF, MIMIC_DF, LORD_DF};
 
 /// @brief energy to call the units
-enum energy_set : std::uint32_t {
-    ROBOMECH_ENR = 3,
-    CENTRY_ENR = 3,
-    COLOSSUS_ENR = 1,
-    GHOST_ENR = 2,
-    INFESTOR_ENR = 1,
-    DISRUPTOR_ENR = 1,
-    ELF_ENR = 4,
-    GNOME_ENR = 5,
-    DENDRIOD_ENR = 2,
-    MARINE_ENR = 5,
-    CYCLONE_ENR = 1,
-    REAPER_ENR = 5,
-    POLTERGEIST_ENR = 1,
-    TYPHON_ENR = 2,
-    MIMIC_ENR = 5,
-    LORD_ENR = 5
+enum energy_set : unsigned {
+    ROBOMECH_ENR = 30,
+    CENTRY_ENR = 30,
+    COLOSSUS_ENR = 10,
+    GHOST_ENR = 20,
+    INFESTOR_ENR = 10,
+    DISRUPTOR_ENR = 10,
+    ELF_ENR = 40,
+    GNOME_ENR = 50,
+    DENDRIOD_ENR = 20,
+    MARINE_ENR = 50,
+    CYCLONE_ENR = 10,
+    REAPER_ENR = 50,
+    POLTERGEIST_ENR = 10,
+    TYPHON_ENR = 20,
+    MIMIC_ENR = 50,
+    LORD_ENR = 50
 };
-static const std::vector<uint32_t> energy =
+static const std::vector<unsigned> energy =
     {ROBOMECH_ENR, CENTRY_ENR, COLOSSUS_ENR, GHOST_ENR, INFESTOR_ENR,
      DISRUPTOR_ENR, ELF_ENR, GNOME_ENR, DENDRIOD_ENR, MARINE_ENR, CYCLONE_ENR,
      REAPER_ENR, POLTERGEIST_ENR, TYPHON_ENR, MIMIC_ENR, LORD_ENR};

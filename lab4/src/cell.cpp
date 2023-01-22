@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#include <stdexcept>
+
 namespace field {
 // Point
 
@@ -97,7 +99,11 @@ Point Cell::get_coordinates() const { return coordinates_; }
 
 void Cell::set_type(const cell_type &type) { type_ = type; }
 
-void Cell::set_squad(squad::Squad *squad) { squad_ = squad; }
+void Cell::set_squad(squad::Squad *squad) {
+    if (type_ != cell_type::FREE)
+        throw std::invalid_argument("Impossible movement of squad");
+    squad_ = squad;
+}
 
 void Cell::set_coordinates(const Point &coordinates) {
     coordinates_ = coordinates;

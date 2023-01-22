@@ -82,7 +82,7 @@ class Lord : public Squad {
     /// @brief  call new squad to field
     /// @param name   squad name to call
     /// @return new squad pointer
-    Squad *call_squad(const constant::unit &name) const;
+    Squad *call_squad(const constant::unit &name);
 
     /// @brief func to modify energy
     /// @param energy value to add to current energy
