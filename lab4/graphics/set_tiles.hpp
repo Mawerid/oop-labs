@@ -47,8 +47,6 @@ class TileMap {
     /// @param window
     void draw_texts(sf::RenderWindow &window) const;
 };
-
-void show_menu();
 }  // namespace game
 
 #endif

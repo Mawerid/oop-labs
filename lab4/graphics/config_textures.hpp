@@ -19,8 +19,8 @@ static const std::map<field::cell_type, std::pair<int, int>>
 
 static const std::map<player_type, std::pair<int, int>>
     players_coords{
-        {player_type::RIGHT, std::make_pair(112, 0)},
-        {player_type::LEFT, std::make_pair(144, 48)}};
+        {player_type::LEFT, std::make_pair(112, 0)},
+        {player_type::RIGHT, std::make_pair(144, 48)}};
 
 static const std::map<constant::unit, std::pair<int, int>>
     units_coords{
