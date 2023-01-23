@@ -1,117 +1,120 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-// #include "../include/landscape.hpp"
+
 #include "../graphics/set_tiles.hpp"
 
 using namespace game;
 
-static const sf::Vector2i tileSize(16, 16);
+static const sf::Vector2i tile_size(16, 16);
 static const float scale = 4.f;
-static const std::string wrap = "========================================================================================\n";
 
-void render(sf::RenderWindow &window, sf::Texture &texture, sf::Text &text, game::Landscape &land)
-{
-    TileMap tileMap(texture, text, tileSize, scale);
-    tileMap.load(land);
-    window.clear();
-    tileMap.drawTiles(window);
-    tileMap.drawPlayer(window);
-    tileMap.drawUnits(window);
-    tileMap.drawTexts(window);
-    window.display();
-}
+void render(sf::RenderWindow &window, sf::Texture &texture,
+            sf::Text &text, game::Landscape &game);
 
-/*
-void talent_dialog(Landscape &land)
-{
-    ;
+int main() {
+    char game_name[] = "The Call of the Wild";
 
-    int choice = 0;
-    while (true)
-    {
-        system("clear 2>/dev/null");
-        Player &p = w.getPlayerEnt();
-        const TalentConfig &tc = p.getTalentConfig();
-        uint max_levels_by_num[]{tc.WitheringMaxLevel, tc.CurseMaxLevel, tc.NecromancyMaxLevel, tc.MorphismMaxLevel,
-                                 tc.UltimateMaxLevel};
+    auto height = MAP_SIZE_HORIZONTAL * tile_size.x * scale;
+    auto width = MAP_SIZE_VERTICAL * tile_size.y * scale;
 
-        cout << wrap << "\n\t\t\tPlayer stats"
-                        "\n\n\tLevel:     "
-             << p.getLevel() << "   (" << p.getExp() << " / " << tc.ExpPerLevel << " exp)"
-                                                                                   "\n\tMax HP:    "
-             << p.getMaxHp() << "\n\tMax Mana:  " << p.getMaxMana() << "\n\tATK:       " << p.getAtk() << endl
-             << endl;
-        cout << wrap << "\n\t\t\tTalents upgrade (available points: " << p.getTalentPoints() << ")"
-                                                                                                "\n\n\t1. Withering (level "
-             << p.getTalentLevel(WITHERING) << " / " << tc.WitheringMaxLevel << ")"
-                                                                                "\n\t2. Curse (level "
-             << p.getTalentLevel(CURSE) << " / " << tc.CurseMaxLevel << ")"
-                                                                        "\n\t3. Necromancy (level "
-             << p.getTalentLevel(NECROMANCY) << " / " << tc.NecromancyMaxLevel << ")"
-                                                                                  "\n\t4. Morphism (level "
-             << p.getTalentLevel(MORPHISM) << " / " << tc.MorphismMaxLevel << ")"
-                                                                              "\n\t5. Ultimate (level "
-             << p.getTalentLevel(ULTIMATE) << " / " << tc.UltimateMaxLevel << ")"
-                                                                              "\n\n\t0. back"
-             << endl
-             << endl;
-        Input::getNumInRange(choice, 0, 5);
-
-        if (choice == 0)
-            return;
-        Talent tal = talent_by_num[choice - 1];
-        uint max_level = max_levels_by_num[choice - 1];
-        if (p.getTalentPoints() <= 0)
-            cout << "-   Not enough talent points!" << endl;
-        else if (p.getTalentLevel(tal) >= max_level)
-            cout << "-   This talent is at Max level!" << endl;
-        else
-        {
-            p.setTalentPoints(p.getTalentPoints() - 1);
-            p.setTalentLevel(tal, p.getTalentLevel(tal) + 1);
-            cout << "+   Talent upgraded!   +" << endl;
-        }
-        sleep(1);
-    };
-} */
-
-int main()
-{
-    auto window = sf::RenderWindow{{1920u, 1080u}, "The Call of the Wild"};
+    sf::VideoMode video(height, width);
+    sf::RenderWindow window(video, game_name);
+    // auto window = sf::RenderWindow{{1920u, 1080u}, game_name};
     window.setFramerateLimit(60);
 
-    sf::Font font;
-    if (!font.loadFromFile("../fonts_tilesets/FROGBLOCK-V2.1-by-Polyducks.ttf"))
+    char font_path[] = "../fonts_tilesets/FROGBLOCK-V2.1-by-Polyducks.ttf";
+    char texture_path[] = "../fonts_tilesets/tilemap_packed.png";
+    unsigned font_size = 30;
+
+    sf::Font font_start;
+    if (!font_start.loadFromFile(font_path))
         std::cout << "BAD FONT" << std::endl;
 
-    sf::Text text;
-    text.setFont(font);
-    text.setString("The Call of the Wild");
-    text.setCharacterSize(50);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(400.f, 480.f);
+    sf::Text text_start;
+    text_start.setFont(font_start);
+    text_start.setString(game_name);
+    text_start.setCharacterSize(font_size);
+    text_start.setFillColor(sf::Color::White);
+    text_start.setPosition(height / 5, width / 5);
     sf::Clock clock;
     sf::Time elapsed1 = clock.getElapsedTime();
     sf::Time elapsed2 = clock.getElapsedTime();
 
-    while (window.isOpen())
-    {
-        for (auto event = sf::Event{}; window.pollEvent(event);)
-        {
+    font_size = 10;
+    sf::Texture texture;
+    texture.loadFromFile(texture_path);
+    sf::Text text;
+    sf::Font font;
+    font.loadFromFile(font_path);
+    text.setFont(font);
+    text.setCharacterSize(font_size);
+
+    bool main_menu = true;
+    bool school_table = false;
+
+    Landscape game;
+
+    video = sf::VideoMode(height, width);
+    window.create(video, game_name);
+
+    while (window.isOpen()) {
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape) {
+                    main_menu = !main_menu;
+                } else if (event.key.code == sf::Keyboard::Up ||
+                           event.key.code == sf::Keyboard::W) {
+                    // up
+                } else if (event.key.code == sf::Keyboard::Down ||
+                           event.key.code == sf::Keyboard::S) {
+                    // down
+                } else if (event.key.code == sf::Keyboard::Left ||
+                           event.key.code == sf::Keyboard::A) {
+                    // left
+                } else if (event.key.code == sf::Keyboard::Right ||
+                           event.key.code == sf::Keyboard::D) {
+                    // right
+                } else if (event.key.code == sf::Keyboard::C) {
+                    // call
+                } else if (event.key.code == sf::Keyboard::E) {
+                    // attack
+                } else if (event.key.code == sf::Keyboard::H) {
+                    // heal
+                } else if (event.key.code == sf::Keyboard::X) {
+                    if (!main_menu)
+                        school_table = !school_table;
+                } else if (event.key.code == sf::Keyboard::Enter) {
+                    // commit action
+                }
+            }
         }
 
         elapsed2 = clock.getElapsedTime();
 
         window.clear();
 
-        if (elapsed2.asSeconds() - elapsed1.asSeconds() <= 3)
-            window.draw(text);
-        else
-        {
+        if (elapsed2.asSeconds() - elapsed1.asSeconds() <= 2)
+            window.draw(text_start);
+        else if (main_menu) {
+            //
+        } else if (school_table) {
+            //
+        } else {
+            render(window, texture, text, game);
         }
 
         window.display();
     }
+}
+
+void render(sf::RenderWindow &window, sf::Texture &texture,
+            sf::Text &text, game::Landscape &game) {
+    TileMap tileMap(texture, text, tile_size, scale);
+    tileMap.load(game);
+    window.clear();
+    tileMap.draw_field(window);
+    tileMap.draw_texts(window);
+    tileMap.draw_units(window);
 }

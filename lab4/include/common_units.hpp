@@ -54,11 +54,12 @@ class Amoral : public Unit {
 
     /// @brief  hit other squad
     /// @param squad    squad to hit
-    void attack(Squad &squad) const override;
+    /// @return experience from kill
+    unsigned attack(Squad &squad) const override;
 
-    /// @brief  get damage from other squad
-    /// @param squad    squad get hit from
-    void defence(Squad &squad) override;
+    // /// @brief  get damage from other squad
+    // /// @param squad    squad get hit from
+    // void defence(Squad &squad) override;
 
     /// @brief  copy operator of assignment
     /// @param squad    squad to assign
@@ -150,11 +151,12 @@ class Moral : public Unit {
 
     /// @brief  hit other squad
     /// @param squad    squad to hit
-    void attack(Squad &squad) const override;
+    /// @return experience from kill
+    unsigned attack(Squad &squad) const override;
 
-    /// @brief  get damage from other squad
-    /// @param squad    squad get hit from
-    void defence(Squad &squad) override;
+    // /// @brief  get damage from other squad
+    // /// @param squad    squad get hit from
+    // void defence(Squad &squad) override;
 
     /// @brief  func to balance moral near 0
     void balance_moral();

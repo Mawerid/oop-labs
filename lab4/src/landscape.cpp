@@ -13,10 +13,12 @@ Landscape::Landscape() : map_(generate_map(OBSTACLES_COUNT)) {
     std::string name_left = "LEFT PLAYER";
     squad::Lord *left = new squad::Lord(name_left, player_type::LEFT);
 
-    set_squad(map_[0][0], left);
-    set_squad(map_[MAP_SIZE_VERTICAL - 1][MAP_SIZE_HORIZONTAL - 1], right);
-    units_list_.push(right);
-    units_list_.push(left);
+    set_squad(map_[MAP_SIZE_VERTICAL / 2][0], left);
+    set_squad(map_[MAP_SIZE_VERTICAL / 2][MAP_SIZE_HORIZONTAL - 1], right);
+    units_list_.push_back(right);
+    units_list_.push_back(left);
+    right_player_ = right;
+    left_player_ = left;
 }
 
 Landscape::Landscape(const map_type &map) : map_(map) {
@@ -26,18 +28,29 @@ Landscape::Landscape(const map_type &map) : map_(map) {
     std::string name_left = "LEFT PLAYER";
     squad::Lord *left = new squad::Lord(name_left, player_type::LEFT);
 
-    units_list_.push(right);
-    units_list_.push(left);
+    set_squad(map_[MAP_SIZE_VERTICAL / 2][0], left);
+    set_squad(map_[MAP_SIZE_VERTICAL / 2][MAP_SIZE_HORIZONTAL - 1], right);
+    units_list_.push_back(right);
+    units_list_.push_back(left);
+    right_player_ = right;
+    left_player_ = left;
 }
 
-Landscape::Landscape(const map_type &map, const queue &units_list)
-    : map_(map), units_list_(units_list) {}
+Landscape::Landscape(const map_type &map, const queue &units_list, squad::Lord *left_player, squad::Lord *right_player)
+    : map_(map),
+      units_list_(units_list),
+      left_player_(left_player),
+      right_player_(right_player) {}
 
 Landscape::Landscape(const Landscape &game) : Landscape(game.map_,
-                                                        game.units_list_) {}
+                                                        game.units_list_,
+                                                        game.left_player_,
+                                                        game.right_player_) {}
 
 Landscape::Landscape(Landscape &&game) : map_(game.map_),
-                                         units_list_(game.units_list_) {
+                                         units_list_(game.units_list_),
+                                         left_player_(game.left_player_),
+                                         right_player_(game.right_player_) {
     game.units_list_ = {};
 }
 
@@ -77,7 +90,7 @@ Landscape::~Landscape() {
     while (!(units_list_.empty())) {
         auto *squad = units_list_.front();
         free_squad(squad);
-        units_list_.pop();
+        units_list_.pop_front();
     }
 }
 
@@ -118,28 +131,39 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
         } break;
         case 'a': {  // attack
             auto squad_to_attack = map_[args[0]][args[1]].get_squad();
+            unsigned exp = 0;
+
             if (squad_to_attack == nullptr)
                 throw std::invalid_argument("no squad here");
             if (constant::unit_type[name] == moral_name) {
                 auto moral = static_cast<squad::Moral *>(current_squad);
-                moral->attack(*squad_to_attack);
+                exp = moral->attack(*squad_to_attack);
 
             } else if (constant::unit_type[name] == amoral_name) {
                 auto amoral = static_cast<squad::Amoral *>(current_squad);
-                amoral->attack(*squad_to_attack);
+                exp = amoral->attack(*squad_to_attack);
 
             } else if (constant::unit_type[name] == im_moral_name) {
                 auto im_moral =
                     static_cast<squad::Immortal_moral *>(current_squad);
-                im_moral->attack(*squad_to_attack);
+                exp = im_moral->attack(*squad_to_attack);
 
             } else if (constant::unit_type[name] == im_amoral_name) {
                 auto im_amoral =
                     static_cast<squad::Immortal_amoral *>(current_squad);
-                im_amoral->attack(*squad_to_attack);
+                exp = im_amoral->attack(*squad_to_attack);
 
             } else
                 throw std::invalid_argument("You cannot attack");
+
+            if (static_cast<player_type>(current_squad->get_team()) == player_type::LEFT) {
+                left_player_->modify_experience(exp);
+                left_player_->modify_energy(exp);
+            } else {
+                right_player_->modify_experience(exp);
+                right_player_->modify_energy(exp);
+            }
+
         } break;
         case 'u': {  // upgrade school
             if (constant::unit_type[name] == lord_name) {
@@ -154,7 +178,7 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
                 auto lord = static_cast<squad::Lord *>(current_squad);
                 auto squad = static_cast<constant::unit>(args[0]);
                 auto *squad_called = lord->call_squad(squad);
-                units_list_.push(squad_called);
+                units_list_.push_back(squad_called);
                 set_squad(map_[args[1]][args[2]], squad_called);
             } else
                 throw std::invalid_argument("You cannot call squad");
@@ -175,8 +199,8 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
             break;
     }
 
-    units_list_.pop();
-    units_list_.push(current_squad);
+    units_list_.pop_front();
+    units_list_.push_back(current_squad);
 }
 
 squad::Squad *Landscape::get_next() { return units_list_.front(); }
@@ -196,8 +220,8 @@ Landscape::map_type Landscape::generate_map(const size_t &obstacles_count) {
             if ((std::rand() % 2 == 1) &&
                 count < obstacles_count &&
                 j % 3 != 0 &&
-                abs(MAP_SIZE_VERTICAL / 2 - i) < (MAP_SIZE_VERTICAL / 3) &&
-                abs(MAP_SIZE_HORIZONTAL / 2 - j) < (MAP_SIZE_HORIZONTAL / 3)) {
+                abs(MAP_SIZE_VERTICAL / 2 - i) < (MAP_SIZE_VERTICAL / 2) &&
+                abs(MAP_SIZE_HORIZONTAL / 2 - j) < (MAP_SIZE_HORIZONTAL / 5)) {
                 type = field::cell_type::OBSTAClE;
                 count++;
             } else
@@ -210,6 +234,15 @@ Landscape::map_type Landscape::generate_map(const size_t &obstacles_count) {
     return map;
 }
 
+field::Point Landscape::find_squad(squad::Squad *squad) {
+    for (auto &row : map_)
+        for (auto &cell : row)
+            if (cell.get_squad() == squad)
+                return cell.get_coordinates();
+
+    throw std::invalid_argument("No such squad on map");
+}
+
 void Landscape::save_game() const {
     // TODO
 }
@@ -218,6 +251,10 @@ void Landscape::load_game() {
     // TODO
 }
 
+squad::Lord *Landscape::get_left_player() { return left_player_; }
+
+squad::Lord *Landscape::get_right_player() { return right_player_; }
+
 Landscape &Landscape::operator=(const Landscape &game) {
     if (this == &game)
         return *this;
@@ -225,7 +262,7 @@ Landscape &Landscape::operator=(const Landscape &game) {
     while (!(units_list_.empty())) {
         auto squad = units_list_.front();
         delete squad;
-        units_list_.pop();
+        units_list_.pop_front();
     }
 
     map_ = game.map_;
@@ -237,19 +274,19 @@ Landscape &Landscape::operator=(const Landscape &game) {
         if (constant::unit_type[name] == "M") {
             moral_type type = convert_to_moral(name);
             Moral *squad = new Moral(type);
-            units_list_.push(squad);
+            units_list_.push_back(squad);
         } else if (constant::unit_type[name] == "A") {
             amoral_type type = convert_to_amoral(name);
             Amoral *squad = new Amoral(type);
-            units_list_.push(squad);
+            units_list_.push_back(squad);
         } else if (constant::unit_type[name] == "IM") {
             immortal_moral_type type = convert_to_immortal_moral(name);
             Immortal_moral *squad = new Immortal_moral(type);
-            units_list_.push(squad);
+            units_list_.push_back(squad);
         } else if (constant::unit_type[name] == "IA") {
             immortal_amoral_type type = convert_to_immortal_amoral(name);
             Immortal_amoral *squad = new Immortal_amoral(type);
-            units_list_.push(squad);
+            units_list_.push_back(squad);
         }
     }
 

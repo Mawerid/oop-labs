@@ -2,53 +2,53 @@
 #define SET_TILEMAP_HPP
 
 #include <SFML/Graphics.hpp>
+#include <list>
 #include <sstream>
-#include "config_tiles.hpp"
 
-namespace game
-{
+#include "config_textures.hpp"
 
-    /// @brief class for graphics
-    class TileMap
-    {
-    private:
-        float m_scale;
-        const sf::Texture &m_texture;
-        const sf::Text &m_text;
-        sf::Sprite m_player;
-        std::list<sf::Sprite> m_units;
-        std::list<sf::Text> m_texts;
-        sf::Vector2i m_tileSize;
-        std::vector<sf::Vertex> m_vertices;
+namespace game {
 
-    public:
-        /// @brief  constructor
-        /// @param texture  textures to use
-        /// @param text text to print
-        /// @param tileSize size of
-        /// @param scale    scale of tiles
-        TileMap(const sf::Texture &texture, const sf::Text &text, const sf::Vector2i &tileSize, float scale = 2.);
+/// @brief class for render map
+class TileMap {
+   private:
+    float scale_;
+    const sf::Texture &texture_;
+    const sf::Text &text_;
+    std::list<sf::Sprite> units_;
+    std::list<sf::Text> texts_;
+    sf::Vector2i size_;
+    std::vector<sf::Vertex> vertices_;
 
-        /// @brief
-        /// @param w
-        void load(game::Landscape land);
+   public:
+    /// @brief  constructor
+    /// @param texture  textures to use
+    /// @param text text to print
+    /// @param size size of window
+    /// @param scale    scale of tiles
+    TileMap(const sf::Texture &texture, const sf::Text &text,
+            const sf::Vector2i &size, float scale = 2.0);
 
-        /// @brief
-        /// @param window
-        void drawTiles(sf::RenderWindow &window) const;
+    ~TileMap() = default;
 
-        /// @brief
-        /// @param window
-        void drawPlayer(sf::RenderWindow &window) const;
+    /// @brief
+    /// @param game
+    void load(game::Landscape &game);
 
-        /// @brief
-        /// @param window
-        void drawUnits(sf::RenderWindow &window) const;
+    /// @brief
+    /// @param window
+    void draw_field(sf::RenderWindow &window) const;
 
-        /// @brief
-        /// @param window
-        void drawTexts(sf::RenderWindow &window) const;
-    };
-}
+    /// @brief
+    /// @param window
+    void draw_units(sf::RenderWindow &window) const;
+
+    /// @brief
+    /// @param window
+    void draw_texts(sf::RenderWindow &window) const;
+};
+
+void show_menu();
+}  // namespace game
 
 #endif

@@ -10,8 +10,8 @@
 #define UNITS_COUNT (size_t)15
 #define START_ENERGY 100
 #define START_MAX_ENERGY 1000
-#define MAP_SIZE_VERTICAL 15
-#define MAP_SIZE_HORIZONTAL 10
+#define MAP_SIZE_VERTICAL 10
+#define MAP_SIZE_HORIZONTAL 19
 #define OBSTACLES_COUNT 10
 
 namespace constant {

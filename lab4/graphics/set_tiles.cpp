@@ -1,63 +1,125 @@
 #include "set_tiles.hpp"
 
-namespace game
-{
-    TileMap::TileMap(const sf::Texture &texture, const sf::Text &text, const sf::Vector2i &tileSize, float scale)
-        : m_texture(texture), m_text(text), m_tileSize(tileSize), m_scale(scale) {}
+#include <iostream>
 
-    void TileMap::load(game::Landscape land)
-    {
-        Landscape::map_type map = land.get_map();
-        Landscape::list unit_list = land.get_units_list();
-        Landscape::school_table_type table = land.get_school_table();
+namespace game {
+TileMap::TileMap(const sf::Texture &texture, const sf::Text &text,
+                 const sf::Vector2i &size, float scale)
+    : texture_(texture), text_(text), size_(size), scale_(scale) {}
 
-        const int height = land.size.first;
-        const int width = land.size.second;
+void TileMap::load(game::Landscape &game) {
+    Landscape::map_type &map = game.get_map();
+    Landscape::queue &unit_list = game.get_units_list();
 
-        m_vertices.resize(width * height * 4);
+    const int height = game.size_.first;
+    const int width = game.size_.second;
 
-        for (int x = 0; x < height; ++x)
-        {
-            for (int y = 0; y < width; ++y)
-            {
-                const field::Cell tile = map[x][y];
-                const std::pair<int, int> coords = tile_coords.at(tile);
-                const float tu = coords.first, tv = coords.second;
+    vertices_.resize(width * height * 4);
 
-                sf::Vertex *quad = &m_vertices[(y + x * width) * 4];
+    for (int x = 0; x < height; ++x) {
+        for (int y = 0; y < width; ++y) {
+            const field::cell_type type = map[x][y].get_type();
+            const std::pair<int, int> coords = field_coords.at(type);
 
-                quad[0].position = sf::Vector2f((y + 0.f) * m_tileSize.x * m_scale, (x + 0.f) * m_tileSize.y * m_scale);
-                quad[1].position = sf::Vector2f((y + 1.f) * m_tileSize.x * m_scale, (x + 0.f) * m_tileSize.y * m_scale);
-                quad[2].position = sf::Vector2f((y + 1.f) * m_tileSize.x * m_scale, (x + 1.f) * m_tileSize.y * m_scale);
-                quad[3].position = sf::Vector2f((y + 0.f) * m_tileSize.x * m_scale, (x + 1.f) * m_tileSize.y * m_scale);
+            const float tu = coords.first;
+            const float tv = coords.second;
 
-                quad[0].texCoords = sf::Vector2f(tu, tv);
-                quad[1].texCoords = sf::Vector2f(tu + m_tileSize.x, tv);
-                quad[2].texCoords = sf::Vector2f(tu + m_tileSize.x, tv + m_tileSize.y);
-                quad[3].texCoords = sf::Vector2f(tu, tv + m_tileSize.y);
-            }
+            sf::Vertex *quad = &vertices_[(y + x * width) * 4];
+
+            quad[0].position = sf::Vector2f((y + 0.f) * size_.x * scale_,
+                                            (x + 0.f) * size_.y * scale_);
+            quad[1].position = sf::Vector2f((y + 1.f) * size_.x * scale_,
+                                            (x + 0.f) * size_.y * scale_);
+            quad[2].position = sf::Vector2f((y + 1.f) * size_.x * scale_,
+                                            (x + 1.f) * size_.y * scale_);
+            quad[3].position = sf::Vector2f((y + 0.f) * size_.x * scale_,
+                                            (x + 1.f) * size_.y * scale_);
+
+            quad[0].texCoords = sf::Vector2f(tu, tv);
+            quad[1].texCoords = sf::Vector2f(tu + size_.x, tv);
+            quad[2].texCoords = sf::Vector2f(tu + size_.x, tv + size_.y);
+            quad[3].texCoords = sf::Vector2f(tu, tv + size_.y);
         }
     }
 
-    void TileMap::drawTiles(sf::RenderWindow &window) const
-    {
-        window.draw(m_vertices.data(), m_vertices.size(), sf::Quads, &m_texture);
-    }
+    std::pair<int, int> coords;
+    int tu = coords.first;
+    int tv = coords.second;
+    for (auto &unit : unit_list) {
+        sf::Sprite sprite(texture_);
+        sf::Text unit_text(text_);
+        std::ostringstream unit_status;
 
-    void TileMap::drawPlayer(sf::RenderWindow &window) const
-    {
-        window.draw(m_player);
-    }
+        if (unit->get_name() == constant::unit::LORD) {
+            auto *lord = static_cast<squad::Lord *>(unit);
+            unit_status << "HEAL: " << lord->get_health()
+                        << "\nEXP:  " << lord->get_experience()
+                        << "\nENG:  " << lord->get_energy();
+        } else {
+            unit_status << unit->get_health();
+        }
 
-    void TileMap::drawUnits(sf::RenderWindow &window) const
-    {
-        for (const auto &s : m_units)
-            window.draw(s);
-    }
+        unit_text.setString(unit_status.str());
+        unit_text.setFillColor(
+            colors.at(static_cast<player_type>(unit->get_team())));
 
-    void TileMap::drawTexts(sf::RenderWindow &window) const
-    {
-        for (const auto &t : m_texts)
-            window.draw(t);
+        auto position = game.find_squad(unit);
+
+        if (unit->get_name() == constant::unit::LORD) {
+            if (static_cast<player_type>(unit->get_team()) == player_type::RIGHT) {
+                unit_text.setPosition(position.get_y() * size_.y * scale_ - 40,
+                                      position.get_x() * size_.x * scale_ - 40);
+            } else {
+                unit_text.setPosition(position.get_y() * size_.y * scale_,
+                                      position.get_x() * size_.x * scale_ - 40);
+            }
+        } else {
+            unit_text.setPosition(position.get_y() * size_.y * scale_,
+                                  position.get_x() * size_.x * scale_ - 20);
+        }
+
+        if (unit->get_name() == constant::unit::LORD)
+            coords = players_coords.at(
+                static_cast<player_type>(unit->get_team()));
+        else
+            coords = units_coords.at(unit->get_name());
+
+        tu = coords.second;
+        tv = coords.first;
+
+        sprite.setTextureRect({tu, tv, size_.x, size_.y});
+
+        sprite.setPosition(position.get_y() * size_.y * scale_,
+                           position.get_x() * size_.x * scale_);
+
+        if (static_cast<player_type>(unit->get_team()) == player_type::RIGHT) {
+            sprite.scale(-1.f, 1.f);
+            sprite.setPosition((position.get_y() + 1) * size_.y * scale_,
+                               position.get_x() * size_.x * scale_);
+        }
+
+        if (unit->get_health() == 0) {
+            sprite.setOrigin(0, size_.y);
+            sprite.setRotation(90.f);
+        }
+
+        sprite.scale(scale_, scale_);
+        units_.push_back(sprite);
+        texts_.push_back(unit_text);
     }
 }
+
+void TileMap::draw_field(sf::RenderWindow &window) const {
+    window.draw(vertices_.data(), vertices_.size(), sf::Quads, &texture_);
+}
+
+void TileMap::draw_units(sf::RenderWindow &window) const {
+    for (const auto &squad : units_)
+        window.draw(squad);
+}
+
+void TileMap::draw_texts(sf::RenderWindow &window) const {
+    for (const auto &text : texts_)
+        window.draw(text);
+}
+}  // namespace game

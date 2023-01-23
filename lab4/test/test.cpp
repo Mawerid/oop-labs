@@ -162,7 +162,7 @@ TEST(Landscape, other_func) {
     std::cout << std::endl;
     std::cout << std::endl;
 
-    std::vector<unsigned> args3 = {14, 9};
+    std::vector<unsigned> args3 = {5, 16};
 
     game.play_next('a', args3);
 
@@ -222,7 +222,7 @@ TEST(Lord, other_func) {
     ASSERT_EQ(70, lord.get_energy());
     ASSERT_ANY_THROW(lord.call_squad(constant::unit::CENTRY));
     ASSERT_NO_THROW(lord.upgrade_school(constant::school_type::ROBOTICS));
-    ASSERT_EQ(40, lord.get_energy());
+    ASSERT_EQ(220, lord.get_experience());
 }
 
 //  School
@@ -332,8 +332,6 @@ TEST(Moral, other_func) {
 
     ASSERT_NO_THROW(squad.attack(squad_1));
     ASSERT_EQ(46, squad_1.get_health());
-    ASSERT_NO_THROW(squad.defence(squad_1));
-    ASSERT_EQ(244, squad.get_health());
 }
 
 //  Amoral
@@ -362,7 +360,6 @@ TEST(Amoral, other_func) {
     squad::Moral squad_1(squad::moral_type::MARINE, 2);
 
     ASSERT_NO_THROW(squad.attack(squad_1));
-    ASSERT_NO_THROW(squad.defence(squad_1));
 }
 
 //  Immortal_moral
@@ -422,8 +419,6 @@ TEST(Immortal_amoral, other_func) {
 
     ASSERT_NO_THROW(squad.attack(tmp));
     ASSERT_EQ(198, tmp.get_health());
-    ASSERT_NO_THROW(squad.defence(tmp));
-    ASSERT_EQ(242, squad.get_health());
 }
 
 //  KDTree

@@ -43,11 +43,12 @@ class Unit : public Squad {
 
     /// @brief  hit other squad
     /// @param squad    squad to hit
-    virtual void attack(Squad &squad) const = 0;
+    /// @return experience from kill
+    virtual unsigned attack(Squad &squad) const = 0;
 
-    /// @brief  get damage from other squad
-    /// @param squad    squad get hit from
-    virtual void defence(Squad &squad) = 0;
+    // /// @brief  get damage from other squad
+    // /// @param squad    squad get hit from
+    // virtual void defence(Squad &squad) = 0;
 
     /// @brief  copy operator of assignment
     /// @param squad    squad to assign

@@ -55,11 +55,11 @@ void Lord::upgrade_school(const constant::school_type &school_type) {
     auto list = school->first.get_skill_list();
     unsigned min_energy = list[curr_level].get_energy();
 
-    if (energy_ >= min_energy) {
+    if (experience_ >= min_energy) {
         (school->second)++;
-        energy_ -= min_energy;
+        experience_ -= min_energy;
     } else
-        throw std::invalid_argument("not enough energy");
+        throw std::invalid_argument("not enough experience");
 }
 
 auto find_school(Lord::knowledge_type knowledge, constant::school_type type) {
@@ -119,6 +119,10 @@ Squad *Lord::call_squad(const constant::unit &name) {
 
 void Lord::modify_energy(const int &energy) {
     energy_ += energy;
+}
+
+void Lord::modify_experience(const unsigned &experience) {
+    experience_ += experience;
 }
 
 bool Lord::operator==(const Lord &lord) const {

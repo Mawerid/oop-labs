@@ -88,6 +88,10 @@ class Lord : public Squad {
     /// @param energy value to add to current energy
     void modify_energy(const int &energy);
 
+    /// @brief func to modify experience
+    /// @param experience value to add to current experience
+    void modify_experience(const unsigned &experience);
+
     /// @brief  copy operator of assignment
     /// @param lord    lord to assign
     /// @return new state of class object (this)

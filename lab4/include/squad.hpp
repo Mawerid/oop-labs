@@ -116,7 +116,8 @@ class Squad {
 
     /// @brief  getting damage from other units
     /// @param damage   damage
-    void get_damage(const unsigned &damage);
+    /// @return experience in case of killing
+    unsigned get_damage(const unsigned &damage);
 
     /// @brief  copy operator of assignment
     /// @param squad    squad to assign

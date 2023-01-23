@@ -68,11 +68,14 @@ unsigned Squad::get_team() const { return team_; }
 size_t Squad::get_quantity() const { return quantity_; }
 constant::unit Squad::get_name() const { return name_; }
 
-void Squad::get_damage(const unsigned &damage) {
-    if (health_ < damage)
+unsigned Squad::get_damage(const unsigned &damage) {
+    if (health_ < damage) {
         health_ = 0;
-    else
+        return experience_;
+    } else {
         health_ -= damage;
+        return 0;
+    }
 }
 
 bool Squad::operator==(const Squad &squad) const {

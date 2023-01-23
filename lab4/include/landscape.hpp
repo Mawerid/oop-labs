@@ -1,8 +1,8 @@
 #ifndef LANDSCAPE_HPP
 #define LANDSCAPE_HPP
 
+#include <deque>
 #include <map>
-#include <queue>
 #include <string>
 #include <vector>
 
@@ -18,12 +18,14 @@ enum player_type {
 class Landscape {
    public:
     typedef std::vector<std::vector<field::Cell>> map_type;
-    typedef std::queue<squad::Squad *> queue;
+    typedef std::deque<squad::Squad *> queue;
     typedef std::pair<size_t, size_t> size_type;
 
    private:
     map_type map_;
     queue units_list_;
+    squad::Lord *left_player_;
+    squad::Lord *right_player_;
 
    public:
     const size_type size_ = {MAP_SIZE_VERTICAL, MAP_SIZE_HORIZONTAL};
@@ -38,7 +40,9 @@ class Landscape {
     /// @brief constructor
     /// @param map map of game
     /// @param units_list queue with units exists
-    Landscape(const map_type &map, const queue &units_list);
+    /// @param left_player pointer to left player
+    /// @param right_player pointer to right player
+    Landscape(const map_type &map, const queue &units_list, squad::Lord *left_player, squad::Lord *right_player);
 
     /// @brief  copy constructor
     /// @param game    game to copy
@@ -49,6 +53,11 @@ class Landscape {
     Landscape(Landscape &&game);
 
     ~Landscape();
+
+    /// @brief find squad position on map
+    /// @param squad squad to find
+    /// @return point in map
+    field::Point find_squad(squad::Squad *squad);
 
     /// @brief free pointer to squad
     /// @param squad squad to free
@@ -69,6 +78,14 @@ class Landscape {
     /// @brief  getter of units list
     /// @return units list
     queue &get_units_list();
+
+    /// @brief getter of left player
+    /// @return point to Lord
+    squad::Lord *get_left_player();
+
+    /// @brief getter of right player
+    /// @return point to Lord
+    squad::Lord *get_right_player();
 
     /// @brief  move squad from one cell to another
     /// @param cell_from   cell from

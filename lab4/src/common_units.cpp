@@ -47,20 +47,20 @@ amoral_type Amoral::get_type() const { return type_; }
 
 void Amoral::set_type(const amoral_type &type) { type_ = type; }
 
-void Amoral::attack(Squad &squad) const {
+unsigned Amoral::attack(Squad &squad) const {
     unsigned damage = damage_ * quantity_;
-    squad.get_damage(damage);
+    return squad.get_damage(damage);
 }
 
-void Amoral::defence(Squad &squad) {
-    auto unit = squad.get_name();
-    unsigned damage = 0;
-    if (unit % 3 == 1 || unit == 2 || unit == 5)
-        damage = static_cast<Amoral &>(squad).get_damage_val();
-    else if (unit % 3 == 0 || unit == 14 || unit == 11)
-        damage = static_cast<Moral &>(squad).get_damage_val();
-    this->get_damage(damage);
-}
+// void Amoral::defence(Squad &squad) {
+//     auto unit = squad.get_name();
+//     unsigned damage = 0;
+//     if (unit % 3 == 1 || unit == 2 || unit == 5)
+//         damage = static_cast<Amoral &>(squad).get_damage_val();
+//     else if (unit % 3 == 0 || unit == 14 || unit == 11)
+//         damage = static_cast<Moral &>(squad).get_damage_val();
+//     this->get_damage(damage);
+// }
 
 bool Amoral::operator==(const Amoral &squad) const {
     if (motivation_ == squad.motivation_ && health_ == squad.health_ &&
@@ -141,21 +141,21 @@ void Moral::set_type(const moral_type &type) { type_ = type; }
 
 void Moral::set_moral(const int &moral) { moral_ = moral; }
 
-void Moral::attack(Squad &squad) const {
+unsigned Moral::attack(Squad &squad) const {
     unsigned damage = damage_ * quantity_ + moral_;
-    squad.get_damage(damage);
+    return squad.get_damage(damage);
 }
 
-void Moral::defence(Squad &squad) {
-    auto unit = squad.get_name();
-    int damage = (-1) * moral_;
-    if (unit % 3 == 1 || unit == 2 || unit == 5)
-        damage += static_cast<Amoral &>(squad).get_damage_val();
-    else if (unit % 3 == 0 || unit == 14 || unit == 11)
-        damage += static_cast<Moral &>(squad).get_damage_val();
-    if (damage > 0)
-        this->get_damage(static_cast<unsigned>(damage));
-}
+// void Moral::defence(Squad &squad) {
+//     auto unit = squad.get_name();
+//     int damage = (-1) * moral_;
+//     if (unit % 3 == 1 || unit == 2 || unit == 5)
+//         damage += static_cast<Amoral &>(squad).get_damage_val();
+//     else if (unit % 3 == 0 || unit == 14 || unit == 11)
+//         damage += static_cast<Moral &>(squad).get_damage_val();
+//     if (damage > 0)
+//         this->get_damage(static_cast<unsigned>(damage));
+// }
 
 void Moral::balance_moral() {
     if (moral_ > 0)
