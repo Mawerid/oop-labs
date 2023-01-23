@@ -32,7 +32,7 @@ static const std::map<constant::unit, std::pair<int, int>>
         {constant::unit::DISRUPTOR, std::make_pair(128, 64)},
         {constant::unit::ELF, std::make_pair(144, 64)},
         {constant::unit::GNOME, std::make_pair(112, 32)},
-        {constant::unit::DENDRIOD, std::make_pair(112, 64)},
+        {constant::unit::DENDROID, std::make_pair(112, 64)},
         {constant::unit::MARINE, std::make_pair(128, 0)},
         {constant::unit::CYCLONE, std::make_pair(112, 48)},
         {constant::unit::REAPER, std::make_pair(128, 32)},

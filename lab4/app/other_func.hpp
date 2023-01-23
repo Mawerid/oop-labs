@@ -23,6 +23,5 @@ void show_menu(sf::RenderWindow &window, sf::Text &text);
 void show_school_tables(sf::RenderWindow &window, sf::Text &text,
                         game::Landscape &game);
 
-void show_units(sf::RenderWindow &window, sf::Text &text,
-                game::Landscape &game);
+void show_units(sf::RenderWindow &window, sf::Text &text);
 }

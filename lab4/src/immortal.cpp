@@ -25,8 +25,8 @@ void Immortal::set_probability(const double &probability) {
 
 immortal_moral_type convert_to_immortal_moral(const constant::unit &name) {
     switch (name) {
-        case constant::unit::DENDRIOD:
-            return immortal_moral_type::DENDRIOD;
+        case constant::unit::DENDROID:
+            return immortal_moral_type::DENDROID;
             break;
         case constant::unit::REAPER:
             return immortal_moral_type::REAPER;

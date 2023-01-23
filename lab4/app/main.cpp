@@ -86,7 +86,7 @@ int main() {
         } else if (school_table) {
             show_school_tables(window, text, game);
         } else if (call_squad) {
-            show_school_tables(window, text, game);
+            show_units(window, text);
         } else {
             render(window, texture, text, game);
         }

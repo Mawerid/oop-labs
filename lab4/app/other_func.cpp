@@ -1,4 +1,4 @@
-#include "../graphics/set_tiles.hpp"
+#include "other_func.hpp"
 
 namespace game {
 
@@ -88,7 +88,24 @@ void show_school_tables(sf::RenderWindow &window, sf::Text &text,
     window.draw(text);
 }
 
-void show_units(sf::RenderWindow &window, sf::Text &text,
-                game::Landscape &game) {
+void show_units(sf::RenderWindow &window, sf::Text &text) {
+    unsigned font_size = 25;
+
+    std::ostringstream units_list;
+
+    units_list << "Robomech (0)\tDendroid (8)\n";
+    units_list << "Centry (1)\t  Marine (9)\n";
+    units_list << "Colossus (2)\tCyclone (10)\n";
+    units_list << "Ghost (3)\t   Reaper (11)\n";
+    units_list << "Infestor (4)\tPoltergeist (12)\n";
+    units_list << "Disruptor (5)   Typhon (13)\n";
+    units_list << "Elf (6)\t\t Mimic (14)\n";
+    units_list << "Gnome (7)";
+
+    text.setString(units_list.str());
+    text.setCharacterSize(font_size);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(10, width / 5);
+    window.draw(text);
 }
 }

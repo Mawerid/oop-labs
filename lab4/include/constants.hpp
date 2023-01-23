@@ -34,7 +34,7 @@ enum unit : unsigned {
     DISRUPTOR,
     ELF,
     GNOME,
-    DENDRIOD,
+    DENDROID,
     MARINE,
     CYCLONE,
     REAPER,
@@ -59,7 +59,7 @@ enum max_quantity_set : unsigned {
     DISRUPTOR_MQ = 1,
     ELF_MQ = 4,
     GNOME_MQ = 5,
-    DENDRIOD_MQ = 2,
+    DENDROID_MQ = 2,
     MARINE_MQ = 5,
     CYCLONE_MQ = 1,
     REAPER_MQ = 5,
@@ -70,7 +70,7 @@ enum max_quantity_set : unsigned {
 };
 static const std::vector<unsigned> max_quantity =
     {ROBOMECH_MQ, CENTRY_MQ, COLOSSUS_MQ, GHOST_MQ, INFESTOR_MQ,
-     DISRUPTOR_MQ, ELF_MQ, GNOME_MQ, DENDRIOD_MQ, MARINE_MQ, CYCLONE_MQ, REAPER_MQ, POLTERGEIST_MQ, TYPHON_MQ, MIMIC_MQ, LORD_MQ};
+     DISRUPTOR_MQ, ELF_MQ, GNOME_MQ, DENDROID_MQ, MARINE_MQ, CYCLONE_MQ, REAPER_MQ, POLTERGEIST_MQ, TYPHON_MQ, MIMIC_MQ, LORD_MQ};
 
 /// @brief max health of units
 enum max_health_set : unsigned {
@@ -82,7 +82,7 @@ enum max_health_set : unsigned {
     DISRUPTOR_MH = 300,
     ELF_MH = 400,
     GNOME_MH = 600,
-    DENDRIOD_MH = 400,
+    DENDROID_MH = 400,
     MARINE_MH = 250,
     CYCLONE_MH = 300,
     REAPER_MH = 350,
@@ -93,7 +93,7 @@ enum max_health_set : unsigned {
 };
 static const std::vector<unsigned> max_health =
     {ROBOMECH_MH, CENTRY_MH, COLOSSUS_MH, GHOST_MH, INFESTOR_MH,
-     DISRUPTOR_MH, ELF_MH, GNOME_MH, DENDRIOD_MH, MARINE_MH, CYCLONE_MH, REAPER_MH, POLTERGEIST_MH, TYPHON_MH, MIMIC_MH, LORD_MH};
+     DISRUPTOR_MH, ELF_MH, GNOME_MH, DENDROID_MH, MARINE_MH, CYCLONE_MH, REAPER_MH, POLTERGEIST_MH, TYPHON_MH, MIMIC_MH, LORD_MH};
 
 /// @brief speed of units
 enum speed_set : unsigned {
@@ -105,7 +105,7 @@ enum speed_set : unsigned {
     DISRUPTOR_S = 2,
     ELF_S = 7,
     GNOME_S = 2,
-    DENDRIOD_S = 2,
+    DENDROID_S = 2,
     MARINE_S = 4,
     CYCLONE_S = 7,
     REAPER_S = 7,
@@ -116,7 +116,7 @@ enum speed_set : unsigned {
 };
 static const std::vector<unsigned> speed =
     {ROBOMECH_S, CENTRY_S, COLOSSUS_S, GHOST_S, INFESTOR_S,
-     DISRUPTOR_S, ELF_S, GNOME_S, DENDRIOD_S, MARINE_S, CYCLONE_S,
+     DISRUPTOR_S, ELF_S, GNOME_S, DENDROID_S, MARINE_S, CYCLONE_S,
      REAPER_S, POLTERGEIST_S, TYPHON_S, MIMIC_S, LORD_S};
 
 /// @brief experience of units
@@ -129,7 +129,7 @@ enum experience_set : unsigned {
     DISRUPTOR_EX = 75,
     ELF_EX = 150,
     GNOME_EX = 125,
-    DENDRIOD_EX = 75,
+    DENDROID_EX = 75,
     MARINE_EX = 100,
     CYCLONE_EX = 100,
     REAPER_EX = 75,
@@ -140,7 +140,7 @@ enum experience_set : unsigned {
 };
 static const std::vector<unsigned> experience =
     {ROBOMECH_EX, CENTRY_EX, COLOSSUS_EX, GHOST_EX, INFESTOR_EX,
-     DISRUPTOR_EX, ELF_EX, GNOME_EX, DENDRIOD_EX, MARINE_EX, CYCLONE_EX,
+     DISRUPTOR_EX, ELF_EX, GNOME_EX, DENDROID_EX, MARINE_EX, CYCLONE_EX,
      REAPER_EX, POLTERGEIST_EX, TYPHON_EX, MIMIC_EX, LORD_EX};
 
 /// @brief motivation of units
@@ -153,7 +153,7 @@ enum motivation_set : unsigned {
     DISRUPTOR_MT = 1,
     ELF_MT = 4,
     GNOME_MT = 5,
-    DENDRIOD_MT = 2,
+    DENDROID_MT = 2,
     MARINE_MT = 5,
     CYCLONE_MT = 1,
     REAPER_MT = 5,
@@ -164,7 +164,7 @@ enum motivation_set : unsigned {
 };
 static const std::vector<unsigned> motivation =
     {ROBOMECH_MT, CENTRY_MT, COLOSSUS_MT, GHOST_MT, INFESTOR_MT,
-     DISRUPTOR_MT, ELF_MT, GNOME_MT, DENDRIOD_MT, MARINE_MT, CYCLONE_MT,
+     DISRUPTOR_MT, ELF_MT, GNOME_MT, DENDROID_MT, MARINE_MT, CYCLONE_MT,
      REAPER_MT, POLTERGEIST_MT, TYPHON_MT, MIMIC_MT, LORD_MT};
 
 /// @brief damage of units
@@ -177,7 +177,7 @@ enum damage_set : unsigned {
     DISRUPTOR_DM = 10,
     ELF_DM = 40,
     GNOME_DM = 50,
-    DENDRIOD_DM = 20,
+    DENDROID_DM = 20,
     MARINE_DM = 50,
     CYCLONE_DM = 10,
     REAPER_DM = 50,
@@ -188,7 +188,7 @@ enum damage_set : unsigned {
 };
 static const std::vector<unsigned> damage =
     {ROBOMECH_DM, CENTRY_DM, COLOSSUS_DM, GHOST_DM, INFESTOR_DM,
-     DISRUPTOR_DM, ELF_DM, GNOME_DM, DENDRIOD_DM, MARINE_DM, CYCLONE_DM,
+     DISRUPTOR_DM, ELF_DM, GNOME_DM, DENDROID_DM, MARINE_DM, CYCLONE_DM,
      REAPER_DM, POLTERGEIST_DM, TYPHON_DM, MIMIC_DM, LORD_DM};
 
 /// @brief defense of units
@@ -201,7 +201,7 @@ enum shield_set : unsigned {
     DISRUPTOR_DF = 1,
     ELF_DF = 4,
     GNOME_DF = 5,
-    DENDRIOD_DF = 2,
+    DENDROID_DF = 2,
     MARINE_DF = 5,
     CYCLONE_DF = 1,
     REAPER_DF = 5,
@@ -212,7 +212,7 @@ enum shield_set : unsigned {
 };
 static const std::vector<unsigned> shield =
     {ROBOMECH_DF, CENTRY_DF, COLOSSUS_DF, GHOST_DF, INFESTOR_DF,
-     DISRUPTOR_DF, ELF_DF, GNOME_DF, DENDRIOD_DF, MARINE_DF, CYCLONE_DF,
+     DISRUPTOR_DF, ELF_DF, GNOME_DF, DENDROID_DF, MARINE_DF, CYCLONE_DF,
      REAPER_DF, POLTERGEIST_DF, TYPHON_DF, MIMIC_DF, LORD_DF};
 
 /// @brief energy to call the units
@@ -225,7 +225,7 @@ enum energy_set : unsigned {
     DISRUPTOR_ENR = 10,
     ELF_ENR = 40,
     GNOME_ENR = 50,
-    DENDRIOD_ENR = 20,
+    DENDROID_ENR = 20,
     MARINE_ENR = 50,
     CYCLONE_ENR = 10,
     REAPER_ENR = 50,
@@ -236,7 +236,7 @@ enum energy_set : unsigned {
 };
 static const std::vector<unsigned> energy =
     {ROBOMECH_ENR, CENTRY_ENR, COLOSSUS_ENR, GHOST_ENR, INFESTOR_ENR,
-     DISRUPTOR_ENR, ELF_ENR, GNOME_ENR, DENDRIOD_ENR, MARINE_ENR, CYCLONE_ENR,
+     DISRUPTOR_ENR, ELF_ENR, GNOME_ENR, DENDROID_ENR, MARINE_ENR, CYCLONE_ENR,
      REAPER_ENR, POLTERGEIST_ENR, TYPHON_ENR, MIMIC_ENR, LORD_ENR};
 
 };  // namespace constant

@@ -55,15 +55,15 @@ TEST(Cell, other_func) {
 }
 
 TEST(Squad, constructors) {
-    squad::Squad squad = squad::Squad(constant::unit::DENDRIOD);
+    squad::Squad squad = squad::Squad(constant::unit::DENDROID);
 
-    ASSERT_EQ(constant::speed[constant::unit::DENDRIOD],
+    ASSERT_EQ(constant::speed[constant::unit::DENDROID],
               squad.get_speed());
 
-    ASSERT_EQ(constant::max_health[constant::unit::DENDRIOD],
+    ASSERT_EQ(constant::max_health[constant::unit::DENDROID],
               squad.get_health());
 
-    ASSERT_EQ(constant::max_quantity[constant::unit::DENDRIOD],
+    ASSERT_EQ(constant::max_quantity[constant::unit::DENDROID],
               squad.get_quantity());
 }
 
@@ -162,7 +162,7 @@ TEST(Landscape, other_func) {
     std::cout << std::endl;
     std::cout << std::endl;
 
-    std::vector<unsigned> args3 = {5, 16};
+    std::vector<unsigned> args3 = {5, 18};
 
     game.play_next('a', args3);
 
@@ -289,7 +289,7 @@ TEST(Skill, other_func) {
     skill.remove_easy_kill(constant::unit::ELF);
     ASSERT_EQ(chill, skill.get_easy_kill());
     ASSERT_EQ(true, skill.check_easy_kill(constant::unit::DISRUPTOR));
-    ASSERT_EQ(false, skill.check_easy_kill(constant::unit::DENDRIOD));
+    ASSERT_EQ(false, skill.check_easy_kill(constant::unit::DENDROID));
 }
 
 //  Moral
@@ -365,8 +365,8 @@ TEST(Amoral, other_func) {
 //  Immortal_moral
 
 TEST(Immortal_moral, constructors_getters) {
-    squad::Immortal_moral tmp(squad::immortal_moral_type::DENDRIOD);
-    ASSERT_EQ(squad::immortal_moral_type::DENDRIOD, tmp.get_type());
+    squad::Immortal_moral tmp(squad::immortal_moral_type::DENDROID);
+    ASSERT_EQ(squad::immortal_moral_type::DENDROID, tmp.get_type());
     squad::Immortal_moral tmp_1(squad::immortal_moral_type::MIMIC);
     ASSERT_EQ(squad::immortal_moral_type::MIMIC, tmp_1.get_type());
 }

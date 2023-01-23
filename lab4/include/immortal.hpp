@@ -45,7 +45,7 @@ class Immortal {
 };
 
 enum struct immortal_moral_type : int {
-    DENDRIOD,
+    DENDROID,
     REAPER,
     MIMIC,
     NONE
