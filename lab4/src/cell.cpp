@@ -103,6 +103,12 @@ void Cell::set_squad(squad::Squad *squad) {
     if (type_ != cell_type::FREE)
         throw std::invalid_argument("Impossible movement of squad");
     squad_ = squad;
+    type_ = cell_type::BUSY;
+}
+
+void Cell::free_squad() {
+    squad_ = nullptr;
+    type_ = cell_type::FREE;
 }
 
 void Cell::set_coordinates(const Point &coordinates) {

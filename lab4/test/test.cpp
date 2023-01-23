@@ -80,65 +80,103 @@ TEST(Squad, functions) {
 
 //  Landscape
 
-// TEST(Landscape, constructors_getters) {
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
+TEST(Landscape, constructors_getters) {
+    game::Landscape game;
 
-//     ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
-//     ASSERT_EQ(10, skill.get_min_study());
-//     ASSERT_EQ(30, skill.get_energy());
-//     ASSERT_NEAR(1.1, skill.get_count_coef(), 0.0001);
+    ASSERT_NO_THROW(game.get_map());
+    auto &map = game.get_map();
+    for (auto &row : map) {
+        for (auto &cell : row) {
+            std::cout << static_cast<unsigned>(cell.get_type()) << " | ";
+        }
+        std::cout << std::endl;
+    }
 
-//     skill.set_count_coef(1.3);
-//     skill.set_min_study(400);
-//     skill.set_energy(20);
-//     skill.set_name(constant::unit::CYCLONE);
+    ASSERT_NO_THROW(game.get_units_list());
+    auto &list = game.get_units_list();
+    std::cout << list.size() << std::endl;
+}
 
-//     ASSERT_EQ(constant::unit::CYCLONE, skill.get_name());
-//     ASSERT_EQ(400, skill.get_min_study());
-//     ASSERT_EQ(20, skill.get_energy());
-//     ASSERT_EQ(1.3, skill.get_count_coef());
-// }
+TEST(Landscape, other_func) {
+    game::Landscape game;
+    std::vector<unsigned> args = {0, 1, 0};
 
-// TEST(Landscape, setters) {
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
+    auto &map = game.get_map();
+    for (auto &row : map) {
+        for (auto &cell : row) {
+            std::cout << static_cast<unsigned>(cell.get_type()) << " | ";
+        }
+        std::cout << std::endl;
+    }
+    auto &list = game.get_units_list();
+    std::cout << list.size() << std::endl;
 
-//     ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
-//     ASSERT_EQ(10, skill.get_min_study());
-//     ASSERT_EQ(30, skill.get_energy());
-//     ASSERT_EQ(1.1, skill.get_count_coef());
+    std::cout << std::endl;
+    std::cout << std::endl;
 
-//     skill.set_count_coef(1.3);
-//     skill.set_min_study(400);
-//     skill.set_energy(20);
-//     skill.set_name(constant::unit::CYCLONE);
+    auto *lord1 = game.get_next();
+    auto name = lord1->get_name();
+    std::string lord_name = "L";
+    if (constant::unit_type[name] == lord_name) {
+        auto lord = static_cast<squad::Lord *>(lord1);
+        std::cout << lord->get_lord_name() << std::endl;
+    }
 
-//     ASSERT_EQ(constant::unit::CYCLONE, skill.get_name());
-//     ASSERT_EQ(400, skill.get_min_study());
-//     ASSERT_EQ(20, skill.get_energy());
-//     ASSERT_EQ(1.3, skill.get_count_coef());
-// }
+    game.play_next('c', args);
 
-// TEST(Landscape, other_func) {
-//     squad::Immortal_amoral squad;
-//     school::Skill skill(constant::unit::COLOSSUS, squad, 10, 30, 1.1);
+    auto &map1 = game.get_map();
+    for (auto &row : map1) {
+        for (auto &cell : row) {
+            std::cout << static_cast<unsigned>(cell.get_type()) << " | ";
+        }
+        std::cout << std::endl;
+    }
 
-//     ASSERT_EQ(constant::unit::COLOSSUS, skill.get_name());
-//     ASSERT_EQ(10, skill.get_min_study());
-//     ASSERT_EQ(30, skill.get_energy());
-//     ASSERT_EQ(1.1, skill.get_count_coef());
+    auto &list1 = game.get_units_list();
+    std::cout << list1.size() << std::endl;
 
-//     skill.set_count_coef(1.3);
-//     skill.set_min_study(400);
-//     skill.set_energy(20);
-//     skill.set_name(constant::unit::CYCLONE);
+    std::cout << std::endl;
+    std::cout << std::endl;
 
-//     ASSERT_EQ(constant::unit::CYCLONE, skill.get_name());
-//     ASSERT_EQ(400, skill.get_min_study());
-//     ASSERT_EQ(20, skill.get_energy());
-//     ASSERT_EQ(1.3, skill.get_count_coef());
-// }
+    std::vector<unsigned> args1 = {0, 0, 1};
+
+    auto *lord2 = game.get_next();
+    auto name2 = lord1->get_name();
+    if (constant::unit_type[name2] == lord_name) {
+        auto lord = static_cast<squad::Lord *>(lord2);
+        std::cout << lord->get_lord_name() << std::endl;
+    }
+    game.play_next('c', args1);
+
+    auto &map2 = game.get_map();
+    for (auto &row : map2) {
+        for (auto &cell : row) {
+            std::cout << static_cast<unsigned>(cell.get_type()) << " | ";
+        }
+        std::cout << std::endl;
+    }
+
+    auto &list2 = game.get_units_list();
+    std::cout << list2.size() << std::endl;
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::vector<unsigned> args3 = {14, 9};
+
+    game.play_next('a', args3);
+
+    auto &map3 = game.get_map();
+    for (auto &row : map3) {
+        for (auto &cell : row) {
+            std::cout << static_cast<unsigned>(cell.get_type()) << " | ";
+        }
+        std::cout << std::endl;
+    }
+
+    auto *squad = game.get_next();
+    std::cout << squad->get_health() << std::endl;
+}
 
 //  Lord
 
@@ -146,7 +184,7 @@ TEST(Lord, constructors_getters) {
     std::string str = "Max";
     squad::Lord lord(str, 0);
 
-    ASSERT_EQ(str, lord.get_name());
+    ASSERT_EQ(str, lord.get_lord_name());
     ASSERT_EQ(100, lord.get_energy());
     ASSERT_EQ(1000, lord.get_max_energy());
 }
@@ -157,21 +195,15 @@ TEST(Lord, other_func) {
 
     school::School school(constant::school_type::ROBOTICS);
     squad::Moral squad(squad::moral_type::ROBOMECH);
-
     school::Skill skill = school::Skill(constant::unit::ROBOMECH, 0, 30, 1.0);
-
     school.add_skill(skill);
 
     squad::Amoral squad_1(squad::amoral_type::CENTRY);
-
     school::Skill skill_1(constant::unit::CENTRY, 1, 70, 1.0);
-
     school.add_skill(skill_1);
 
     squad::Immortal_amoral squad_2(squad::immortal_amoral_type::COLOSSUS);
-
     school::Skill skill_2(constant::unit::COLOSSUS, 2, 150, 1.1);
-
     school.add_skill(skill_2);
 
     std::map<school::School, unsigned> knowledge = {{school, 0}, {school, 0}, {school, 0}, {school, 0}, {school, 0}};
@@ -183,15 +215,13 @@ TEST(Lord, other_func) {
     auto tmp_1 = static_cast<squad::Moral *>(tmp);
 
     ASSERT_EQ(constant::unit::ROBOMECH, tmp_1->get_name());
-    ASSERT_EQ(constant::max_health[constant::ROBOMECH_MH],
+    ASSERT_EQ(constant::max_health[constant::unit::ROBOMECH],
               tmp_1->get_max_health());
     ASSERT_EQ(0, tmp_1->get_moral());
     ASSERT_EQ(squad::moral_type::ROBOMECH, tmp_1->get_type());
     ASSERT_EQ(70, lord.get_energy());
-    ASSERT_EQ(nullptr, lord.call_squad(constant::unit::CENTRY));
-
+    ASSERT_ANY_THROW(lord.call_squad(constant::unit::CENTRY));
     ASSERT_NO_THROW(lord.upgrade_school(constant::school_type::ROBOTICS));
-
     ASSERT_EQ(40, lord.get_energy());
 }
 
@@ -301,9 +331,9 @@ TEST(Moral, other_func) {
     squad::Amoral squad_1(squad::amoral_type::CYCLONE);
 
     ASSERT_NO_THROW(squad.attack(squad_1));
-    ASSERT_EQ(275, squad_1.get_health());
+    ASSERT_EQ(46, squad_1.get_health());
     ASSERT_NO_THROW(squad.defence(squad_1));
-    ASSERT_EQ(249, squad.get_health());
+    ASSERT_EQ(244, squad.get_health());
 }
 
 //  Amoral
@@ -391,9 +421,9 @@ TEST(Immortal_amoral, other_func) {
     squad::Moral squad(squad::moral_type::MARINE, 2);
 
     ASSERT_NO_THROW(squad.attack(tmp));
-    ASSERT_EQ(425, tmp.get_health());
+    ASSERT_EQ(198, tmp.get_health());
     ASSERT_NO_THROW(squad.defence(tmp));
-    ASSERT_EQ(249, squad.get_health());
+    ASSERT_EQ(242, squad.get_health());
 }
 
 //  KDTree

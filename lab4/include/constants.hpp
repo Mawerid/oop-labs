@@ -169,22 +169,22 @@ static const std::vector<unsigned> motivation =
 
 /// @brief damage of units
 enum damage_set : unsigned {
-    ROBOMECH_DM = 3,
-    CENTRY_DM = 3,
-    COLOSSUS_DM = 1,
-    GHOST_DM = 2,
-    INFESTOR_DM = 1,
-    DISRUPTOR_DM = 1,
-    ELF_DM = 4,
-    GNOME_DM = 5,
-    DENDRIOD_DM = 2,
-    MARINE_DM = 5,
-    CYCLONE_DM = 1,
-    REAPER_DM = 5,
-    POLTERGEIST_DM = 1,
-    TYPHON_DM = 2,
-    MIMIC_DM = 5,
-    LORD_DM = 5
+    ROBOMECH_DM = 30,
+    CENTRY_DM = 30,
+    COLOSSUS_DM = 10,
+    GHOST_DM = 20,
+    INFESTOR_DM = 10,
+    DISRUPTOR_DM = 10,
+    ELF_DM = 40,
+    GNOME_DM = 50,
+    DENDRIOD_DM = 20,
+    MARINE_DM = 50,
+    CYCLONE_DM = 10,
+    REAPER_DM = 50,
+    POLTERGEIST_DM = 10,
+    TYPHON_DM = 20,
+    MIMIC_DM = 50,
+    LORD_DM = 50
 };
 static const std::vector<unsigned> damage =
     {ROBOMECH_DM, CENTRY_DM, COLOSSUS_DM, GHOST_DM, INFESTOR_DM,

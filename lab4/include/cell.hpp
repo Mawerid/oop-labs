@@ -161,6 +161,9 @@ class Cell {
     /// @param coordinates    Point contains coordinates of Cell
     void set_coordinates(const Point &coordinates);
 
+    /// @brief free squad pointer;
+    void free_squad();
+
     /// @brief  calculate distance between two cells
     /// @param cell  second Cell
     /// @return distance between two cells
