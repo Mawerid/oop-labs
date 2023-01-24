@@ -95,15 +95,17 @@ void show_units(sf::RenderWindow &window, sf::Text &text) {
     unsigned font_size = 25;
 
     std::ostringstream units_list;
+    using namespace constant;
+    for (unsigned i = 0; i < UNITS_COUNT; i++) {
+        unit name = static_cast<unit>(i);
+        units_list << game::name_to_str.at(name);
 
-    units_list << "Robomech (0)\tDendroid (8)\n";
-    units_list << "Centry (1)\t  Marine (9)\n";
-    units_list << "Colossus (2)\tCyclone (10)\n";
-    units_list << "Ghost (3)\t   Reaper (11)\n";
-    units_list << "Infestor (4)\tPoltergeist (12)\n";
-    units_list << "Disruptor (5)   Typhon (13)\n";
-    units_list << "Elf (6)\t\t Mimic (14)\n";
-    units_list << "Gnome (7)";
+        for (unsigned j = 0; j < (12 - game::name_to_str.at(name).size()); j++)
+            units_list << " ";
+
+        units_list << "\t\t(" << i << ")\tENR: "
+                   << energy[name] << std::endl;
+    }
 
     text.setString(units_list.str());
     text.setCharacterSize(font_size);
