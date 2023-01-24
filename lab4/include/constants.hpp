@@ -13,6 +13,7 @@
 #define MAP_SIZE_VERTICAL 10
 #define MAP_SIZE_HORIZONTAL 19
 #define OBSTACLES_COUNT 10
+#define COEF_MIN_STUDY 3
 
 namespace constant {
 /// @brief school types

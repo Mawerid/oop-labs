@@ -53,7 +53,7 @@ void Lord::upgrade_school(const constant::school_type &school_type) {
 
     unsigned curr_level = school->second;
     auto list = school->first.get_skill_list();
-    unsigned min_energy = list[curr_level].get_energy();
+    unsigned min_energy = list[curr_level].get_energy() * COEF_MIN_STUDY;
 
     if (experience_ >= min_energy) {
         (school->second)++;
@@ -94,21 +94,25 @@ Squad *Lord::call_squad(const constant::unit &name) {
         moral_type type = convert_to_moral(name);
         Moral *squad = new Moral(type);
         energy_ -= skill_list[skill].get_energy();
+        squad->set_team(team_);
         return squad;
     } else if (constant::unit_type[name] == amoral) {
         amoral_type type = convert_to_amoral(name);
         Amoral *squad = new Amoral(type);
         energy_ -= skill_list[skill].get_energy();
+        squad->set_team(team_);
         return squad;
     } else if (constant::unit_type[name] == imm_moral) {
         immortal_moral_type type = convert_to_immortal_moral(name);
         Immortal_moral *squad = new Immortal_moral(type);
         energy_ -= skill_list[skill].get_energy();
+        squad->set_team(team_);
         return squad;
     } else if (constant::unit_type[name] == imm_amoral) {
         immortal_amoral_type type = convert_to_immortal_amoral(name);
         Immortal_amoral *squad = new Immortal_amoral(type);
         energy_ -= skill_list[skill].get_energy();
+        squad->set_team(team_);
         return squad;
 
     } else

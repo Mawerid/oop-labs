@@ -30,16 +30,19 @@ int main() {
     bool is_end = false;
 
     char command = 'n';
-    // std::vector<unsigned> args;
 
-    squad::Squad *current_squad;
+    squad::Squad* current_squad;
     std::pair<unsigned, unsigned> current;
+    std::pair<unsigned, unsigned> previous;
     field::Point current_position;
 
     int diff_vertical = 0;
     int diff_horizontal = 0;
 
     Landscape game;
+
+    game.play_next('c', {0, 7, 4});
+    game.play_next('c', {3, 7, 6});
 
     video = sf::VideoMode(height, width);
     window.create(video, game_name);
@@ -55,6 +58,8 @@ int main() {
             //          game.find_squad(game.get_right_player()))
             //     current_position.set_y(3);
             current = {current_position.get_x(), current_position.get_y()};
+            previous = current;
+            command = 'o';
         }
 
         diff_vertical = 0;
@@ -89,6 +94,8 @@ int main() {
                     command = 'c';
                 } else if (event.key.code == sf::Keyboard::E) {
                     command = 'a';
+                } else if (event.key.code == sf::Keyboard::F) {
+                    command = 'f';
                 } else if (event.key.code == sf::Keyboard::H) {
                     command = 'h';
                 } else if (event.key.code == sf::Keyboard::X) {
@@ -137,33 +144,93 @@ int main() {
 
         window.display();
 
-        switch (command) {
-            case 'm': {
-                auto tmp = current;
-                current = move_current(current, diff_vertical,
-                                       diff_horizontal,
-                                       current_squad->get_speed(),
-                                       current_position);
-                if (game.get_map()[current.first][current.second].get_type() == field::cell_type::OBSTAClE)
-                    current = tmp;
-            } break;
-            case 'a':
+        try {
+            switch (command) {
+                case 'm': {
+                    if (previous != current)
+                        previous = current;
+                    current = move_current(current, diff_vertical,
+                                           diff_horizontal,
+                                           current_squad,
+                                           current_position);
+                    if (game.get_map()[current.first]
+                                      [current.second]
+                                          .get_type() ==
+                        field::cell_type::OBSTAClE)
+                        current = previous;
+                } break;
+                case 'a': {
+                    if (game.get_map()[current.first]
+                                      [current.second]
+                                          .get_type() ==
+                        field::cell_type::BUSY) {
+                        unsigned from_x = current_position.get_x();
+                        unsigned from_y = current_position.get_y();
+                        game.play_next('a', {from_x, from_y, previous.first, previous.second, current.first, current.second});
+                        command = 'n';
+                    }
+                } break;
+                case 'f': {
+                    field::Point curr_as_point(current.first, current.second);
+                    field::Point left_pos(MAP_SIZE_VERTICAL / 2, 0);
+                    field::Point right_pos(MAP_SIZE_VERTICAL / 2,
+                                           MAP_SIZE_HORIZONTAL - 1);
+                    if (curr_as_point.distance(left_pos) < 3) {
+                        game.play_next('a', {0, 0, 0, 0,
+                                             MAP_SIZE_VERTICAL / 2, 0});
+                        command = 'n';
+                    } else if (curr_as_point.distance(right_pos) < 3) {
+                        game.play_next('a', {0, 0, 0, 0,
+                                             MAP_SIZE_VERTICAL / 2,
+                                             MAP_SIZE_HORIZONTAL - 1});
+                        command = 'n';
+                    }
+                } break;
+                case 'u': {
+                    if (current_squad->get_name() == constant::unit::LORD) {
+                        // unsigned unit = get_unit();
+                    }
+                } break;
+                case 'h': {
+                    if (constant::unit_type[current_squad->get_name()] == "IM" || constant::unit_type[current_squad->get_name()] == "IA") {
+                        game.play_next('h', {});
+                        command = 'n';
+                    }
+                } break;
+                case 'c': {
+                    if (current_squad->get_name() == constant::unit::LORD) {
+                        // unsigned unit = get_unit();
+                    }
+                } break;
+                default:
+                    break;
+            }
 
-                break;
-            case 'u':
-                break;
-            case 'h':
-                break;
-            case 'c':
-                break;
-            default:
-                break;
-        }
-
-        if (ready_to_do && game.get_map()[current.first][current.second].get_type() == field::cell_type::FREE) {
-            game.play_next('m', {current.first, current.second});
-        } else if (ready_to_do) {
-            game.play_next('p', {});
+            if (ready_to_do && current_squad->get_name() == constant::unit::LORD) {
+                game.play_next('p', {});
+                command = 'n';
+            } else if (ready_to_do &&
+                       game.get_map()[current.first][current.second].get_type() == field::cell_type::FREE) {
+                unsigned from_x = current_position.get_x();
+                unsigned from_y = current_position.get_y();
+                game.play_next('m', {from_x, from_y, current.first,
+                                     current.second});
+                command = 'n';
+            } else if (ready_to_do &&
+                       game.get_map()[current.first][current.second].get_type() == field::cell_type::BUSY &&
+                       previous != current) {
+                unsigned from_x = current_position.get_x();
+                unsigned from_y = current_position.get_y();
+                game.play_next('a', {from_x, from_y,
+                                     previous.first, previous.second,
+                                     current.first, current.second});
+                command = 'n';
+            } else if (ready_to_do) {
+                game.play_next('p', {});
+                command = 'n';
+            }
+        } catch (const std::exception& e) {
+            std::cerr << e.what() << '\n';
         }
 
         is_end = check_end(game);
@@ -171,6 +238,12 @@ int main() {
         if (is_end && ready_to_do)
             window.close();
 
-        command = 'o';
+        if (command != 'n')
+            command = 'o';
+
+        if (ready_to_do)
+            ready_to_do = false;
     }
+
+    return 0;
 }

@@ -29,7 +29,7 @@ std::pair<unsigned, unsigned> move_current(
     std::pair<unsigned, unsigned> &current,
     int diff_vertical,
     int diff_horizontal,
-    unsigned speed,
+    squad::Squad *unit,
     field::Point current_position);
 
 void show_queue(sf::RenderWindow &window, sf::Text &text,

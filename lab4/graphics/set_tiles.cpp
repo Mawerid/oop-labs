@@ -60,7 +60,7 @@ void TileMap::load(game::Landscape &game, std::pair<int, int> current) {
                         << "\nEXP:  " << lord->get_experience()
                         << "\nENG:  " << lord->get_energy();
         } else {
-            unit_status << unit->get_health();
+            unit_status << " " << unit->get_health();
         }
 
         unit_text.setString(unit_status.str());
@@ -79,7 +79,7 @@ void TileMap::load(game::Landscape &game, std::pair<int, int> current) {
             }
         } else {
             unit_text.setPosition(position.get_y() * size_.y * scale_,
-                                  position.get_x() * size_.x * scale_ - 20);
+                                  position.get_x() * size_.x * scale_ - 15);
         }
 
         if (unit->get_name() == constant::unit::LORD)

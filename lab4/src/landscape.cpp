@@ -106,6 +106,7 @@ Landscape::queue &Landscape::get_units_list() { return units_list_; }
 
 void Landscape::move_squad(field::Cell &cell_from, field::Cell &cell_to) {
     cell_to.set_squad(cell_from.get_squad());
+    cell_from.free_squad();
 }
 
 void Landscape::set_squad(field::Cell &cell, squad::Squad *squad) {
@@ -127,10 +128,16 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
         case 'm': {  // move
             if (constant::unit_type[name] == lord_name)
                 throw std::invalid_argument("Lord cannot move");
-            move_squad(map_[args[0]][args[1]], map_[args[2]][args[3]]);
+            else if (args[0] != args[2] || args[1] != args[3]) {
+                move_squad(map_[args[0]][args[1]], map_[args[2]][args[3]]);
+            }
         } break;
         case 'a': {  // attack
-            auto squad_to_attack = map_[args[0]][args[1]].get_squad();
+            if (args[0] != args[2] || args[1] != args[3]) {
+                move_squad(map_[args[0]][args[1]], map_[args[2]][args[3]]);
+            }
+
+            auto squad_to_attack = map_[args[4]][args[5]].get_squad();
             unsigned exp = 0;
 
             if (squad_to_attack == nullptr)
@@ -267,7 +274,7 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
                         break;
                     }
             if (constant::unit_type[units_list_[i]->get_name()] != lord_name)
-                delete units_list_[i];
+                free_squad(units_list_[i]);
             units_list_.erase(units_list_.begin() + i);
         }
     }

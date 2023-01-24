@@ -12,8 +12,8 @@ void render(sf::RenderWindow &window, sf::Texture &texture,
     tileMap.load(game, current);
     window.clear();
     tileMap.draw_field(window);
-    tileMap.draw_texts(window);
     tileMap.draw_units(window);
+    tileMap.draw_texts(window);
 }
 
 void preview(sf::RenderWindow &window, sf::Text &text) {
@@ -40,6 +40,7 @@ void show_menu(sf::RenderWindow &window, sf::Text &text) {
     menu << "WASD for choosing position to move your squad or \nto attack\n";
     menu << "H - heal squad(only while playing immortals)\n";
     menu << "E - to attack(only if your squad near target)\n";
+    menu << "F - to attack lord(only if your squad near)\n";
     menu << "\nIf you are playing as a lord:\n";
     menu << "C - to call some squad\n";
     menu << "X - to show school table and upgrade it\n\n";
@@ -56,20 +57,19 @@ std::ostringstream get_table(squad::Lord::knowledge_type &knowlenge) {
     std::ostringstream table;
     table << "\nRobotics (0):  "
           << knowlenge.at(constant::school_type::ROBOTICS)
-          << " needs " << knowlenge.begin()->first.get_skill_list()[knowlenge.at(constant::school_type::ROBOTICS) + 1].get_energy();
+          << " needs " << knowlenge.begin()->first.get_skill_list()[knowlenge.at(constant::school_type::ROBOTICS) + 1].get_energy() * COEF_MIN_STUDY;
     table << "\nEnergiser (1): "
           << knowlenge.at(constant::school_type::ENERGISER)
-          << " needs " << (knowlenge.begin()++)->first.get_skill_list()[knowlenge.at(constant::school_type::ENERGISER) + 1].get_energy();
+          << " needs " << (knowlenge.begin()++)->first.get_skill_list()[knowlenge.at(constant::school_type::ENERGISER) + 1].get_energy() * COEF_MIN_STUDY;
     table << "\nParallel (2):  "
           << knowlenge.at(constant::school_type::PARALLEL)
-          << " needs " << ((knowlenge.begin()++)++)->first.get_skill_list()[knowlenge.at(constant::school_type::PARALLEL) + 1].get_energy();
+          << " needs " << ((knowlenge.begin()++)++)->first.get_skill_list()[knowlenge.at(constant::school_type::PARALLEL) + 1].get_energy() * COEF_MIN_STUDY;
     table << "\nBiotech (3):   "
           << knowlenge.at(constant::school_type::BIOTECH)
-          << " needs " << (((knowlenge.begin()++)++)++)->first.get_skill_list()[knowlenge.at(constant::school_type::BIOTECH) + 1].get_energy();
-
+          << " needs " << (((knowlenge.begin()++)++)++)->first.get_skill_list()[knowlenge.at(constant::school_type::BIOTECH) + 1].get_energy() * COEF_MIN_STUDY;
     table << "\nNanoslime (4): "
           << knowlenge.at(constant::school_type::NANOSLIME)
-          << " needs " << ((((knowlenge.begin()++)++)++)++)->first.get_skill_list()[knowlenge.at(constant::school_type::NANOSLIME) + 1].get_energy();
+          << " needs " << ((((knowlenge.begin()++)++)++)++)->first.get_skill_list()[knowlenge.at(constant::school_type::NANOSLIME) + 1].get_energy() * COEF_MIN_STUDY;
     return table;
 }
 
@@ -116,76 +116,85 @@ std::pair<unsigned, unsigned> move_current(
     std::pair<unsigned, unsigned> &current,
     int diff_vertical,
     int diff_horizontal,
-    unsigned speed,
+    squad::Squad *unit,
     field::Point current_position) {
+    unsigned speed = unit->get_speed();
+    constant::unit name = unit->get_name();
+    player_type type = static_cast<player_type>(unit->get_team());
+
     if (diff_vertical != 0) {
         if (diff_vertical == -1 && current.first > 0) {
             current.first--;
             field::Point current_as_point(current.first, current.second);
-            if (current_as_point.distance(current_position) > speed)
+            if (current_as_point.distance(current_position) > speed &&
+                name != constant::LORD)
                 current.first++;
         } else if (diff_vertical == 1 &&
                    current.first < MAP_SIZE_VERTICAL - 1) {
             current.first++;
             field::Point current_as_point(current.first, current.second);
-            if (current_as_point.distance(current_position) > speed)
+            if (current_as_point.distance(current_position) > speed &&
+                name != constant::LORD)
                 current.first--;
         }
     } else if (diff_horizontal != 0) {
-        if (diff_horizontal == -1 && current.second > 2) {
-            current.second--;
-            field::Point current_as_point(current.first, current.second);
-            if (current_as_point.distance(current_position) > speed)
-                current.second++;
-        } else if (diff_horizontal == 1 &&
-                   current.second < MAP_SIZE_VERTICAL - 3) {
-            current.second++;
-            field::Point current_as_point(current.first, current.second);
-            if (current_as_point.distance(current_position) > speed)
+        if (name != constant::LORD) {
+            if (diff_horizontal == -1 && current.second > 2) {
                 current.second--;
+                field::Point current_as_point(current.first, current.second);
+                if (current_as_point.distance(current_position) > speed)
+                    current.second++;
+            } else if (diff_horizontal == 1 &&
+                       current.second < MAP_SIZE_HORIZONTAL - 3) {
+                current.second++;
+                field::Point current_as_point(current.first, current.second);
+                if (current_as_point.distance(current_position) > speed)
+                    current.second--;
+            }
+        } else {
+            if (type == player_type::LEFT) {
+                if (current.second == 0) {
+                    current.second += 2;
+                } else if (diff_horizontal == -1 && current.second > 2) {
+                    current.second--;
+                } else if (diff_horizontal == 1 &&
+                           current.second < 3) {
+                    current.second++;
+                }
+            } else {
+                if (current.second == 18) {
+                    current.second -= 2;
+                } else if (diff_horizontal == -1 &&
+                           current.second > MAP_SIZE_HORIZONTAL - 4) {
+                    current.second--;
+                } else if (diff_horizontal == 1 &&
+                           current.second < MAP_SIZE_HORIZONTAL - 3) {
+                    current.second++;
+                }
+            }
         }
     }
     return current;
 }
 
-std::string name_to_str(constant::unit name) {
-    switch (name) {
-        case constant::unit::ROBOMECH:
-            return "Robomech";
-        case constant::unit::CENTRY:
-            return "Centry";
-        case constant::unit::COLOSSUS:
-            return "Colossus";
-        case constant::unit::GHOST:
-            return "Ghost";
-        case constant::unit::INFESTOR:
-            return "Infestor";
-        case constant::unit::DISRUPTOR:
-            return "Disruptor";
-        case constant::unit::ELF:
-            return "Elf";
-        case constant::unit::GNOME:
-            return "Gnome";
-        case constant::unit::DENDROID:
-            return "Dendroid";
-        case constant::unit::MARINE:
-            return "Marine";
-        case constant::unit::CYCLONE:
-            return "Cyclone";
-        case constant::unit::REAPER:
-            return "Reaper";
-        case constant::unit::POLTERGEIST:
-            return "Poltergeist";
-        case constant::unit::TYPHON:
-            return "Typhon";
-        case constant::unit::MIMIC:
-            return "Mimic";
-        case constant::unit::LORD:
-            return "Lord";
-        default:
-            return "None";
-    }
-}
+std::map<constant::unit, std::string> name_to_str{
+    {constant::unit::ROBOMECH, "Robomech"},
+    {constant::unit::CENTRY, "Centry"},
+    {constant::unit::COLOSSUS, "Colossus"},
+    {constant::unit::GHOST, "Ghost"},
+    {constant::unit::INFESTOR, "Infestor"},
+    {constant::unit::DISRUPTOR, "Disruptor"},
+    {constant::unit::ELF, "Elf"},
+    {constant::unit::GNOME, "Gnome"},
+    {constant::unit::DENDROID, "Dendroid"},
+    {constant::unit::MARINE, "Marine"},
+    {constant::unit::CYCLONE, "Cyclone"},
+    {constant::unit::REAPER, "Reaper"},
+    {constant::unit::POLTERGEIST, "Poltergeist"},
+    {constant::unit::TYPHON, "Typhon"},
+    {constant::unit::MIMIC, "Mimic"},
+    {constant::unit::LORD, "Lord"},
+};
 
 void show_queue(sf::RenderWindow &window, sf::Text &text,
                 Landscape::queue queue) {
@@ -204,7 +213,7 @@ void show_queue(sf::RenderWindow &window, sf::Text &text,
         text.setFillColor(colors.at(
             static_cast<player_type>(unit->get_team())));
 
-        text.setString(name_to_str(unit->get_name()));
+        text.setString(name_to_str.at(unit->get_name()));
         text.setPosition(10, i);
         window.draw(text);
         i += 30;
@@ -217,7 +226,7 @@ void show_skills(sf::RenderWindow &window, sf::Text &text,
 
     std::ostringstream skills;
 
-    skills << name_to_str(name) << "\n";
+    skills << name_to_str.at(name) << "\n";
     skills << "\nTYPE:       " << constant::unit_type[name];
     skills << "\nMAX HP:     " << constant::max_health[name];
     skills << "\nQUANTITY:   " << constant::max_quantity[name];
