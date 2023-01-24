@@ -137,21 +137,67 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
                 throw std::invalid_argument("no squad here");
             if (constant::unit_type[name] == moral_name) {
                 auto moral = static_cast<squad::Moral *>(current_squad);
-                exp = moral->attack(*squad_to_attack);
+
+                if (squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL) % UNITS_COUNT ||
+                    squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL * 2) % UNITS_COUNT) {
+                    moral->modify_damage(5);
+                    exp = moral->attack(*squad_to_attack);
+                    moral->modify_damage(-5);
+                } else {
+                    exp = moral->attack(*squad_to_attack);
+                }
+
+                if (exp > 0)
+                    moral->modify_moral(5);
 
             } else if (constant::unit_type[name] == amoral_name) {
                 auto amoral = static_cast<squad::Amoral *>(current_squad);
-                exp = amoral->attack(*squad_to_attack);
+
+                if (squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL) % UNITS_COUNT ||
+                    squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL * 2) % UNITS_COUNT) {
+                    amoral->modify_damage(5);
+                    exp = amoral->attack(*squad_to_attack);
+                    amoral->modify_damage(-5);
+                } else {
+                    exp = amoral->attack(*squad_to_attack);
+                }
 
             } else if (constant::unit_type[name] == im_moral_name) {
                 auto im_moral =
                     static_cast<squad::Immortal_moral *>(current_squad);
-                exp = im_moral->attack(*squad_to_attack);
+
+                if (squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL) % UNITS_COUNT ||
+                    squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL * 2) % UNITS_COUNT) {
+                    im_moral->modify_damage(5);
+                    exp = im_moral->attack(*squad_to_attack);
+                    im_moral->modify_damage(-5);
+                } else {
+                    exp = im_moral->attack(*squad_to_attack);
+                }
+
+                if (exp > 0)
+                    im_moral->modify_moral(5);
 
             } else if (constant::unit_type[name] == im_amoral_name) {
                 auto im_amoral =
                     static_cast<squad::Immortal_amoral *>(current_squad);
-                exp = im_amoral->attack(*squad_to_attack);
+
+                if (squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL) % UNITS_COUNT ||
+                    squad_to_attack->get_name() ==
+                        (name + UNITS_PER_SCHOOL * 2) % UNITS_COUNT) {
+                    im_amoral->modify_damage(5);
+                    exp = im_amoral->attack(*squad_to_attack);
+                    im_amoral->modify_damage(-5);
+                } else {
+                    exp = im_amoral->attack(*squad_to_attack);
+                }
 
             } else
                 throw std::invalid_argument("You cannot attack");
@@ -199,8 +245,32 @@ void Landscape::play_next(char command, std::vector<unsigned> args) {
             break;
     }
 
+    for (auto *unit : units_list_) {
+        if (constant::unit_type[unit->get_name()] == moral_name) {
+            auto moral = static_cast<squad::Moral *>(unit);
+            moral->balance_moral();
+        } else if (constant::unit_type[unit->get_name()] == im_moral_name) {
+            auto im_moral = static_cast<squad::Immortal_moral *>(unit);
+            im_moral->balance_moral();
+        }
+    }
+
     units_list_.pop_front();
     units_list_.push_back(current_squad);
+
+    for (int i = 0; i < units_list_.size(); i++) {
+        if (units_list_[i]->get_health() <= 0) {
+            for (auto &row : map_)
+                for (auto &cell : row)
+                    if (cell.get_squad() == units_list_[i]) {
+                        cell.free_squad();
+                        break;
+                    }
+            if (constant::unit_type[units_list_[i]->get_name()] != lord_name)
+                delete units_list_[i];
+            units_list_.erase(units_list_.begin() + i);
+        }
+    }
 }
 
 squad::Squad *Landscape::get_next() { return units_list_.front(); }

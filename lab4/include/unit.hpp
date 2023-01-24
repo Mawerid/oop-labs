@@ -41,6 +41,10 @@ class Unit : public Squad {
     /// @param def  defense
     void set_defense_val(const unsigned &shield);
 
+    /// @brief modify damage
+    /// @param damage damage to add to damage_
+    void modify_damage(const int &damage);
+
     /// @brief  hit other squad
     /// @param squad    squad to hit
     /// @return experience from kill

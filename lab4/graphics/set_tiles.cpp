@@ -7,7 +7,7 @@ TileMap::TileMap(const sf::Texture &texture, const sf::Text &text,
                  const sf::Vector2i &size, float scale)
     : texture_(texture), text_(text), size_(size), scale_(scale) {}
 
-void TileMap::load(game::Landscape &game) {
+void TileMap::load(game::Landscape &game, std::pair<int, int> current) {
     Landscape::map_type &map = game.get_map();
     Landscape::queue &unit_list = game.get_units_list();
 
@@ -19,7 +19,11 @@ void TileMap::load(game::Landscape &game) {
     for (int x = 0; x < height; ++x) {
         for (int y = 0; y < width; ++y) {
             const field::cell_type type = map[x][y].get_type();
-            const std::pair<int, int> coords = field_coords.at(type);
+            std::pair<int, int> coords = field_coords.at(type);
+
+            if (x == current.first && y == current.second) {
+                coords = current_to_move;
+            }
 
             const float tu = coords.first;
             const float tv = coords.second;

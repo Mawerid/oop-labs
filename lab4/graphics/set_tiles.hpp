@@ -31,9 +31,10 @@ class TileMap {
 
     ~TileMap() = default;
 
-    /// @brief
-    /// @param game
-    void load(game::Landscape &game);
+    /// @brief 
+    /// @param game 
+    /// @param current 
+    void load(game::Landscape &game, std::pair<int, int> current);
 
     /// @brief
     /// @param window

@@ -3,12 +3,13 @@
 namespace game {
 
 void render(sf::RenderWindow &window, sf::Texture &texture,
-            sf::Text &text, game::Landscape &game) {
+            sf::Text &text, game::Landscape &game,
+            std::pair<int, int> current) {
     unsigned font_size = 10;
     text.setCharacterSize(font_size);
 
     TileMap tileMap(texture, text, tile_size, scale);
-    tileMap.load(game);
+    tileMap.load(game, current);
     window.clear();
     tileMap.draw_field(window);
     tileMap.draw_texts(window);
@@ -34,6 +35,8 @@ void show_menu(sf::RenderWindow &window, sf::Text &text) {
     menu << "This game for 2 players. \nWin the one, who stay alive.\n\n";
     menu << "Hotkeys:\n";
     menu << "Esc - show this menu\n";
+    menu << "Q - show queue of units\n";
+    menu << "V - show current unit's skills\n";
     menu << "WASD for choosing position to move your squad or \nto attack\n";
     menu << "H - heal squad(only while playing immortals)\n";
     menu << "E - to attack(only if your squad near target)\n";
@@ -108,4 +111,155 @@ void show_units(sf::RenderWindow &window, sf::Text &text) {
     text.setPosition(10, width / 5);
     window.draw(text);
 }
+
+std::pair<unsigned, unsigned> move_current(
+    std::pair<unsigned, unsigned> &current,
+    int diff_vertical,
+    int diff_horizontal,
+    unsigned speed,
+    field::Point current_position) {
+    if (diff_vertical != 0) {
+        if (diff_vertical == -1 && current.first > 0) {
+            current.first--;
+            field::Point current_as_point(current.first, current.second);
+            if (current_as_point.distance(current_position) > speed)
+                current.first++;
+        } else if (diff_vertical == 1 &&
+                   current.first < MAP_SIZE_VERTICAL - 1) {
+            current.first++;
+            field::Point current_as_point(current.first, current.second);
+            if (current_as_point.distance(current_position) > speed)
+                current.first--;
+        }
+    } else if (diff_horizontal != 0) {
+        if (diff_horizontal == -1 && current.second > 2) {
+            current.second--;
+            field::Point current_as_point(current.first, current.second);
+            if (current_as_point.distance(current_position) > speed)
+                current.second++;
+        } else if (diff_horizontal == 1 &&
+                   current.second < MAP_SIZE_VERTICAL - 3) {
+            current.second++;
+            field::Point current_as_point(current.first, current.second);
+            if (current_as_point.distance(current_position) > speed)
+                current.second--;
+        }
+    }
+    return current;
 }
+
+std::string name_to_str(constant::unit name) {
+    switch (name) {
+        case constant::unit::ROBOMECH:
+            return "Robomech";
+        case constant::unit::CENTRY:
+            return "Centry";
+        case constant::unit::COLOSSUS:
+            return "Colossus";
+        case constant::unit::GHOST:
+            return "Ghost";
+        case constant::unit::INFESTOR:
+            return "Infestor";
+        case constant::unit::DISRUPTOR:
+            return "Disruptor";
+        case constant::unit::ELF:
+            return "Elf";
+        case constant::unit::GNOME:
+            return "Gnome";
+        case constant::unit::DENDROID:
+            return "Dendroid";
+        case constant::unit::MARINE:
+            return "Marine";
+        case constant::unit::CYCLONE:
+            return "Cyclone";
+        case constant::unit::REAPER:
+            return "Reaper";
+        case constant::unit::POLTERGEIST:
+            return "Poltergeist";
+        case constant::unit::TYPHON:
+            return "Typhon";
+        case constant::unit::MIMIC:
+            return "Mimic";
+        case constant::unit::LORD:
+            return "Lord";
+        default:
+            return "None";
+    }
+}
+
+void show_queue(sf::RenderWindow &window, sf::Text &text,
+                Landscape::queue queue) {
+    unsigned font_size = 20;
+
+    text.setCharacterSize(font_size);
+    text.setFillColor(sf::Color::White);
+
+    text.setString("Current queue:\n");
+    text.setPosition(10, 10);
+    window.draw(text);
+
+    unsigned i = 40;
+
+    for (auto unit : queue) {
+        text.setFillColor(colors.at(
+            static_cast<player_type>(unit->get_team())));
+
+        text.setString(name_to_str(unit->get_name()));
+        text.setPosition(10, i);
+        window.draw(text);
+        i += 30;
+    }
+}
+
+void show_skills(sf::RenderWindow &window, sf::Text &text,
+                 constant::unit name) {
+    unsigned font_size = 30;
+
+    std::ostringstream skills;
+
+    skills << name_to_str(name) << "\n";
+    skills << "\nTYPE:       " << constant::unit_type[name];
+    skills << "\nMAX HP:     " << constant::max_health[name];
+    skills << "\nQUANTITY:   " << constant::max_quantity[name];
+    skills << "\nSPEED:      " << constant::speed[name];
+    skills << "\nEXPERIENCE: " << constant::experience[name];
+    skills << "\nMOTIVATION: " << constant::motivation[name];
+    skills << "\nDAMAGE:     " << constant::damage[name];
+    skills << "\nSHIELD:     " << constant::shield[name];
+    skills << "\nENERGY:     " << constant::energy[name];
+
+    text.setString(skills.str());
+    text.setCharacterSize(font_size);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(10, 20);
+    window.draw(text);
+}
+
+bool check_end(Landscape &game) {
+    if (game.get_left_player()->get_health() <= 0 ||
+        game.get_right_player()->get_health() <= 0)
+        return true;
+    else
+        return false;
+}
+
+void show_end(sf::RenderWindow &window, sf::Text &text, player_type type) {
+    unsigned font_size = 30;
+
+    std::ostringstream message;
+
+    message << "Player ";
+    if (type == player_type::RIGHT)
+        message << "RIGHT ";
+    else
+        message << "LEFT ";
+    message << "wins!";
+
+    text.setString(message.str());
+    text.setCharacterSize(font_size);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(height / 4, width / 5);
+    window.draw(text);
+}
+
+}  // namespace game

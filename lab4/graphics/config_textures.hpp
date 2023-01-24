@@ -7,6 +7,8 @@
 
 namespace game {
 
+static const std::pair<int, int> current_to_move = std::make_pair(0, 0);
+
 static const std::map<player_type, sf::Color> colors{
     {player_type::RIGHT, sf::Color::Red},
     {player_type::LEFT, sf::Color::Blue}};
