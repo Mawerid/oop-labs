@@ -177,25 +177,6 @@ std::pair<unsigned, unsigned> move_current(
     return current;
 }
 
-std::map<constant::unit, std::string> name_to_str{
-    {constant::unit::ROBOMECH, "Robomech"},
-    {constant::unit::CENTRY, "Centry"},
-    {constant::unit::COLOSSUS, "Colossus"},
-    {constant::unit::GHOST, "Ghost"},
-    {constant::unit::INFESTOR, "Infestor"},
-    {constant::unit::DISRUPTOR, "Disruptor"},
-    {constant::unit::ELF, "Elf"},
-    {constant::unit::GNOME, "Gnome"},
-    {constant::unit::DENDROID, "Dendroid"},
-    {constant::unit::MARINE, "Marine"},
-    {constant::unit::CYCLONE, "Cyclone"},
-    {constant::unit::REAPER, "Reaper"},
-    {constant::unit::POLTERGEIST, "Poltergeist"},
-    {constant::unit::TYPHON, "Typhon"},
-    {constant::unit::MIMIC, "Mimic"},
-    {constant::unit::LORD, "Lord"},
-};
-
 void show_queue(sf::RenderWindow &window, sf::Text &text,
                 Landscape::queue queue) {
     unsigned font_size = 20;
@@ -269,6 +250,35 @@ void show_end(sf::RenderWindow &window, sf::Text &text, player_type type) {
     text.setFillColor(sf::Color::White);
     text.setPosition(height / 4, width / 5);
     window.draw(text);
+}
+
+unsigned get_school() {
+    std::cout << "Enter the num of school (-1 to cancel): ";
+    int school = -2;
+
+    while (get_num(school) ||
+           !(school >= 0 && school < UNITS_COUNT / UNITS_PER_SCHOOL)) {
+        if (school == -1)
+            throw std::invalid_argument("Cancel choosing of school");
+        else
+            std::cout << "Wrong input. Please, repeat: ";
+    }
+
+    return school;
+}
+
+unsigned get_unit() {
+    std::cout << "Enter the num of unit (-1 to cancel): ";
+    int unit = -2;
+
+    while (get_num(unit) || !(unit >= 0 && unit < UNITS_COUNT)) {
+        if (unit == -1)
+            throw std::invalid_argument("Cancel choosing of unit");
+        else
+            std::cout << "Wrong input. Please, repeat: ";
+    }
+
+    return unit;
 }
 
 }  // namespace game

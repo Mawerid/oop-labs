@@ -219,21 +219,21 @@ static const std::vector<unsigned> shield =
 /// @brief energy to call the units
 enum energy_set : unsigned {
     ROBOMECH_ENR = 30,
-    CENTRY_ENR = 30,
-    COLOSSUS_ENR = 10,
+    CENTRY_ENR = 60,
+    COLOSSUS_ENR = 90,
     GHOST_ENR = 20,
-    INFESTOR_ENR = 10,
-    DISRUPTOR_ENR = 10,
+    INFESTOR_ENR = 40,
+    DISRUPTOR_ENR = 60,
     ELF_ENR = 40,
-    GNOME_ENR = 50,
-    DENDROID_ENR = 20,
+    GNOME_ENR = 80,
+    DENDROID_ENR = 120,
     MARINE_ENR = 50,
-    CYCLONE_ENR = 10,
-    REAPER_ENR = 50,
-    POLTERGEIST_ENR = 10,
-    TYPHON_ENR = 20,
-    MIMIC_ENR = 50,
-    LORD_ENR = 50
+    CYCLONE_ENR = 100,
+    REAPER_ENR = 150,
+    POLTERGEIST_ENR = 30,
+    TYPHON_ENR = 60,
+    MIMIC_ENR = 90,
+    LORD_ENR = START_MAX_ENERGY
 };
 static const std::vector<unsigned> energy =
     {ROBOMECH_ENR, CENTRY_ENR, COLOSSUS_ENR, GHOST_ENR, INFESTOR_ENR,

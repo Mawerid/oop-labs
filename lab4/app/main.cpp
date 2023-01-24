@@ -41,9 +41,6 @@ int main() {
 
     Landscape game;
 
-    game.play_next('c', {0, 7, 4});
-    game.play_next('c', {3, 7, 6});
-
     video = sf::VideoMode(height, width);
     window.create(video, game_name);
 
@@ -51,12 +48,6 @@ int main() {
         if (command == 'n') {
             current_squad = game.get_next();
             current_position = game.find_squad(game.get_next());
-
-            // if (current_position == game.find_squad(game.get_left_player()))
-            //     current_position.set_y(16);
-            // else if (current_position ==
-            //          game.find_squad(game.get_right_player()))
-            //     current_position.set_y(3);
             current = {current_position.get_x(), current_position.get_y()};
             previous = current;
             command = 'o';
@@ -187,8 +178,12 @@ int main() {
                     }
                 } break;
                 case 'u': {
-                    if (current_squad->get_name() == constant::unit::LORD) {
-                        // unsigned unit = get_unit();
+                    if (current_squad->get_name() == constant::unit::LORD &&
+                        school_table) {
+                        unsigned unit = get_school();
+                        game.play_next('u', {unit});
+                        command = 'n';
+                        school_table = false;
                     }
                 } break;
                 case 'h': {
@@ -198,8 +193,18 @@ int main() {
                     }
                 } break;
                 case 'c': {
-                    if (current_squad->get_name() == constant::unit::LORD) {
-                        // unsigned unit = get_unit();
+                    if (current_squad->get_name() == constant::unit::LORD &&
+                        call_squad &&
+                        !(current.first == MAP_SIZE_VERTICAL / 2 &&
+                          (current.second == MAP_SIZE_HORIZONTAL - 1 ||
+                           current.second == 0)) &&
+                        game.get_map()[current.first][current.second].get_type() == field::cell_type::FREE) {
+                        unsigned unit = get_unit();
+                        game.play_next('c', {unit,
+                                             current.first,
+                                             current.second});
+                        command = 'n';
+                        call_squad = false;
                     }
                 } break;
                 default:
