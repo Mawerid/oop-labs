@@ -125,19 +125,23 @@ std::pair<unsigned, unsigned> move_current(
     player_type type = static_cast<player_type>(unit->get_team());
 
     if (diff_vertical != 0) {
-        if (diff_vertical == -1 && current.first > 0) {
-            current.first--;
-            field::Point current_as_point(current.first, current.second);
-            if (current_as_point.distance(current_position) > speed &&
-                name != constant::LORD)
-                current.first++;
-        } else if (diff_vertical == 1 &&
-                   current.first < MAP_SIZE_VERTICAL - 1) {
-            current.first++;
-            field::Point current_as_point(current.first, current.second);
-            if (current_as_point.distance(current_position) > speed &&
-                name != constant::LORD)
+        if (!(name == constant::LORD &&
+              (current.second == 0 ||
+               current.second == MAP_SIZE_HORIZONTAL - 1))) {
+            if (diff_vertical == -1 && current.first > 0) {
                 current.first--;
+                field::Point current_as_point(current.first, current.second);
+                if (current_as_point.distance(current_position) > speed &&
+                    name != constant::LORD)
+                    current.first++;
+            } else if (diff_vertical == 1 &&
+                       current.first < MAP_SIZE_VERTICAL - 1) {
+                current.first++;
+                field::Point current_as_point(current.first, current.second);
+                if (current_as_point.distance(current_position) > speed &&
+                    name != constant::LORD)
+                    current.first--;
+            }
         }
     } else if (diff_horizontal != 0) {
         if (name != constant::LORD) {
@@ -164,7 +168,7 @@ std::pair<unsigned, unsigned> move_current(
                     current.second++;
                 }
             } else {
-                if (current.second == 18) {
+                if (current.second == MAP_SIZE_HORIZONTAL - 1) {
                     current.second -= 2;
                 } else if (diff_horizontal == -1 &&
                            current.second > MAP_SIZE_HORIZONTAL - 4) {
