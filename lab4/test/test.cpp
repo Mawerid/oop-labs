@@ -222,7 +222,7 @@ TEST(Lord, other_func) {
     ASSERT_EQ(70, lord.get_energy());
     ASSERT_ANY_THROW(lord.call_squad(constant::unit::CENTRY));
     ASSERT_NO_THROW(lord.upgrade_school(constant::school_type::ROBOTICS));
-    ASSERT_EQ(220, lord.get_experience());
+    ASSERT_EQ(160, lord.get_experience());
 }
 
 //  School

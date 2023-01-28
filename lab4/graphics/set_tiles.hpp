@@ -31,21 +31,21 @@ class TileMap {
 
     ~TileMap() = default;
 
-    /// @brief 
-    /// @param game 
-    /// @param current 
+    /// @brief load textures for game element
+    /// @param game game to load
+    /// @param current current place of player
     void load(game::Landscape &game, std::pair<int, int> current);
 
-    /// @brief
-    /// @param window
+    /// @brief draw map
+    /// @param window window to draw
     void draw_field(sf::RenderWindow &window) const;
 
-    /// @brief
-    /// @param window
+    /// @brief draw units
+    /// @param window window to draw
     void draw_units(sf::RenderWindow &window) const;
 
-    /// @brief
-    /// @param window
+    /// @brief draw text
+    /// @param window window to draw
     void draw_texts(sf::RenderWindow &window) const;
 };
 }  // namespace game
